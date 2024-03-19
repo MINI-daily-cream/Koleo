@@ -4,18 +4,57 @@
     {
         private int ID;
         bool AddProvider()
-        bool EditProvider(int providerId) {}
-        bool RemoveProvider(int providerId) { }
-        List<Complaint> ListComplaints() { }
-        bool AnswerComplaint(int complaintId) { }
-        AccountInfo ChceckUserAccount(int userId) { }
-        List<int> ListAdminCandidates() { }
-        bool AcceptNewAdmin(int userId) { } // limit na adminow ?
-        void RejectNewAdmin(int userId) { }
-        void DeleteUser(int userId) { }
-        bool BackupUserDB() { }
-        bool BackupProviderDB() { }
-        bool BackupConnectionDB() { }
+        {
+            return false;
+        }
+        bool EditProvider(int providerId)
+        {
+            return false;
+        }
+        bool RemoveProvider(int providerId)
+        {
+            return false;
+        }
+        List<Complaint> ListComplaints()
+        {
+            return new List<Complaint>();
+        }
+        bool AnswerComplaint(int complaintId)
+        {
+            return false;
+        }
+        AccountInfo ChceckUserAccount(int userId)
+        {
+            return new AccountInfo();
+        }
+        List<int> ListAdminCandidates()
+        {
+            return new List<int>();
+        }
+        bool AcceptNewAdmin(int userId)
+        {
+            return false;
+        }// limit na adminow ?
+        void RejectNewAdmin(int userId)
+        {
+            return;
+        }
+        void DeleteUser(int userId)
+        {
+            return;
+        }
+        bool BackupUserDB()
+        {
+            return false;
+        }
+        bool BackupProviderDB()
+        {
+            return false;
+        }
+        bool BackupConnectionDB()
+        {
+            return false;
+        }
 
     }
 }

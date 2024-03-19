@@ -1,6 +1,6 @@
 namespace e2eTests
 {
-    public class UnitTest1
+    public class InitTest
     {
         [Fact]
         public void Test1()

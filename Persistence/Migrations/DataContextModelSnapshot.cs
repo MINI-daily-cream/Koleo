@@ -28,7 +28,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AdminCandidates");
+                    b.ToTable("AdminCandidates", (string)null);
                 });
 
             modelBuilder.Entity("Application.AdminComplaint", b =>
@@ -49,7 +49,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AdminComplaints");
+                    b.ToTable("AdminComplaints", (string)null);
                 });
 
             modelBuilder.Entity("Application.City", b =>
@@ -64,7 +64,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cities");
+                    b.ToTable("Cities", (string)null);
                 });
 
             modelBuilder.Entity("Application.CityStation", b =>
@@ -81,7 +81,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CityStations");
+                    b.ToTable("CityStations", (string)null);
                 });
 
             modelBuilder.Entity("Application.ConnectionPoint", b =>
@@ -98,7 +98,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ConnectionPoints");
+                    b.ToTable("ConnectionPoints", (string)null);
                 });
 
             modelBuilder.Entity("Application.RankingUser", b =>
@@ -115,7 +115,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RankingUsers");
+                    b.ToTable("RankingUsers", (string)null);
                 });
 
             modelBuilder.Entity("Application.Station", b =>
@@ -130,7 +130,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Stations");
+                    b.ToTable("Stations", (string)null);
                 });
 
             modelBuilder.Entity("Application.TicketConnection", b =>
@@ -147,7 +147,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TicketConnections");
+                    b.ToTable("TicketConnections", (string)null);
                 });
 
             modelBuilder.Entity("Application.Train", b =>
@@ -165,7 +165,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Trains");
+                    b.ToTable("Trains", (string)null);
                 });
 
             modelBuilder.Entity("Koleo.Models.Admin", b =>
@@ -192,7 +192,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Administrators");
+                    b.ToTable("Administrators", (string)null);
                 });
 
             modelBuilder.Entity("Koleo.Models.Complaint", b =>
@@ -213,7 +213,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Complaints");
+                    b.ToTable("Complaints", (string)null);
                 });
 
             modelBuilder.Entity("Koleo.Models.Connection", b =>
@@ -245,7 +245,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Connections");
+                    b.ToTable("Connections", (string)null);
                 });
 
             modelBuilder.Entity("Koleo.Models.Provider", b =>
@@ -260,7 +260,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Providers");
+                    b.ToTable("Providers", (string)null);
                 });
 
             modelBuilder.Entity("Koleo.Models.Ranking", b =>
@@ -279,7 +279,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Rankings");
+                    b.ToTable("Rankings", (string)null);
                 });
 
             modelBuilder.Entity("Koleo.Models.Statistics", b =>
@@ -308,7 +308,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Statistics");
+                    b.ToTable("Statistics", (string)null);
                 });
 
             modelBuilder.Entity("Koleo.Models.Ticket", b =>
@@ -322,7 +322,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tickets");
+                    b.ToTable("Tickets", (string)null);
                 });
 
             modelBuilder.Entity("Koleo.Models.User", b =>
@@ -353,7 +353,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 #pragma warning restore 612, 618
         }

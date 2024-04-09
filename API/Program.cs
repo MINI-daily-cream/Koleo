@@ -1,3 +1,4 @@
+using KoleoPL.Services;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -60,7 +61,21 @@ catch (Exception ex)
     
 }
 
+DatabaseService dbService = new DatabaseService(builder.Configuration);
+
+Console.WriteLine("-------------------USERS-----------------------------------");
+var users = await dbService.ExecuteSQL("SELECT * FROM Users");
+Console.WriteLine($"Number of users: {users.Count}");
+foreach (var row in users)
+{
+    foreach (var rec in row) Console.Write($"{rec} ");
+}
+
+//dbService.Backup();
+
 app.Run();
+
+
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {

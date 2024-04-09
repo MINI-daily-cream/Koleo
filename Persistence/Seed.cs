@@ -24,7 +24,25 @@ namespace Persistence
                     Password = "12345678",
                     CardNumber = "11111111111111111111111111",
                 },
-                
+
+                //new User
+                //{
+                //    Name = "Sigma2",
+                //    Surname = "Sigmiarski2",
+                //    Email = "sigma2@pw.edu.pl",
+                //    Password = "12345678",
+                //    CardNumber = "11111111111111111111111111",
+                //},
+
+                //new User
+                //{
+                //    Name = "Sigma3",
+                //    Surname = "Sigmiarski3",
+                //    Email = "sigma3@pw.edu.pl",
+                //    Password = "12345678",
+                //    CardNumber = "11111111111111111111111111",
+                //},
+
             };
 
             await context.Users.AddRangeAsync(users);

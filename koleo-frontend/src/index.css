@@ -2,9 +2,9 @@
 
 body {
     background-image: url('../img/scenic-train-1.webp');
-    background-size: cover; /* Adjust the size of the background image */
-    background-position: center; /* Position the background image */
-    background-attachment: fixed; /* Fix the background image position */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 
@@ -42,7 +42,7 @@ body {
   padding: 20px;
 }
 
-/* create new blog form */
+/* register/login form */
 
 .form {
     padding: 50px;
@@ -98,4 +98,92 @@ body {
 
 .bottom-text a {
     color: white;
+}
+
+/* my tickets list */
+
+.ticket-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.ticket {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-width: 300px;
+}
+
+.ticket-details {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.ticket-details text{
+  /* text-align: center; */
+  flex: 1;
+  /* margin */
+}
+
+.car-seat-number {
+  flex: 1;
+  /* text-align: center; */
+}
+
+.icon {
+  margin-right: 10px;
+  font-size: 18px;
+  color: #333;
+}
+
+#arrow {
+  margin-left: 10px;
+  margin-right: 10px;
+  /* width: 100px; */
+}
+
+#od-do {
+  margin-right: 10px;
+}
+
+.od-do-spacer {
+  width: 30px;
+}
+
+/* Customize icons (Font Awesome) */
+.icon-calendar::before {
+  content: "\f073";
+}
+
+.icon-user::before {
+  content: "\f007";
+}
+
+.icon-train::before {
+  content: "\f238";
+}
+
+.icon-map-marker-alt::before {
+  content: "\f3c5";
+}
+
+.icon-ticket-alt::before {
+  content: "\f3ff";
+}
+
+.return-ticket {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.return-ticket:hover {
+  background-color: #0056b3;
 }

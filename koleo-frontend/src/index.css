@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+body {
+    background-image: url('../img/scenic-train-1.webp');
+    background-size: cover; /* Adjust the size of the background image */
+    background-position: center; /* Position the background image */
+    background-attachment: fixed; /* Fix the background image position */
+}
+
+
+/* base styles */
+* {
+  margin: 0;
+  font-family: "Quicksand";
+  color: #333;
+}
+.navbar {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  max-width: 600px;
+  margin: 0 auto;
+  border-bottom: 1px solid #f2f2f2;
+}
+.navbar h1 {
+  color: #f1356d;
+}
+.navbar .links {
+  margin-left: auto;
+}
+.navbar a {
+  margin-left: 16px;
+  text-decoration: none;
+  padding: 6px;
+}
+.navbar a:hover {
+  color: #f1356d;
+}
+.content {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* create new blog form */
+
+.form {
+    padding: 50px;
+    max-width: 800px;
+    margin: 10% auto;
+    text-align: center;
+    background-color: #1e00ff;
+}
+.form label {
+    text-align: left;
+    display: block;
+    font-size: 24px;
+    color: white
+}
+.form h1 {
+    font-size: 50px;
+    color: white;
+    margin-bottom: 30px;
+}
+
+.form input, .form textarea, .form select {
+    font-size: 24px;
+    width: 100%;
+    padding: 6px 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    display: block;
+}
+.form button {
+    background: #ff9d00;
+    color: #fff;
+    border: 0;
+    padding: 16px;
+    border-radius: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 36px;
+    margin-top: 20px;
+    min-width: 300px;
+}
+
+.password-error{ 
+    color: 'red';
+    font-size: 30px;
+}
+
+.bottom-text{
+    font-size: 16px;
+    color: white;
+    margin-top: 10px;
+}
+
+.bottom-text a {
+    color: white;
+}

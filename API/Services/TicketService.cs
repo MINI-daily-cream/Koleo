@@ -19,9 +19,14 @@ namespace Koleo.Services
             _databaseService = databaseService;
             _paymentService = paymentService;
         }
-        public void Buy() // pozwala na zakup biletu
+        public async Task<bool> Buy(Guid userId, List<Connection> connections, string targetName, string targetSurname)
         {
-            _paymentService.ProceedPayment();
+            if (_paymentService.ProceedPayment())
+            {
+                await Add(userId, connections, targetName, targetSurname);
+                return true;
+            }
+            return false;
         }
 
         private async void UpdateConnectionsInfoList(Guid ticketId, List<ConnectionInfoObject> connectionsInfo) {
@@ -63,11 +68,11 @@ namespace Koleo.Services
             return connectionsInfo;
         }
 
-        public async void Generate(Guid userId, Guid ticketId) // tworzy plik pdf z biletem
+        public async void Generate(Guid userId, Guid ticketId)
         {
             List<ConnectionInfoObject> connectionsInfo = new List<ConnectionInfoObject>();
             UpdateConnectionsInfoList(ticketId, connectionsInfo);
-            string sql = $"SELECT Name, Surname FROM Users WHERE Id = '{userId}'";
+            string sql = $"SELECT Target_Name, Target_Surname FROM Tickets WHERE Id = '{ticketId}'";
             var result = await _databaseService.ExecuteSQL(sql);
             string[] userData = result[0];
             string name = userData[0];
@@ -112,22 +117,40 @@ namespace Koleo.Services
 
         }
 
-        public void Remove() // usuwa bilet z bazy danych i ponownie ł ˛aczy si˛e z PaymentService w celu zwrócenia pieni˛edzy
-        // potrzeba dodatkowej metody w PaymentService ?
+        public async Task<bool> Remove(Guid ticketId)
         {
-            PaymentService paymentService = new PaymentService(); // potem będzie jako dependency
-            // (dependency injection w konstruktorze)
-            paymentService.ProceedPayment();
+            if (_paymentService.CancelPayment())
+            {
+                string deleteConnectionsSql = $"DELETE FROM TicketConnections WHERE Ticket_Id = '{ticketId}'";
+                await _databaseService.ExecuteSQL(deleteConnectionsSql);
+                string deleteTicketSql = $"DELETE FROM Tickets WHERE Id = '{ticketId}'";
+                await _databaseService.ExecuteSQL(deleteTicketSql);
+                return true;
+            }
+            return false;
+            
         }
 
-        public void Add() // jest wywoływana przez Buy() i dodaje bilet do bazy danych
+        public async Task Add(Guid userId, List<Connection> connections, string targetName, string targetSurname)
         {
+            string insertTicketSql = $"INSERT INTO Tickets (User_Id, Target_Name, Target_Surname) VALUES ('{userId}', '{targetName}', '{targetSurname}')";
+            await _databaseService.ExecuteSQL(insertTicketSql);
+            string getLastInsertedTicketIdSql = "SELECT last_insert_rowid()";
+            var ticketIdResult = await _databaseService.ExecuteSQL(getLastInsertedTicketIdSql);
+            Guid ticketId = new Guid(ticketIdResult[0][0]);
 
+            foreach (var connection in connections)
+            {
+                string insertTicketConnectionSql = $"INSERT INTO TicketConnections (Ticket_Id, Connection_Id) VALUES ('{ticketId}', '{connection.Id}')";
+                await _databaseService.ExecuteSQL(insertTicketConnectionSql);
+            }
         }
 
-        public void ChangeDetails() // pozwala dokonac zmiany danych na bilecie i ponownie korzysta z metody Generate()
+        public async Task ChangeDetails(Guid userId, Guid ticketId, string newTargetName, string newTargetSurname)
         {
-
+            string updateDetailsSql = $"UPDATE Tickets SET Target_Name = '{newTargetName}', Target_Surname = '{newTargetSurname}' WHERE Id = '{ticketId}'";
+            await _databaseService.ExecuteSQL(updateDetailsSql);
+            Generate(userId, ticketId);
         }
 
         private async Task<List<Guid>> GetTicketsByUser(int userId)

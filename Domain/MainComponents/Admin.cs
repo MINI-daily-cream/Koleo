@@ -29,7 +29,7 @@
         }
         AccountInfo ChceckUserAccount(int userId)
         {
-            return new AccountInfo();
+            return new AccountInfo("", "", "");
         }
         List<int> ListAdminCandidates()
         {

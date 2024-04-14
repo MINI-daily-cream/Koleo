@@ -7,7 +7,7 @@ const AccountPanel = () => {
     <div className='account-panel'>
         <h1>Moje Konto</h1>
         <div className='account-panel-inside'>
-            <div class="sidenav">
+            <div className="sidenav">
                 <a href="#">Dane użytkownika</a>
                 {/* <hr class="solid"></hr> */}
                 <a href="#">Bilety</a>

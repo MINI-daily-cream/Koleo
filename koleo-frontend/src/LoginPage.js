@@ -47,7 +47,7 @@ const LoginPage = () => {
           />
         </div>
         <p className='bottom-text' disabled>Nie masz jeszcze konta? <a href="/register">Zarejestruj się</a></p>
-        <Link to="/tickets"><button type="submit">Zaloguj się</button></Link>
+        <Link to="/account"><button type="submit">Zaloguj się</button></Link>
       </form>
     </div>
   );

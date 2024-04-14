@@ -80,7 +80,7 @@ const RegistrationPage = () => {
         </div>
         <p className='bottom-text' disabled>Masz już konto? <Link to="/login">Zaloguj się</Link></p>
         {/* <button type="submit">Zarejestruj się</button> */}
-        <Link to="/tickets"><button type="submit">Zarejestruj się</button></Link>
+        <Link to="/account"><button type="submit">Zarejestruj się</button></Link>
       </form>
     </div>
   );

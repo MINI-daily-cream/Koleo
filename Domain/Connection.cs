@@ -12,6 +12,6 @@ namespace Koleo.Models
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public int KmNumber { get; set; }
-        public DateTime Duration { get; set; }
+        public TimeSpan Duration { get; set; }
     }
 }

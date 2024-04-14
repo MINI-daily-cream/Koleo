@@ -2,7 +2,6 @@
 {
     public class AccountInfo
     {
-        public AccountInfo() { }
         public AccountInfo(string name, string surname, string email)
         {
             Name = name;

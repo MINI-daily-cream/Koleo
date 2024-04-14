@@ -19,11 +19,11 @@ namespace Koleo.Services
             _databaseService = databaseService;
             _paymentService = paymentService;
         }
-        public async Task<bool> Buy(Guid userId, List<Connection> connections)
+        public async Task<bool> Buy(Guid userId, List<Connection> connections, string targetName, string targetSurname)
         {
             if (_paymentService.ProceedPayment())
             {
-                await Add(userId, connections);
+                await Add(userId, connections, targetName, targetSurname);
                 return true;
             }
             return false;
@@ -72,7 +72,7 @@ namespace Koleo.Services
         {
             List<ConnectionInfoObject> connectionsInfo = new List<ConnectionInfoObject>();
             UpdateConnectionsInfoList(ticketId, connectionsInfo);
-            string sql = $"SELECT Name, Surname FROM Users WHERE Id = '{userId}'";
+            string sql = $"SELECT Target_Name, Target_Surname FROM Tickets WHERE Id = '{ticketId}'";
             var result = await _databaseService.ExecuteSQL(sql);
             string[] userData = result[0];
             string name = userData[0];
@@ -131,9 +131,9 @@ namespace Koleo.Services
             
         }
 
-        public async Task Add(Guid userId, List<Connection> connections)
+        public async Task Add(Guid userId, List<Connection> connections, string targetName, string targetSurname)
         {
-            string insertTicketSql = $"INSERT INTO Tickets (User_Id) VALUES ('{userId}')";
+            string insertTicketSql = $"INSERT INTO Tickets (User_Id, Target_Name, Target_Surname) VALUES ('{userId}', '{targetName}', '{targetSurname}')";
             await _databaseService.ExecuteSQL(insertTicketSql);
             string getLastInsertedTicketIdSql = "SELECT last_insert_rowid()";
             var ticketIdResult = await _databaseService.ExecuteSQL(getLastInsertedTicketIdSql);
@@ -146,9 +146,11 @@ namespace Koleo.Services
             }
         }
 
-        public void ChangeDetails()
+        public async Task ChangeDetails(Guid userId, Guid ticketId, string newTargetName, string newTargetSurname)
         {
-
+            string updateDetailsSql = $"UPDATE Tickets SET Target_Name = '{newTargetName}', Target_Surname = '{newTargetSurname}' WHERE Id = '{ticketId}'";
+            await _databaseService.ExecuteSQL(updateDetailsSql);
+            Generate(userId, ticketId);
         }
 
         private async Task<List<Guid>> GetTicketsByUser(int userId)

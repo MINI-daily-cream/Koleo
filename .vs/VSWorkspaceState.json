@@ -2,9 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\API",
-    "\\Application",
-    "\\Application\\MainComponents"
+    "\\Application"
   ],
-  "SelectedNode": "\\Application\\MainComponents\\Server.cs",
+  "SelectedNode": "\\Koleo.sln",
   "PreviewInSolutionExplorer": false
 }

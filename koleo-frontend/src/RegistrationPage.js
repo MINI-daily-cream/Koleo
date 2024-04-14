@@ -79,7 +79,8 @@ const RegistrationPage = () => {
           {passwordError && <p className='password-error' style={{ color: 'red', fontSize: 30 }}>{passwordError}</p>}
         </div>
         <p className='bottom-text' disabled>Masz już konto? <Link to="/login">Zaloguj się</Link></p>
-        <button type="submit">Zarejestruj się</button>
+        {/* <button type="submit">Zarejestruj się</button> */}
+        <Link to="/tickets"><button type="submit">Zarejestruj się</button></Link>
       </form>
     </div>
   );

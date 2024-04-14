@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -16,7 +17,7 @@ const LoginPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Tutaj można dodać logikę rejestracji
+    window.localStorage.setItem("isLoggedIn", true);
     console.log('Email:', email);
     console.log('Password:', password);
   };
@@ -46,7 +47,7 @@ const LoginPage = () => {
           />
         </div>
         <p className='bottom-text' disabled>Nie masz jeszcze konta? <a href="/register">Zarejestruj się</a></p>
-        <button type="submit">Zaloguj się</button>
+        <Link to="/tickets"><button type="submit">Zaloguj się</button></Link>
       </form>
     </div>
   );

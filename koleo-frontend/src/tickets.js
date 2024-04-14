@@ -34,7 +34,103 @@ const tickets = [
       arrivalStation: "Kraków Główny",
       wagonNumber: "W003",
       seatNumber: "C22"
-    }
+    },
+    {
+      date: "2024-04-16",
+      timeDep: "2:30 PM",
+      timeArr: "4:45 PM",
+      passengerName: "Jane Smith",
+      trainNumber: "T456",
+      finalStation: "Białystok",
+      departureStation: "Wrocław Główny",
+      arrivalStation: "Łódź Widzew",
+      wagonNumber: "W002",
+      seatNumber: "B05"
+    },
+    {
+      date: "2024-04-16",
+      timeDep: "2:30 PM",
+      timeArr: "4:45 PM",
+      passengerName: "Jane Smith",
+      trainNumber: "T456",
+      finalStation: "Białystok",
+      departureStation: "Wrocław Główny",
+      arrivalStation: "Łódź Widzew",
+      wagonNumber: "W002",
+      seatNumber: "B05"
+    },
+    {
+      date: "2024-04-16",
+      timeDep: "2:30 PM",
+      timeArr: "4:45 PM",
+      passengerName: "Jane Smith",
+      trainNumber: "T456",
+      finalStation: "Białystok",
+      departureStation: "Wrocław Główny",
+      arrivalStation: "Łódź Widzew",
+      wagonNumber: "W002",
+      seatNumber: "B05"
+    },
+    {
+      date: "2024-04-16",
+      timeDep: "2:30 PM",
+      timeArr: "4:45 PM",
+      passengerName: "Jane Smith",
+      trainNumber: "T456",
+      finalStation: "Białystok",
+      departureStation: "Wrocław Główny",
+      arrivalStation: "Łódź Widzew",
+      wagonNumber: "W002",
+      seatNumber: "B05"
+    },
+    {
+      date: "2024-04-16",
+      timeDep: "2:30 PM",
+      timeArr: "4:45 PM",
+      passengerName: "Jane Smith",
+      trainNumber: "T456",
+      finalStation: "Białystok",
+      departureStation: "Wrocław Główny",
+      arrivalStation: "Łódź Widzew",
+      wagonNumber: "W002",
+      seatNumber: "B05"
+    },
+    {
+      date: "2024-04-16",
+      timeDep: "2:30 PM",
+      timeArr: "4:45 PM",
+      passengerName: "Jane Smith",
+      trainNumber: "T456",
+      finalStation: "Białystok",
+      departureStation: "Wrocław Główny",
+      arrivalStation: "Łódź Widzew",
+      wagonNumber: "W002",
+      seatNumber: "B05"
+    },
+    {
+      date: "2024-04-16",
+      timeDep: "2:30 PM",
+      timeArr: "4:45 PM",
+      passengerName: "Jane Smith",
+      trainNumber: "T456",
+      finalStation: "Białystok",
+      departureStation: "Wrocław Główny",
+      arrivalStation: "Łódź Widzew",
+      wagonNumber: "W002",
+      seatNumber: "B05"
+    },
+    {
+      date: "2024-04-16",
+      timeDep: "2:30 PM",
+      timeArr: "4:45 PM",
+      passengerName: "Jane Smith",
+      trainNumber: "T456",
+      finalStation: "Białystok",
+      departureStation: "Wrocław Główny",
+      arrivalStation: "Łódź Widzew",
+      wagonNumber: "W002",
+      seatNumber: "B05"
+    },
   ];
   
   export default tickets;

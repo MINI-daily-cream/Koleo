@@ -27,5 +27,6 @@ namespace Persistence
         public DbSet<AdminComplaint> AdminComplaints { get; set; }
         public DbSet<RankingUser> RankingUsers { get; set; }
         public DbSet<Ranking> Rankings { get; set; }
+        public DbSet<Advertisment> Advertisments { get; set; }
     }
 }

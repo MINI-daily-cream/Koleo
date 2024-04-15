@@ -1,6 +1,12 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\API",
+    "\\API\\Services",
+    "\\Application",
+    "\\Domain",
+    "\\Domain\\MainComponents"
   ],
+  "SelectedNode": "\\Domain\\MainComponents\\Server.cs",
   "PreviewInSolutionExplorer": false
 }

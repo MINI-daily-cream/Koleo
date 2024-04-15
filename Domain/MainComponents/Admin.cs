@@ -117,5 +117,69 @@ namespace Koleo.Models
                 return false;
             }
         }
+
+        async Task<List<Advertisment>> GetAdsForUser(Guid UserId)
+        {
+            string sql = $"SELECT * FROM Advertisment JOIN UserAdLink ON Id=Ad_Id WHERE User_Id='{UserId}'";
+            try
+            {
+                var result = await DatabaseService.ExecuteSQL(sql);
+                return result.Select(item => new Advertisment
+                {
+                    Id = Guid.Parse(item[0]),
+                    AdContent = item[1],
+                    AdLinkUrl = item[2],
+                    AdImageUrl = item[3],
+                    AdCategory = (AdvertismentCategory)Enum.Parse(typeof(AdvertismentCategory), item[4]),
+                    AdOwner = item[5],
+                }).ToList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error occured: {ex.Message}");
+                return new List<Advertisment>();
+            }
+        }
+        async Task<bool> SetAdsForUser(Guid UserId, List<Advertisment> ads)
+        {
+            string sql = $"INSERT INTO UserAdLink (Ad_Id, User_Id) VALUES ";
+            List<string> args = new List<string>();
+            foreach(Advertisment ad in ads)
+            {
+                args.Add($"('{ad.Id}', '{UserId}')");
+            }
+            sql += string.Join(", ", args);
+            try
+            {
+                await DatabaseService.ExecuteSQL(sql);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error occured: {ex.Message}");
+                return false;
+            }
+        }
+        async Task<bool> DeleteAdsForUser(Guid UserId, List<Guid> AdsId)
+        {
+            string sql = $"DELETE FROM UserAdLink WHERE User_Id = '{UserId.ToString()}' AND (";
+            List<string> args = new List<string>();
+            foreach (Guid id in AdsId)
+            {
+                args.Add($"Ad_Id = '{id.ToString()}'");
+            }
+            sql += string.Join(" OR ", args);
+            sql += ")";
+            try
+            {
+                await DatabaseService.ExecuteSQL(sql);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error occured: {ex.Message}");
+                return false;
+            }
+        }
     }
 }

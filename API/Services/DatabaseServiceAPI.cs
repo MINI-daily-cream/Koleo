@@ -4,10 +4,10 @@ using System.Reflection.PortableExecutable;
 
 namespace KoleoPL.Services
 {
-    public class DatabaseService
+    public class DatabaseServiceAPI
     {
         public IConfiguration Configuration { get; }
-        public DatabaseService(IConfiguration configuration)
+        public DatabaseServiceAPI(IConfiguration configuration)
         {
             Configuration = configuration;
         }

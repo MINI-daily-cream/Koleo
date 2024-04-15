@@ -11,10 +11,10 @@ namespace Koleo.Services
 {
     public class TicketService
     {
-        private readonly DatabaseService _databaseService;
+        private readonly DatabaseServiceAPI _databaseService;
         private readonly PaymentService _paymentService;
 
-        public TicketService(DatabaseService databaseService, PaymentService paymentService)
+        public TicketService(DatabaseServiceAPI databaseService, PaymentService paymentService)
         {
             _databaseService = databaseService;
             _paymentService = paymentService;

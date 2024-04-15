@@ -61,7 +61,7 @@ catch (Exception ex)
     
 }
 
-DatabaseService dbService = new DatabaseService(builder.Configuration);
+DatabaseServiceAPI dbService = new DatabaseServiceAPI(builder.Configuration);
 
 Console.WriteLine("-------------------USERS-----------------------------------");
 //await dbService.ExecuteSQL("INSERT INTO Users (Id, Name, Surname, Email, Password, CardNumber) VALUES (3, 'Wojciech', 'Domitrz', 'wd@mini.pw.edu.pl', '123', '333')");

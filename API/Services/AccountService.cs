@@ -5,8 +5,8 @@ namespace Koleo.Services
 {
     public class AccountService
     {
-        private readonly DatabaseService _databaseService;
-        public AccountService(DatabaseService databaseService)
+        private readonly DatabaseServiceAPI _databaseService;
+        public AccountService(DatabaseServiceAPI databaseService)
         {
             _databaseService = databaseService;
         }

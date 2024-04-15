@@ -26,7 +26,6 @@ namespace Koleo.Models
                     AdContent = item[1],
                     AdLinkUrl = item[2],
                     AdImageUrl = item[3],
-                    //AdCategory = AdvertismentCategory.Parse(item[4]),
                     AdCategory = (AdvertismentCategory)Enum.Parse(typeof(AdvertismentCategory), item[4]),
                     AdOwner = item[5],
                 }).ToList();

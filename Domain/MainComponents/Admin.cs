@@ -1,4 +1,6 @@
-﻿namespace Koleo.Models
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+
+namespace Koleo.Models
 {
     public class Admin
     {
@@ -59,6 +61,61 @@
         {
             return false;
         }
+        async Task<bool> AddNewAdvertisement(string AdContent, string AdLinkUrl, string AdImageUrl, AdvertismentCategory AdCategory, string AdOwner)
+        {
+            string sql = $"INSERT INTO Advertisment (AdContent, AdLinkUrl, AdImageUrl, AdCategory) " +
+                $"VALUES ('{AdContent}, '{AdLinkUrl}', '{AdImageUrl}', '{AdCategory.ToString()}', '{AdOwner}')";
 
+            try
+            {
+                await DatabaseService.ExecuteSQL(sql);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error occured: {ex.Message}");
+                return false;
+            }
+        }
+        async Task<bool> EditAdvertisement(Advertisment ad, string AdContent = null, string AdLinkUrl = null, string AdImageUrl = null, string AdOwner = null)
+        {
+            Guid id = ad.Id;
+
+            string sql = $"UPDATE Advertisment SET ";
+            List<string> args = new List<string>();
+            if(AdContent != null) args.Add($"AdContent = '{AdContent}'");
+            if (AdLinkUrl != null) args.Add($"AdLinkUrl = '{AdLinkUrl}'");
+            if (AdImageUrl != null) args.Add($"AdImageUrl = '{AdImageUrl}'");
+            if (AdOwner != null) args.Add($"AdOwner = '{AdOwner}'");
+
+            sql += string.Join(", ", args);
+            sql += $"WHERE Id = `{id}`";
+
+            try
+            {
+                await DatabaseService.ExecuteSQL(sql);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error occured: {ex.Message}");
+                return false;
+            }
+        }
+        async Task<bool> DeleteAdvertisement(Advertisment ad)
+        {
+            Guid id = ad.Id;
+            string sql = $"DELETE FROM Advertisment WHERE Id = '{id}'";
+            try
+            {
+                await DatabaseService.ExecuteSQL(sql);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error occured: {ex.Message}");
+                return false;
+            }
+        }
     }
 }

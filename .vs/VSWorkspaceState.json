@@ -3,8 +3,10 @@
     "",
     "\\API",
     "\\API\\Services",
-    "\\Application"
+    "\\Application",
+    "\\Domain",
+    "\\Domain\\MainComponents"
   ],
-  "SelectedNode": "\\API\\Services\\DatabaseService.cs",
+  "SelectedNode": "\\Domain\\MainComponents\\Server.cs",
   "PreviewInSolutionExplorer": false
 }

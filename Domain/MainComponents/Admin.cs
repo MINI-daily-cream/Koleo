@@ -62,7 +62,7 @@ namespace Koleo.Models
         {
             return false;
         }
-        async Task<bool> AddNewAdvertisement(string AdContent, string AdLinkUrl, string AdImageUrl, AdvertismentCategory AdCategory, string AdOwner)
+        public async Task<bool> AddNewAdvertisement(string AdContent, string AdLinkUrl, string AdImageUrl, AdvertismentCategory AdCategory, string AdOwner)
         {
             string sql = $"INSERT INTO Advertisment (AdContent, AdLinkUrl, AdImageUrl, AdCategory) " +
                 $"VALUES ('{AdContent}, '{AdLinkUrl}', '{AdImageUrl}', '{AdCategory.ToString()}', '{AdOwner}')";

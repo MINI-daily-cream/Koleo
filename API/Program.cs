@@ -1,7 +1,9 @@
 using API.Services.Interfaces;
+using Koleo.Models;
 using KoleoPL.Services;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
+using SQLitePCL;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,7 +68,11 @@ DatabaseServiceAPI dbService = new DatabaseServiceAPI(builder.Configuration);
 
 Console.WriteLine("-------------------USERS-----------------------------------");
 //await dbService.ExecuteSQL("INSERT INTO Users (Id, Name, Surname, Email, Password, CardNumber) VALUES (3, 'Wojciech', 'Domitrz', 'wd@mini.pw.edu.pl', '123', '333')");
-var users = await dbService.ExecuteSQL("SELECT * FROM Users");
+var users = await DatabaseService.ExecuteSQL("SELECT * FROM Users");
+
+// Act
+
+
 Console.WriteLine($"Number of users: {users.Count}");
 foreach (var row in users)
 {

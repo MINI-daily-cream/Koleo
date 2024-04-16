@@ -17,7 +17,7 @@ namespace Koleo.Models
         {
             var results = new List<string[]>();
 
-            await using var conn = new SqliteConnection("Data Source =./ koleo.db");
+            await using var conn = new SqliteConnection("Data Source =./koleo.db");
 
             await conn.OpenAsync();
 

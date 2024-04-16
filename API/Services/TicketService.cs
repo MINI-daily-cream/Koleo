@@ -10,19 +10,19 @@ using API.Services.Interfaces;
 
 namespace Koleo.Services
 {
-    public class TicketService
+    public class TicketService : ITicketServive
     {
         private readonly IDatabaseServiceAPI _databaseService;
-        private readonly PaymentService _paymentService;
+        private readonly IPaymentService _paymentService;
 
-        public TicketService(IDatabaseServiceAPI databaseService, PaymentService paymentService)
+        public TicketService(IDatabaseServiceAPI databaseService, IPaymentService paymentService)
         {
             _databaseService = databaseService;
             _paymentService = paymentService;
         }
         public async Task<bool> Buy(Guid userId, List<Connection> connections, string targetName, string targetSurname)
         {
-            if (_paymentService.ProceedPayment())
+            if (await _paymentService.ProceedPayment())
             {
                 await Add(userId, connections, targetName, targetSurname);
                 return true;
@@ -120,7 +120,7 @@ namespace Koleo.Services
 
         public async Task<bool> Remove(Guid ticketId)
         {
-            if (_paymentService.CancelPayment())
+            if (await _paymentService.CancelPayment())
             {
                 string deleteConnectionsSql = $"DELETE FROM TicketConnections WHERE Ticket_Id = '{ticketId}'";
                 await _databaseService.ExecuteSQL(deleteConnectionsSql);
@@ -135,15 +135,32 @@ namespace Koleo.Services
         public async Task Add(Guid userId, List<Connection> connections, string targetName, string targetSurname)
         {
             string insertTicketSql = $"INSERT INTO Tickets (User_Id, Target_Name, Target_Surname) VALUES ('{userId}', '{targetName}', '{targetSurname}')";
-            await _databaseService.ExecuteSQL(insertTicketSql);
+            try
+            {
+                await _databaseService.ExecuteSQL(insertTicketSql);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error occured: {ex.Message}");
+            }
             string getLastInsertedTicketIdSql = "SELECT last_insert_rowid()";
             var ticketIdResult = await _databaseService.ExecuteSQL(getLastInsertedTicketIdSql);
-            Guid ticketId = new Guid(ticketIdResult[0][0]);
-
-            foreach (var connection in connections)
+            if (ticketIdResult != null && ticketIdResult.Count > 0)
             {
-                string insertTicketConnectionSql = $"INSERT INTO TicketConnections (Ticket_Id, Connection_Id) VALUES ('{ticketId}', '{connection.Id}')";
-                await _databaseService.ExecuteSQL(insertTicketConnectionSql);
+                Guid ticketId = new Guid(ticketIdResult[0][0]);
+
+                foreach (var connection in connections)
+                {
+                    string insertTicketConnectionSql = $"INSERT INTO TicketConnections (Ticket_Id, Connection_Id) VALUES ('{ticketId}', '{connection.Id}')";
+                    try
+                    {
+                        await _databaseService.ExecuteSQL(insertTicketConnectionSql);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error occured: {ex.Message}");
+                    }
+                }
             }
         }
 

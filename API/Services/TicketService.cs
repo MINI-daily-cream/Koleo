@@ -6,15 +6,16 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Document = iTextSharp.text.Document;
 using Org.BouncyCastle.Asn1.X509.SigI;
+using API.Services.Interfaces;
 
 namespace Koleo.Services
 {
     public class TicketService
     {
-        private readonly DatabaseServiceAPI _databaseService;
+        private readonly IDatabaseServiceAPI _databaseService;
         private readonly PaymentService _paymentService;
 
-        public TicketService(DatabaseServiceAPI databaseService, PaymentService paymentService)
+        public TicketService(IDatabaseServiceAPI databaseService, PaymentService paymentService)
         {
             _databaseService = databaseService;
             _paymentService = paymentService;

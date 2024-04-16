@@ -1,12 +1,13 @@
-using Koleo.Models;
+using API.Services.Interfaces;
+using Domain;
 using KoleoPL.Services;
 
 namespace Koleo.Services
 {
     public class AccountService
     {
-        private readonly DatabaseServiceAPI _databaseService;
-        public AccountService(DatabaseServiceAPI databaseService)
+        private readonly IDatabaseServiceAPI _databaseService;
+        public AccountService(IDatabaseServiceAPI databaseService)
         {
             _databaseService = databaseService;
         }
@@ -14,11 +15,15 @@ namespace Koleo.Services
         {
             string sql = $"SELECT Name, Surname, Email FROM Users WHERE Id = '{userId}'";
             var result = await _databaseService.ExecuteSQL(sql);
-            string[] userData = result[0];
-            string name = userData[0];
-            string surname = userData[1];
-            string email = userData[2];
-            return new AccountInfo(name, surname, email);
+            if (result.Count > 0)
+            {
+                string[] userData = result[0];
+                string name = userData[0];
+                string surname = userData[1];
+                string email = userData[2];
+                return new AccountInfo(name, surname, email);
+            }
+            return null;
         }
         public async Task<bool> UpdateAccountInfo(Guid userId, string newName, string newSurname, string newEmail)
         {

@@ -1,10 +1,11 @@
+using API.Services.Interfaces;
 using Microsoft.Data.SqlClient;
 using Microsoft.Data.Sqlite;
 using System.Reflection.PortableExecutable;
 
 namespace KoleoPL.Services
 {
-    public class DatabaseServiceAPI
+    public class DatabaseServiceAPI : IDatabaseServiceAPI
     {
         public IConfiguration Configuration { get; }
         public DatabaseServiceAPI(IConfiguration configuration)

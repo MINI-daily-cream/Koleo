@@ -1,4 +1,4 @@
-﻿namespace Koleo.Models
+﻿namespace Domain
 {
     public class AccountInfo
     {

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Domain;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Koleo.Models
 {

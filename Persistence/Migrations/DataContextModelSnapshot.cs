@@ -17,20 +17,6 @@ namespace Persistence.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.4");
 
-            modelBuilder.Entity("Application.AdminCandidate", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("User_Id")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AdminCandidates");
-                });
-
             modelBuilder.Entity("Application.AdminComplaint", b =>
                 {
                     b.Property<Guid>("Id")
@@ -168,21 +154,18 @@ namespace Persistence.Migrations
                     b.ToTable("Trains");
                 });
 
-            modelBuilder.Entity("Domain.UserAdLink", b =>
+            modelBuilder.Entity("Domain.AdminCandidate", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("Ad_Id")
-                        .HasColumnType("INTEGER");
 
                     b.Property<int>("User_Id")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserAdLinks");
+                    b.ToTable("AdminCandidates");
                 });
 
             modelBuilder.Entity("Koleo.Models.Admin", b =>
@@ -382,9 +365,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Koleo.Models.User", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("CardNumber")
                         .IsRequired()
@@ -402,7 +385,19 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<byte[]>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
+
                     b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("TEXT");
 

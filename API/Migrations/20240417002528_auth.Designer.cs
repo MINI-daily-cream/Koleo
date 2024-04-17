@@ -8,31 +8,17 @@ using Persistence;
 
 #nullable disable
 
-namespace Persistence.Migrations
+namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240406154923_AdditionCreate1")]
-    partial class AdditionCreate1
+    [Migration("20240417002528_auth")]
+    partial class auth
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
-
-            modelBuilder.Entity("Application.AdminCandidate", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("User_Id")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AdminCandidates");
-                });
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.4");
 
             modelBuilder.Entity("Application.AdminComplaint", b =>
                 {
@@ -171,6 +157,20 @@ namespace Persistence.Migrations
                     b.ToTable("Trains");
                 });
 
+            modelBuilder.Entity("Domain.AdminCandidate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("User_Id")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AdminCandidates");
+                });
+
             modelBuilder.Entity("Koleo.Models.Admin", b =>
                 {
                     b.Property<Guid>("Id")
@@ -196,6 +196,36 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Administrators");
+                });
+
+            modelBuilder.Entity("Koleo.Models.Advertisment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("AdCategory")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AdContent")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AdImageUrl")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AdLinkUrl")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AdOwner")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Advertisments");
                 });
 
             modelBuilder.Entity("Koleo.Models.Complaint", b =>
@@ -225,7 +255,7 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("Duration")
+                    b.Property<TimeSpan>("Duration")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("EndStation_Id")
@@ -320,6 +350,14 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Target_Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Target_Surname")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("User_Id")
                         .HasColumnType("INTEGER");
 
@@ -350,7 +388,19 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("TEXT");
 

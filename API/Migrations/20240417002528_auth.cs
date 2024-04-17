@@ -3,27 +3,14 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Persistence.Migrations
+namespace API.Migrations
 {
     /// <inheritdoc />
-    public partial class AdditionCreate1 : Migration
+    public partial class auth : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_User",
-                table: "User");
-
-            migrationBuilder.RenameTable(
-                name: "User",
-                newName: "Users");
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_Users",
-                table: "Users",
-                column: "Id");
-
             migrationBuilder.CreateTable(
                 name: "AdminCandidates",
                 columns: table => new
@@ -63,6 +50,22 @@ namespace Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Administrators", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Advertisments",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    AdContent = table.Column<string>(type: "TEXT", nullable: false),
+                    AdLinkUrl = table.Column<string>(type: "TEXT", nullable: false),
+                    AdImageUrl = table.Column<string>(type: "TEXT", nullable: false),
+                    AdCategory = table.Column<int>(type: "INTEGER", nullable: false),
+                    AdOwner = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Advertisments", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -128,7 +131,7 @@ namespace Persistence.Migrations
                     StartTime = table.Column<DateTime>(type: "TEXT", nullable: false),
                     EndTime = table.Column<DateTime>(type: "TEXT", nullable: false),
                     KmNumber = table.Column<int>(type: "INTEGER", nullable: false),
-                    Duration = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    Duration = table.Column<TimeSpan>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -148,19 +151,6 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RankingUsers",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Ranking_Id = table.Column<int>(type: "INTEGER", nullable: false),
-                    User_Id = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RankingUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Rankings",
                 columns: table => new
                 {
@@ -171,6 +161,19 @@ namespace Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Rankings", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RankingUsers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Ranking_Id = table.Column<int>(type: "INTEGER", nullable: false),
+                    User_Id = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RankingUsers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -220,7 +223,9 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    User_Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    User_Id = table.Column<int>(type: "INTEGER", nullable: false),
+                    Target_Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Target_Surname = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -239,6 +244,25 @@ namespace Persistence.Migrations
                 {
                     table.PrimaryKey("PK_Trains", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    UserName = table.Column<string>(type: "TEXT", nullable: false),
+                    PasswordHash = table.Column<string>(type: "TEXT", nullable: false),
+                    PasswordSalt = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Surname = table.Column<string>(type: "TEXT", nullable: false),
+                    Email = table.Column<string>(type: "TEXT", nullable: false),
+                    Password = table.Column<string>(type: "TEXT", nullable: false),
+                    CardNumber = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
         }
 
         /// <inheritdoc />
@@ -252,6 +276,9 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Administrators");
+
+            migrationBuilder.DropTable(
+                name: "Advertisments");
 
             migrationBuilder.DropTable(
                 name: "Cities");
@@ -272,10 +299,10 @@ namespace Persistence.Migrations
                 name: "Providers");
 
             migrationBuilder.DropTable(
-                name: "RankingUsers");
+                name: "Rankings");
 
             migrationBuilder.DropTable(
-                name: "Rankings");
+                name: "RankingUsers");
 
             migrationBuilder.DropTable(
                 name: "Stations");
@@ -292,18 +319,8 @@ namespace Persistence.Migrations
             migrationBuilder.DropTable(
                 name: "Trains");
 
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_Users",
-                table: "Users");
-
-            migrationBuilder.RenameTable(
-                name: "Users",
-                newName: "User");
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_User",
-                table: "User",
-                column: "Id");
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }

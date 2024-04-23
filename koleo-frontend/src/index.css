@@ -1,0 +1,279 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+body {
+    background-image: url('../img/scenic-train-1.webp');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+:root {
+  --orange-pkp: #fa781a;
+  --orange-pkp-hover: #fbad75;
+  --blue-pkp: #1e00ff;
+}
+
+
+/* base styles */
+* {
+  margin: 0;
+  font-family: "Quicksand";
+  color: #333;
+}
+.navbar {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  /* max-width: 600px; */
+  margin: 0 auto;
+  background-color: white;
+  font-size: 24px;
+  /* border-bottom: 1px solid #f2f2f2; */
+}
+.navbar h1 {
+  /* color: #f1356d; */
+}
+.navbar .links {
+  margin-left: auto;
+  margin-right: 50px;
+}
+.log-out-button {
+  margin-left: 50px;
+  /* margin-right: 50px; */
+
+  background-color: var(--orange-pkp);
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.log-out-button:hover {
+  /* background-color: #0056b3; */
+  /* background-color: var(--blue-pkp); */
+  background-color: var(--orange-pkp-hover);
+}
+
+.navbar a {
+  margin-left: 46px;
+  text-decoration: none;
+  padding: 6px;
+}
+.navbar a:hover {
+  color: #f1356d;
+}
+.content {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* register/login form */
+
+.form {
+    padding: 50px;
+    max-width: 800px;
+    margin: 10% auto;
+    text-align: center;
+    background-color: var(--blue-pkp);
+    border-radius: 20px;
+}
+.form label {
+    text-align: left;
+    display: block;
+    font-size: 24px;
+    color: white
+}
+.form h1 {
+    font-size: 50px;
+    color: white;
+    margin-bottom: 30px;
+}
+
+.form input, .form textarea, .form select {
+    font-size: 24px;
+    width: 100%;
+    padding: 6px 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    display: block;
+}
+.form button {
+    background: #ff9d00;
+    color: #fff;
+    border: 0;
+    padding: 16px;
+    border-radius: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 36px;
+    margin-top: 20px;
+    min-width: 300px;
+}
+
+.password-error{ 
+    color: 'red';
+    font-size: 30px;
+}
+
+.bottom-text{
+    font-size: 16px;
+    color: white;
+    margin-top: 10px;
+}
+
+.bottom-text a {
+    color: white;
+}
+
+/* account panel */
+
+.account-panel{
+  margin: 10% auto;
+  padding: 0px 50px 50px 50px;
+  background-color: var(--blue-pkp);
+  border-radius: 20px;
+}
+
+.account-panel h1{
+  color: white;
+  float: top;
+  text-align: center;
+  margin-bottom: 50px 0 50px 0;
+}
+
+.account-panel-inside {
+  padding: 50px 10px;
+  background-color: #d1d1d1;
+  border-radius: 20px;
+  display: flex;
+}
+
+.sidenav {
+  max-width: max-content;
+}
+
+.sidenav a {
+  /* max-width: max-content; */
+  color: black;
+  font-weight: bold;
+  padding: 6px 16px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  background-color: #858585;
+  display: block;
+  border-radius: 10px;
+  margin: 5px 0px;
+  text-align: center;
+}
+
+hr.solid {
+  border-top: 3px solid black;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+/* my tickets list */
+
+.ticket-list {
+  float: left;
+  margin-left: 50px;
+  /* margin-bottom: 20px; */
+  display: flex;
+  /* flex-wrap: wrap; */
+  overflow: auto;
+  gap: 20px;
+  max-width: 100%;
+}
+
+.ticket {
+  /* flex: 1; */
+  /* display: flex; */
+  /* overflow:; */
+  /* max-width: max-content; */
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* min-width: 300px; */
+}
+
+.ticket-details {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.ticket-details text{
+  /* text-align: center; */
+  flex: 1;
+  /* margin */
+}
+
+.car-seat-number {
+  flex: 1;
+  /* text-align: center; */
+}
+
+.icon {
+  margin-right: 10px;
+  font-size: 18px;
+  color: #333;
+}
+
+#arrow {
+  margin-left: 10px;
+  margin-right: 10px;
+  /* width: 100px; */
+}
+
+#od-do {
+  margin-right: 10px;
+}
+
+.od-do-spacer {
+  width: 30px;
+}
+
+/* Customize icons (Font Awesome) */
+.icon-calendar::before {
+  content: "\f073";
+}
+
+.icon-user::before {
+  content: "\f007";
+}
+
+.icon-train::before {
+  content: "\f238";
+}
+
+.icon-map-marker-alt::before {
+  content: "\f3c5";
+}
+
+.icon-ticket-alt::before {
+  content: "\f3ff";
+}
+
+.return-ticket {
+  background-color: var(--orange-pkp);
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.return-ticket:hover {
+  /* background-color: #0056b3; */
+  /* background-color: var(--blue-pkp); */
+  background-color: var(--orange-pkp-hover);
+}

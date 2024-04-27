@@ -20,7 +20,7 @@ namespace Koleo.Services
             _databaseService = databaseService;
             _paymentService = paymentService;
         }
-        public async Task<bool> Buy(Guid userId, List<Connection> connections, string targetName, string targetSurname)
+        public async Task<bool> Buy(string userId, List<Connection> connections, string targetName, string targetSurname)
         {
             if (await _paymentService.ProceedPayment())
             {
@@ -132,7 +132,7 @@ namespace Koleo.Services
             
         }
 
-        public async Task Add(Guid userId, List<Connection> connections, string targetName, string targetSurname)
+        public async Task Add(string userId, List<Connection> connections, string targetName, string targetSurname)
         {
             string insertTicketSql = $"INSERT INTO Tickets (User_Id, Target_Name, Target_Surname) VALUES ('{userId}', '{targetName}', '{targetSurname}')";
             try

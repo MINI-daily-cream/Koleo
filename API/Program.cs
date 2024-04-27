@@ -1,6 +1,9 @@
 using API.Services.Interfaces;
 using Koleo.Models;
+using Koleo.Services;
 using KoleoPL.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 using SQLitePCL;
@@ -9,6 +12,18 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddScoped<IDatabaseServiceAPI, DatabaseServiceAPI>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<ITicketServive, TicketService>();
+
+
+builder.Services.AddControllers(opt =>
+{
+    //var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+    //opt.Filters.Add(new AuthorizeFilter(policy));
+});
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -16,6 +31,18 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DataContext>(opt => {
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("CorsPolicy", policy =>
+    {
+        policy.AllowAnyOrigin()
+        //.SetIsOriginAllowedToAllowWildcardSubdomains()
+        .AllowAnyMethod().AllowAnyHeader();
+        //;
+        //.AllowCredentials();
+    });
 });
 
 var app = builder.Build();
@@ -27,7 +54,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("CorsPolicy");
+
 app.UseHttpsRedirection();
+
+app.MapControllers();
 
 var summaries = new[]
 {

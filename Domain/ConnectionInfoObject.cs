@@ -9,7 +9,7 @@ namespace Domain
     public class ConnectionInfoObject
     {
         public DateTime Date { get; set; }
-        public int TrainNumber { get; set; }
+        public string TrainNumber { get; set; }
         public string StartStation { get; set; }
         public string EndStation { get; set; }
         public string ProviderName { get; set; }
@@ -20,7 +20,7 @@ namespace Domain
         public int KmNumber { get; set; }
         public TimeSpan Duration { get; set; }
         public ConnectionInfoObject() { }
-        public ConnectionInfoObject(DateTime date, int trainNumber, string startStation, string endStation, string providerName, string sourceCity, string destinationCity, string departureTime, string arrivalTime, int kmNumber, TimeSpan duration)
+        public ConnectionInfoObject(DateTime date, string trainNumber, string startStation, string endStation, string providerName, string sourceCity, string destinationCity, string departureTime, string arrivalTime, int kmNumber, TimeSpan duration)
         {
             Date = date;
             TrainNumber = trainNumber;

@@ -9,7 +9,7 @@ namespace Application
     public class CityStation
     {
         public Guid Id { get; set; }
-        public int City_Id { get; set; }
-        public int Station_Id { get; set; }
+        public Guid City_Id { get; set; }
+        public Guid Station_Id { get; set; }
     }
 }

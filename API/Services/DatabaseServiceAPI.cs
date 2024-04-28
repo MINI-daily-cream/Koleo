@@ -12,7 +12,7 @@ namespace KoleoPL.Services
         {
             Configuration = configuration;
         }
-        public async Task<List<string[]>> ExecuteSQL(string sql)
+        public async Task<(List<string[]>, bool)> ExecuteSQL(string sql) // moze tu dodac wyjatki zeby sie zwracal bool tez?
         {
             var results = new List<string[]>();
 
@@ -33,9 +33,8 @@ namespace KoleoPL.Services
                 dataReader.GetValues(values);
                 results.Add(values);
             }
-            
               
-            return results;
+            return (results, true); // TO DO: change true
         }
         public async void Backup()
         {

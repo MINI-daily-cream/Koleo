@@ -9,23 +9,35 @@
         public string Password { get; set; }
         public string CardNumber { get; set; }
 
-        //public (bool, int?) BuyTicket()  // SAME AS TICKET CONTROLLER BUY
+        // [TICKET CONTROLLER]
+        //public (bool, int?) BuyTicket() 
         //{
         //    return (false, null);
         //} // czy sie udalo, id bileta
-
-        //public List<int> ListTickets()  // SAME AS LIST-BY-USER TICKET CONTROLLER
+        //public List<int> ListTickets() 
         //{
         //    return new List<int>();
         //}
-        public (bool, int) ExchangeTicket(int ticketId)
-        {
-            return (false, -1);
-        }//czy sie udalo, nowy bilet
-        public bool DropTicket(int ticketId)
-        {
-            return false;
-        }// czy sie udalo
+        //public (bool, int) ExchangeTicket(int ticketId)
+        //{
+        //    return (false, -1);
+        //}//czy sie udalo, nowy bilet
+        //public bool DropTicket(int ticketId)
+        //{
+        //    return false;
+        //}// czy sie udalo
+
+        // [ACCOUNT CONTROLLER]
+        //public int GetAccountInfo()
+        //{
+        //    return -1;
+        //}
+        //public bool UpdateAccountInfo()
+        //{
+        //    return false;
+        //}
+
+
         public int MakeComplaint()
         {
             return -1;
@@ -42,14 +54,9 @@
         {
             return false;
         }
-        public int GetAccountInfo()
-        {
-            return -1;
-        }
-        public bool UpdateAccountInfo()
-        {
-            return false;
-        }
+
+
+
         public int GetStatistics()
         {
             return -1;

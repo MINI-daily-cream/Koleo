@@ -60,26 +60,6 @@ app.UseHttpsRedirection();
 
 app.MapControllers();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
-
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 try
@@ -87,6 +67,11 @@ try
     var context = services.GetRequiredService<DataContext>();
     await context.Database.MigrateAsync();
     await Seed.SeedData(context);
+
+    //Seed.ClearTickets(context);
+
+    //Seed.ClearConnectionsEtc(context);
+    //await Seed.SeedConnectionsEtc(context);
 }
 catch (Exception ex)
 {
@@ -95,29 +80,25 @@ catch (Exception ex)
     
 }
 
-DatabaseServiceAPI dbService = new DatabaseServiceAPI(builder.Configuration);
-
-Console.WriteLine("-------------------USERS-----------------------------------");
-//await dbService.ExecuteSQL("INSERT INTO Users (Id, Name, Surname, Email, Password, CardNumber) VALUES (3, 'Wojciech', 'Domitrz', 'wd@mini.pw.edu.pl', '123', '333')");
-var users = await DatabaseService.ExecuteSQL("SELECT * FROM Users");
-
-// Act
+//DatabaseServiceAPI dbService = new DatabaseServiceAPI(builder.Configuration);
+//var guid = Guid.NewGuid().ToString().ToUpper();
+//string insertTicketSql = $"INSERT INTO Tickets (Id, User_Id, Target_Name, Target_Surname) VALUES ('{guid}', 'C4630E12-DEE8-411E-AF44-E3CA970455CE', 'Ptr', 'Glo')";
+//string deleteTicketsSql = $"DELETE FROM Tickets WHERE User_Id='C4630E12-DEE8-411E-AF44-E3CA970455CE'";
+//await dbService.ExecuteSQL(deleteTicketsSql);
 
 
-Console.WriteLine($"Number of users: {users.Count}");
-foreach (var row in users)
-{
-    foreach (var rec in row) Console.Write($"{rec} ");
-    Console.WriteLine();
-}
+//Console.WriteLine("-------------------USERS-----------------------------------");
+////await dbService.ExecuteSQL("INSERT INTO Users (Id, Name, Surname, Email, Password, CardNumber) VALUES (3, 'Wojciech', 'Domitrz', 'wd@mini.pw.edu.pl', '123', '333')");
+//var users = await DatabaseService.ExecuteSQL("SELECT * FROM Users");
+
+
+//Console.WriteLine($"Number of users: {users.Count}");
+//foreach (var row in users)
+//{
+//    foreach (var rec in row) Console.Write($"{rec} ");
+//    Console.WriteLine();
+//}
 
 // dbService.Backup();
 
 app.Run();
-
-
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

@@ -23,28 +23,28 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public Task<AccountInfo> Get(string id)
         {
-            return _accountService.GetAccountInfo(id)!;
+            return _accountService.GetAccountInfo(id.ToUpper())!;
         }
 
         [HttpPut("{id}")]
         public Task<bool> Update(string id, [FromBody]AccountInfo newInfo)
         {
-            return _accountService.UpdateAccountInfo(id, newInfo.Name, newInfo.Surname, newInfo.Email);
+            return _accountService.UpdateAccountInfo(id.ToUpper(), newInfo.Name, newInfo.Surname, newInfo.Email);
         }
 
         [HttpPut("admin-request/accept")]
         public Task<bool> Accept(string userId) {
-            return _adminService.GiveAdminPermissions(userId);
+            return _adminService.GiveAdminPermissions(userId.ToUpper());
         }
 
         [HttpPut("admin-request/reject")]
         public Task<bool> Reject(string userId)
         {
-            return _adminService.RejectAdminRequest(userId);
+            return _adminService.RejectAdminRequest(userId.ToUpper());
         }
         [HttpDelete("delete-user/{userId}")]
         public Task<bool> DeleteUser(string userId) { 
-            return _adminService.DeleteUser(userId);
+            return _adminService.DeleteUser(userId.ToUpper());
         }
     }
 }

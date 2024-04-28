@@ -80,16 +80,13 @@ catch (Exception ex)
     
 }
 
-//DatabaseServiceAPI dbService = new DatabaseServiceAPI(builder.Configuration);
-//var guid = Guid.NewGuid().ToString().ToUpper();
-//string insertTicketSql = $"INSERT INTO Tickets (Id, User_Id, Target_Name, Target_Surname) VALUES ('{guid}', 'C4630E12-DEE8-411E-AF44-E3CA970455CE', 'Ptr', 'Glo')";
-//string deleteTicketsSql = $"DELETE FROM Tickets WHERE User_Id='C4630E12-DEE8-411E-AF44-E3CA970455CE'";
-//await dbService.ExecuteSQL(deleteTicketsSql);
+DatabaseServiceAPI dbService = new DatabaseServiceAPI(builder.Configuration);
 
+Console.WriteLine("-------------------USERS-----------------------------------");
+//await dbService.ExecuteSQL("INSERT INTO Users (Id, Name, Surname, Email, Password, CardNumber) VALUES (3, 'Wojciech', 'Domitrz', 'wd@mini.pw.edu.pl', '123', '333')");
+var users = await DatabaseService.ExecuteSQL("SELECT * FROM Users");
 
-//Console.WriteLine("-------------------USERS-----------------------------------");
-////await dbService.ExecuteSQL("INSERT INTO Users (Id, Name, Surname, Email, Password, CardNumber) VALUES (3, 'Wojciech', 'Domitrz', 'wd@mini.pw.edu.pl', '123', '333')");
-//var users = await DatabaseService.ExecuteSQL("SELECT * FROM Users");
+// Act
 
 
 //Console.WriteLine($"Number of users: {users.Count}");

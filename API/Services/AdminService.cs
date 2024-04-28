@@ -1,10 +1,13 @@
-﻿namespace Koleo.Services
+﻿using API.Services.Interfaces;
+
+namespace Koleo.Services
 {
     public class AdminService
     {
-        public AdminService() // jakieś DI
+        private readonly IDatabaseServiceAPI _databaseService;
+        public AdminService(IDatabaseServiceAPI databaseService) // jakieś DI
         {
-        
+            _databaseService = databaseService;
         }
 
         public void CreateAdminAccount()

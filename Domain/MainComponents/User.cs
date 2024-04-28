@@ -8,14 +8,16 @@
         public string Email { get; set; }
         public string Password { get; set; }
         public string CardNumber { get; set; }
-        public (bool, int?) BuyTicket() 
-        {
-            return (false, null);
-        } // czy sie udalo, id bileta
-        public List<int> ListTickets()
-        {
-            return new List<int>();
-        }
+
+        //public (bool, int?) BuyTicket()  // SAME AS TICKET CONTROLLER BUY
+        //{
+        //    return (false, null);
+        //} // czy sie udalo, id bileta
+
+        //public List<int> ListTickets()  // SAME AS LIST-BY-USER TICKET CONTROLLER
+        //{
+        //    return new List<int>();
+        //}
         public (bool, int) ExchangeTicket(int ticketId)
         {
             return (false, -1);

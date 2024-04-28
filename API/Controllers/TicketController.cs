@@ -20,7 +20,7 @@ namespace API.Controllers
         [HttpGet("list-by-user/{id}")]
         public Task<List<ConnectionInfoObject>> List(int id)
         {
-            return _ticketService.ListByUser(id);
+            return Task.FromResult(_ticketService.ListByUser(id).Result.Item1);
         }
 
         [HttpGet("buy/{id}")]

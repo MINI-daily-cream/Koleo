@@ -30,13 +30,13 @@ namespace Koleo.Services
             return false;
         }
 
-        public async Task<(List<ConnectionInfoObject>, bool)> ListByUser(int userId)
+        public async Task<(List<ConnectionInfoObject>, bool)> ListByUser(string userId)
         {
             var result = await GetTicketsByUser(userId);
             if (!result.Item2) return (new List<ConnectionInfoObject> { }, false);
-            List<Guid> ticketIds = result.Item1;
+            List<string> ticketIds = result.Item1;
             List<ConnectionInfoObject> connectionsInfo = new List<ConnectionInfoObject>();
-            foreach (Guid ticketId in ticketIds)
+            foreach (string ticketId in ticketIds)
             {
                 var tmpResult = await UpdateConnectionsInfoList(ticketId, connectionsInfo);
                 if (!tmpResult) return (new List<ConnectionInfoObject> { }, false);
@@ -44,7 +44,7 @@ namespace Koleo.Services
             return (connectionsInfo, true);
         }
 
-        public async Task<bool> Generate(Guid userId, Guid ticketId)
+        public async Task<bool> Generate(string userId, string ticketId)
         {
             List<ConnectionInfoObject> connectionsInfo = new List<ConnectionInfoObject>();
             var tmpResult = await UpdateConnectionsInfoList(ticketId, connectionsInfo);
@@ -94,7 +94,7 @@ namespace Koleo.Services
             }
         }
 
-        public async Task<bool> Remove(Guid ticketId)
+        public async Task<bool> Remove(string ticketId)
         {
             if (await _paymentService.CancelPayment())
             {
@@ -119,7 +119,7 @@ namespace Koleo.Services
             if (!ticketIdResult.Item2) return false;
             if (ticketIdResult.Item1 != null && ticketIdResult.Item1.Count > 0)
             {
-                Guid ticketId = new Guid(ticketIdResult.Item1[0][0]);
+                string ticketId = new string(ticketIdResult.Item1[0][0]);
 
                 foreach (var connection in connections)
                 {
@@ -131,7 +131,7 @@ namespace Koleo.Services
             return true;
         }
 
-        public async Task<bool> ChangeDetails(Guid userId, Guid ticketId, string newTargetName, string newTargetSurname)
+        public async Task<bool> ChangeDetails(string userId, string ticketId, string newTargetName, string newTargetSurname)
         {
             string updateDetailsSql = $"UPDATE Tickets SET Target_Name = '{newTargetName}', Target_Surname = '{newTargetSurname}' WHERE Id = '{ticketId}'";
             var tmpResult = await _databaseService.ExecuteSQL(updateDetailsSql);
@@ -140,15 +140,16 @@ namespace Koleo.Services
             return result;
         }
 
-        private async Task<(List<Guid>?, bool)> GetTicketsByUser(int userId)
+        private async Task<(List<string>?, bool)> GetTicketsByUser(string userId)
         {
             string sql = $"SELECT Id FROM Tickets WHERE User_Id = {userId}";
             var result = await _databaseService.ExecuteSQL(sql);
             if (!result.Item2) return (null, false);
-            return (result.Item1.Select(row => Guid.Parse(row[0])).ToList(), true);
+            return (result.Item1.Select(row => row[0]).ToList(), true);
+            //return (result.Item1.Select(row => string.Parse(row[0])).ToList(), true);
         }
 
-        private async Task<(List<Connection>?, bool)> GetConnectionsByTicket(Guid ticketId)
+        private async Task<(List<Connection>?, bool)> GetConnectionsByTicket(string ticketId)
         {
             string sql = $"SELECT c.* FROM TicketConnections tc JOIN Connections c ON tc.Connection_Id = c.Id WHERE tc.Ticket_Id = '{ticketId}'";
             var result = await _databaseService.ExecuteSQL(sql);
@@ -156,9 +157,10 @@ namespace Koleo.Services
             return (result.Item1.Select(row => new Connection
             {
                 Id = Guid.Parse(row[0]),
-                StartStation_Id = int.Parse(row[1]),
-                EndStation_Id = int.Parse(row[2]),
-                Train_Id = int.Parse(row[3]),
+                //Id = row[0],
+                StartStation_Id = row[1],
+                EndStation_Id = row[2],
+                Train_Id = row[3],
                 StartTime = DateTime.Parse(row[4]),
                 EndTime = DateTime.Parse(row[5]),
                 KmNumber = int.Parse(row[6]),
@@ -166,7 +168,7 @@ namespace Koleo.Services
             }).ToList(), true);
         }
 
-        private async Task<(string?, bool)> GetStationNameById(int stationId)
+        private async Task<(string?, bool)> GetStationNameById(string stationId)
         {
             string sql = $"SELECT Name FROM Stations WHERE Id = {stationId}";
             var result = await _databaseService.ExecuteSQL(sql);
@@ -174,7 +176,7 @@ namespace Koleo.Services
             return (result.Item1[0][0], true);
         }
 
-        private async Task<(string?, bool)> GetProviderNameById(int trainId)
+        private async Task<(string?, bool)> GetProviderNameById(string trainId)
         {
             string sql = $"SELECT Name FROM Providers WHERE Id = {trainId}";
             var result = await _databaseService.ExecuteSQL(sql);
@@ -182,7 +184,7 @@ namespace Koleo.Services
             return (result.Item1[0][0], true);
         }
 
-        private async Task<(string?, bool)> GetCityNameByStationId(int stationId)
+        private async Task<(string?, bool)> GetCityNameByStationId(string stationId)
         {
             string sql = $"SELECT c.Name FROM Cities c JOIN CityStations cs ON c.Id = cs.City_Id WHERE cs.Station_Id = {stationId}";
             var result = await _databaseService.ExecuteSQL(sql);
@@ -190,7 +192,7 @@ namespace Koleo.Services
             return (result.Item1[0][0], true);
         }
 
-        private async Task<bool> UpdateConnectionsInfoList(Guid ticketId, List<ConnectionInfoObject> connectionsInfo)
+        private async Task<bool> UpdateConnectionsInfoList(string ticketId, List<ConnectionInfoObject> connectionsInfo)
         {
             var result = await GetConnectionsByTicket(ticketId);
             if(!result.Item2) return false;

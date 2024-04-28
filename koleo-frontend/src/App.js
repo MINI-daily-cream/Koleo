@@ -8,6 +8,7 @@ import tickets from "./tickets.js";
 import Navbar from "./Navbar.js";
 import AccountPanel from "./AccountPanel.js";
 import TicketConformation from "./TicketConfirmation";
+import { connectionsData } from "./connections.js";
 
 function App() {
   const login = window.localStorage.getItem("isLoggedIn");
@@ -21,7 +22,7 @@ function App() {
         <Route path="/account" element={login ? <AccountPanel /> : <LoginPage />} />
               {/*<Route path="/tickets" element={<AccountPanel />} /> */}
               <Route path="/tickets" element={<TicketList tickets={tickets} />} />
-              <Route path="/ticketConfirmation" element={<TicketConformation ticket={tickets[0]} />} />
+              <Route path="/ticketConfirmation" element={<TicketConformation connections={connectionsData} />} />
       </Routes>
     </Router>
   );

@@ -18,18 +18,19 @@ namespace Koleo.Services
             return result.Item2;
         }
 
-        public async Task<bool> EditProvider(Guid providerId, string newName)
+        public async Task<bool> EditProvider(string providerId, string newName)
         {
             string sql = $"UPDATE Providers SET Name = '{newName}' WHERE Id = '{providerId}'";
             var result = await _databaseService.ExecuteSQL(sql);
             return result.Item2;
         }
 
-        public async Task<bool> RemoveProvider(Guid providerId)
+        public async Task<bool> RemoveProvider(string providerId)
         {
             string sql = $"DELETE FROM Providers WHERE Id = '{providerId}'";
             var result = await _databaseService.ExecuteSQL(sql);
             return result.Item2;
         }
+
     }
 }

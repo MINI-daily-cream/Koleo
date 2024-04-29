@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application
+namespace Domain
 {
-    public class TicketConnection
+    public class ComplaintWithoutAnswer
     {
-        public Guid Id { get; set; }
+        public string User_Id { get; set; }
         public string Ticket_Id { get; set; }
-        public string Connection_Id { get; set; }
+        public string Content { get; set; }
     }
 }

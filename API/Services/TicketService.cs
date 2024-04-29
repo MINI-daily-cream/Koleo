@@ -130,7 +130,7 @@ namespace Koleo.Services
 
                 foreach (var connection in connections)
                 {
-                    string insertTicketConnectionSql = $"INSERT INTO TicketConnections (Id, Ticket_Id, Connection_Id) VALUES ('{Guid.NewGuid().ToString().ToUpper()}', '{ticketId}', '{connection.Id}')";
+                    string insertTicketConnectionSql = $"INSERT INTO TicketConnections (Id, Ticket_Id, Connection_Id) VALUES ('{Guid.NewGuid().ToString().ToUpper()}', '{ticketId.ToString().ToUpper()}', '{connection.Id.ToString().ToUpper()}')";
                     var tmpresult = await _databaseService.ExecuteSQL(insertTicketConnectionSql);
                     if (!tmpresult.Item2) return ("", false);
                 }

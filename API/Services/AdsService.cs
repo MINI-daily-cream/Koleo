@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using API.Services.Interfaces;
+using Domain;
 
 namespace KoleoPL.Services
 {

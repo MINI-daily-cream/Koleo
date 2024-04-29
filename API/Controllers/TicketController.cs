@@ -39,7 +39,7 @@ namespace API.Controllers
         [HttpPost("remove/{ticketId}")]
         public Task<bool> Remove(string ticketId)
         {
-            return _ticketService.ListByUser(id);
+            return _ticketService.Remove(ticketId.ToUpper());
         }
 
         //public Task<bool> Add(string userId, List<Connection> connections, string targetName, string targetSurname);
@@ -47,7 +47,7 @@ namespace API.Controllers
         [HttpPut("change-details/{userId}/{ticketId}")]
         public Task<bool> ChangeDetails(string userId, string ticketId, string newTargetName, string newTargetSurname)
         {
-            return _ticketService.Buy(id, info.connections, info.targetName, info.targetSurname);
+            return _ticketService.ChangeDetails(userId.ToUpper(), ticketId.ToUpper(), newTargetName, newTargetSurname);
         }
     }
 }

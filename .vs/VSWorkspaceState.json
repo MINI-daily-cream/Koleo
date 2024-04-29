@@ -2,8 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\API",
-    "\\API\\Controllers",
     "\\API\\Services",
+    "\\API\\Services\\Interfaces",
     "\\Application",
     "\\Domain",
     "\\Domain\\MainComponents",
@@ -11,6 +11,6 @@
     "\\koleo-frontend",
     "\\koleo-frontend\\public"
   ],
-  "SelectedNode": "\\Domain\\MainComponents\\Server.cs",
+  "SelectedNode": "\\API\\API.csproj",
   "PreviewInSolutionExplorer": false
 }

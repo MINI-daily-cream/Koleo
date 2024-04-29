@@ -100,7 +100,7 @@ namespace Persistence
                     Name = "PKP Intercity"
                 }
             };
-            
+
 
             await context.Cities.AddRangeAsync(cities);
             await context.Stations.AddRangeAsync(stations);
@@ -155,7 +155,66 @@ namespace Persistence
 
             await context.SaveChangesAsync();
 
+            trains = context.Trains.ToList();
 
+            var StartTime = new DateTime(2024, 05, 01, 8, 37, 0);
+            var EndTime = new DateTime(2024, 05, 01, 12, 12, 0);
+            var Duration = EndTime.Subtract(StartTime);
+
+            var connections = new List<Connection>
+            {
+                new Connection
+                {
+                    StartStation_Id = stations.Find(station => station.Name == "Warszawa Centralna").Id.ToString().ToUpper(),
+                    EndStation_Id = stations.Find(station => station.Name == "Kraków Główny").Id.ToString().ToUpper(),
+                    Train_Id = trains.Find(train => train.Name == "Sobieski").Id.ToString().ToUpper(),
+                    StartTime = StartTime,
+                    EndTime = EndTime,
+                    KmNumber = 1,
+                    Duration = Duration
+                }
+            };
+
+            await context.Connections.AddRangeAsync(connections);
+            //await context.Users.AddRangeAsync(connections);
+            await context.SaveChangesAsync();
+        }
+
+        public static void ClearConnectionsEtc(DataContext context)
+        {
+            Console.WriteLine("Clearing data---------------------------------------------------------------------------");
+            var _context = context;
+
+            var allCities = _context.Cities.ToList();
+            _context.Cities.RemoveRange(allCities);
+
+            var allStations = _context.Stations.ToList();
+            _context.Stations.RemoveRange(allStations);
+
+            var allCityStations = _context.CityStations.ToList();
+            _context.CityStations.RemoveRange(allCityStations);
+
+            var allTrains = _context.Trains.ToList();
+            _context.Trains.RemoveRange(allTrains);
+
+            var allProviders = _context.Providers.ToList();
+            _context.Providers.RemoveRange(allProviders);
+
+            var allConnections = _context.Connections.ToList();
+            _context.Connections.RemoveRange(allConnections);
+
+            _context.SaveChanges();
+        }
+
+        public static void ClearTickets(DataContext context)
+        {
+            Console.WriteLine("Clearing tickets---------------------------------------------------------------------------");
+            var _context = context;
+
+            var allTickets = _context.Tickets.ToList();
+            _context.Tickets.RemoveRange(allTickets);
+
+            _context.SaveChanges();
         }
     }
 }

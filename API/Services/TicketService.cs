@@ -149,7 +149,7 @@ namespace Koleo.Services
 
         private async Task<(List<string>?, bool)> GetTicketsByUser(string userId)
         {
-            string sql = $"SELECT Id FROM Tickets WHERE User_Id = {userId}";
+            string sql = $"SELECT Id FROM Tickets WHERE User_Id = '{userId}'";
             var result = await _databaseService.ExecuteSQL(sql);
             if (!result.Item2) return (null, false);
             return (result.Item1.Select(row => row[0]).ToList(), true);

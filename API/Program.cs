@@ -71,7 +71,7 @@ try
     //Seed.ClearTickets(context);
 
     //Seed.ClearConnectionsEtc(context);
-    //await Seed.SeedConnectionsEtc(context);
+    await Seed.SeedConnectionsEtc(context);
 }
 catch (Exception ex)
 {

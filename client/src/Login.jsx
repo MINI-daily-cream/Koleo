@@ -8,7 +8,7 @@ export default function Login() {
     function onSubmit(){
         const fetchData = async () => {
             try{
-                const response = await axios.post('https://koleo-server.azurewebsites.net/api/users',{
+                const response = await axios.post('https://koleo-server.azurewebsites.net/api/account/login',{
                     "username": username,
                     "password": password
                 });

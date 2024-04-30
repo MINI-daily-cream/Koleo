@@ -17,6 +17,14 @@ namespace Auth.Controllers
         } 
 
         [AllowAnonymous]
+        [HttpGet("healthcheck")]
+        public ActionResult<string> Get()
+        {
+            return "healthy";
+        }
+   
+
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<List<User>>> GetUsers()
         {

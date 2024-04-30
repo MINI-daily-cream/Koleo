@@ -20,11 +20,11 @@ namespace Koleo.Services
             _databaseService = databaseService;
             _paymentService = paymentService;
         }
-        public async Task<(string, bool)> Buy(string userId, List<Connection> connections, string targetName, string targetSurname)
+        public async Task<(string, bool)> Buy(string userId, List<string> connectionsIds, string targetName, string targetSurname)
         {
             if (await _paymentService.ProceedPayment())
             {
-                var tmpResult = await Add(userId, connections, targetName, targetSurname);
+                var tmpResult = await Add(userId, connectionsIds, targetName, targetSurname);
                 return tmpResult;
             }
             return ("", false);
@@ -71,7 +71,7 @@ namespace Koleo.Services
                         document.Add(new Paragraph($"Name and surname:{name} {surname}"));
                         foreach (var connection in connectionsInfo)
                         {
-                            document.Add(new Paragraph($"Date: {connection.Date.ToShortDateString()}"));
+                            document.Add(new Paragraph($"Date: {connection.StartDate.ToShortDateString()}"));
                             document.Add(new Paragraph($"Train Number: {connection.TrainNumber}"));
                             document.Add(new Paragraph($"Start Station: {connection.StartStation}"));
                             document.Add(new Paragraph($"End Station: {connection.EndStation}"));
@@ -108,7 +108,7 @@ namespace Koleo.Services
             return false;
         }
 
-        public async Task<(string, bool)> Add(string userId, List<Connection> connections, string targetName, string targetSurname)
+        public async Task<(string, bool)> Add(string userId, List<string> connectionsIds, string targetName, string targetSurname)
         {
             string insertTicketSql = $"INSERT INTO Tickets (Id, User_Id, Target_Name, Target_Surname) VALUES ('{Guid.NewGuid().ToString().ToUpper()}', '{userId}', '{targetName}', '{targetSurname}')";
             var result = await _databaseService.ExecuteSQL(insertTicketSql);
@@ -128,9 +128,9 @@ namespace Koleo.Services
             {
                 ticketId = new string(ticketIdResult.Item1[0][0]);
 
-                foreach (var connection in connections)
+                foreach (var connectionId in connectionsIds)
                 {
-                    string insertTicketConnectionSql = $"INSERT INTO TicketConnections (Id, Ticket_Id, Connection_Id) VALUES ('{Guid.NewGuid().ToString().ToUpper()}', '{ticketId.ToString().ToUpper()}', '{connection.Id.ToString().ToUpper()}')";
+                    string insertTicketConnectionSql = $"INSERT INTO TicketConnections (Id, Ticket_Id, Connection_Id) VALUES ('{Guid.NewGuid().ToString().ToUpper()}', '{ticketId.ToString().ToUpper()}', '{connectionId.ToString().ToUpper()}')";
                     var tmpresult = await _databaseService.ExecuteSQL(insertTicketConnectionSql);
                     if (!tmpresult.Item2) return ("", false);
                 }
@@ -149,7 +149,7 @@ namespace Koleo.Services
 
         private async Task<(List<string>?, bool)> GetTicketsByUser(string userId)
         {
-            string sql = $"SELECT Id FROM Tickets WHERE User_Id = '{userId}'";
+            string sql = $"SELECT Id FROM Tickets WHERE User_Id='{userId}'";
             var result = await _databaseService.ExecuteSQL(sql);
             if (!result.Item2) return (null, false);
             return (result.Item1.Select(row => row[0]).ToList(), true);
@@ -158,26 +158,40 @@ namespace Koleo.Services
 
         private async Task<(List<Connection>?, bool)> GetConnectionsByTicket(string ticketId)
         {
-            string sql = $"SELECT c.* FROM TicketConnections tc JOIN Connections c ON tc.Connection_Id = c.Id WHERE tc.Ticket_Id = '{ticketId}'";
-            var result = await _databaseService.ExecuteSQL(sql);
+            //string sql = $"SELECT c.* FROM TicketConnections tc JOIN Connections c ON tc.Connection_Id = c.Id WHERE tc.Ticket_Id = '{ticketId}'";
+            string sql = $"SELECT * FROM Connections c JOIN TicketConnections tc ON c.Id=tc.Connection_Id WHERE tc.Ticket_Id='{ticketId}'";
+            var result = await _databaseService.ExecuteSQLLastRow(sql);
+            //var result = await _databaseService.ExecuteSQL(sql);
             if(!result.Item2) return(null, false);
+
+            //var row = result.Item1[0];
+            //var Id = Guid.Parse((string)row[0]);
+            //var Duration = TimeSpan.Parse((string)row[1]);
+            //var EndStation_Id = (string)row[2];
+            //var EndTime = DateTime.Parse((string)row[3]);
+            //var KmNumber = (int)((System.Int64)row[4]);
+            ////var KmNumber = int.Parse((string)row[4]);
+            //var StartStation_Id = (string)row[5];
+            //var StartTime = DateTime.Parse((string)row[6]);
+            //var Train_Id = (string)row[7];
+
             return (result.Item1.Select(row => new Connection
             {
-                Id = Guid.Parse(row[0]),
-                //Id = row[0],
-                StartStation_Id = row[1],
-                EndStation_Id = row[2],
-                Train_Id = row[3],
-                StartTime = DateTime.Parse(row[4]),
-                EndTime = DateTime.Parse(row[5]),
-                KmNumber = int.Parse(row[6]),
-                Duration = TimeSpan.Parse(row[7])
-            }).ToList(), true);
+                //Id = Guid.NewGuid(),
+                Id = Guid.Parse((string)row[0]),
+                Duration = TimeSpan.Parse((string)row[1]),
+                EndStation_Id = (string)row[2],
+                EndTime = DateTime.Parse((string)row[3]),
+                KmNumber = (int)((System.Int64)row[4]),
+                StartStation_Id = (string)row[5],
+                StartTime = DateTime.Parse((string)row[6]),
+                Train_Id = (string)row[7],
+            }).ToList(), true) ;
         }
 
         private async Task<(string?, bool)> GetStationNameById(string stationId)
         {
-            string sql = $"SELECT Name FROM Stations WHERE Id = {stationId}";
+            string sql = $"SELECT Name FROM Stations WHERE Id='{stationId}'";
             var result = await _databaseService.ExecuteSQL(sql);
             if (!result.Item2) return (null, false);
             return (result.Item1[0][0], true);
@@ -185,7 +199,7 @@ namespace Koleo.Services
 
         private async Task<(string?, bool)> GetProviderNameById(string trainId)
         {
-            string sql = $"SELECT Name FROM Providers WHERE Id = {trainId}";
+            string sql = $"SELECT p.Name FROM Providers p JOIN Trains t WHERE t.Id='{trainId}' AND p.Id=t.Provider_Id";
             var result = await _databaseService.ExecuteSQL(sql);
             if (!result.Item2) return (null, false);
             return (result.Item1[0][0], true);
@@ -193,7 +207,7 @@ namespace Koleo.Services
 
         private async Task<(string?, bool)> GetCityNameByStationId(string stationId)
         {
-            string sql = $"SELECT c.Name FROM Cities c JOIN CityStations cs ON c.Id = cs.City_Id WHERE cs.Station_Id = {stationId}";
+            string sql = $"SELECT c.Name FROM Cities c JOIN CityStations cs ON c.Id = cs.City_Id WHERE cs.Station_Id ='{stationId}'";
             var result = await _databaseService.ExecuteSQL(sql);
             if (!result.Item2) return (null, false);
             return (result.Item1[0][0], true);
@@ -215,7 +229,11 @@ namespace Koleo.Services
                 if (!startStationName.Item2 || !endStationName.Item2 || !providerName.Item2 || !sourceCityName.Item2 || !destinationCityName.Item2) return false;
                 connectionsInfo.Add(new ConnectionInfoObject
                 {
-                    Date = connection.StartTime.Date,
+                    Id = connection.Id.ToString().ToUpper(),
+                    StartDate = DateOnly.FromDateTime(connection.StartTime.Date),
+                    EndDate = DateOnly.FromDateTime(connection.EndTime.Date),
+                    StartTime = TimeOnly.FromDateTime(connection.StartTime),
+                    EndTime = TimeOnly.FromDateTime(connection.EndTime),
                     TrainNumber = connection.Train_Id,
                     StartStation = startStationName.Item1,
                     EndStation = endStationName.Item1,
@@ -229,6 +247,50 @@ namespace Koleo.Services
                 });
             }
             return true;
+        }
+
+        private async Task<bool> UpdateConnectionsInfoForBrowsing(List<Connection> connections, List<ConnectionInfoObject> connectionsInfo)
+        {
+            foreach (Connection connection in connections)
+            {
+
+                var startStationName = await GetStationNameById(connection.StartStation_Id);
+                var endStationName = await GetStationNameById(connection.EndStation_Id);
+                var providerName = await GetProviderNameById(connection.Train_Id);
+                var sourceCityName = await GetCityNameByStationId(connection.StartStation_Id);
+                var destinationCityName = await GetCityNameByStationId(connection.EndStation_Id);
+                if (!startStationName.Item2 || !endStationName.Item2 || !providerName.Item2 || !sourceCityName.Item2 || !destinationCityName.Item2) return false;
+                connectionsInfo.Add(new ConnectionInfoObject
+                {
+                    Id = connection.Id.ToString().ToUpper(),
+                    StartDate = DateOnly.FromDateTime(connection.StartTime.Date),
+                    EndDate = DateOnly.FromDateTime(connection.EndTime.Date),
+                    StartTime = TimeOnly.FromDateTime(connection.StartTime),
+                    EndTime = TimeOnly.FromDateTime(connection.EndTime),
+                    TrainNumber = connection.Train_Id,
+                    StartStation = startStationName.Item1,
+                    EndStation = endStationName.Item1,
+                    ProviderName = providerName.Item1,
+                    SourceCity = sourceCityName.Item1,
+                    DestinationCity = destinationCityName.Item1,
+                    DepartureTime = connection.StartTime.ToShortTimeString(),
+                    ArrivalTime = connection.EndTime.ToShortTimeString(),
+                    KmNumber = connection.KmNumber,
+                    Duration = connection.Duration
+                });
+            }
+            return true;
+        }
+
+        public async Task<(List<ConnectionInfoObject>, bool)> GetConnectionsInfo(List<Connection> connections)
+        {
+            List<ConnectionInfoObject> connectionsInfo = new List<ConnectionInfoObject>();
+            foreach (var connection in connections)
+            {
+                var tmpResult = await UpdateConnectionsInfoForBrowsing(connections, connectionsInfo);
+                if (!tmpResult) return (new List<ConnectionInfoObject> { }, false);
+            }
+            return (connectionsInfo, true);
         }
     }
 }

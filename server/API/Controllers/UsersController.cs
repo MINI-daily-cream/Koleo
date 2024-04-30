@@ -1,12 +1,13 @@
 using Koleo.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Auth.Controllers
 {
     [ApiController]
-    [Route("api/user")]
+    [Route("api/users")]
     public class UsersController : ControllerBase
     {
         private DataContext dataContext;
@@ -14,6 +15,13 @@ namespace Auth.Controllers
         {
             this.dataContext = dataContext;
         } 
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<ActionResult<List<User>>> GetUsers()
+        {
+            return await dataContext.Users.ToListAsync();
+        }
 
         [Authorize]
         

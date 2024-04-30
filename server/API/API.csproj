@@ -25,4 +25,11 @@
     <ProjectReference Include="..\Application\Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="app.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

@@ -11,22 +11,18 @@ namespace API.Controllers
     [ApiController]
     public class ConnectionController : ControllerBase
     {
-        //private readonly IAccountService _accountService;
-        //public ConnectionController(IAccountService accountService)
-        //{
-        //    _accountService = accountService;
-        //}
-
+        private readonly ITicketServive _ticketService;
         private readonly DataContext _context;
-        public ConnectionController(DataContext context)
+        public ConnectionController(ITicketServive ticketService, DataContext context)
         {
+            _ticketService = ticketService;
             _context = context;
         }
 
         [HttpGet]
-        public Connection Get()
+        public Task<List<ConnectionInfoObject>> Get()
         {
-            return _context.Connections.ToList().First();
+            return Task.FromResult(_ticketService.GetConnectionsInfo(_context.Connections.ToList()).Result.Item1);
         }
     }
 }

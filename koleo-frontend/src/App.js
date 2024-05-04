@@ -26,8 +26,9 @@ render() {
         <Route path="/" element={<LoginPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegistrationPage />} />
-        <Route path="/account" element={login ? <AccountPanel /> : <LoginPage />} />
-              {/*<Route path="/tickets" element={<AccountPanel />} /> */}
+        <Route path="/account" element={ <AccountPanel />} />
+        {/* <Route path="/account" element={login ? <AccountPanel /> : <LoginPage />} /> */}
+              <Route path="/tickets" element={<AccountPanel />} />
               <Route path="/tickets" element={<TicketList tickets={tickets} />} />
               <Route path="/ticketConfirmation" element={<TicketConformation />} />
       </Routes>

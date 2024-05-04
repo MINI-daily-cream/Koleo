@@ -19,15 +19,15 @@ namespace API.Controllers
         }
 
         [HttpGet("list-by-user/{userId}")]
-        public Task<(List<ConnectionInfoObject>, bool)> List(string userId)
+        public Task<List<ConnectionInfoObject>> List(string userId)
         {
-            return _ticketService.ListByUser(userId.ToUpper());
+            return Task.FromResult(_ticketService.ListByUser(userId.ToUpper()).Result.Item1);
         }
 
         [HttpPost("buy/{userId}")]
         public async Task<string> Buy(string userId, [FromBody] BuyTicketDTO info)
         {
-            return (await _ticketService.Buy(userId.ToUpper(), info.connections, info.targetName, info.targetSurname)).Item1;
+            return (await _ticketService.Buy(userId.ToUpper(), info.connectionIds, info.targetName, info.targetSurname)).Item1;
         }
 
         [HttpPost("generate/{userId}/{ticketId}")]

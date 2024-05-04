@@ -69,7 +69,6 @@ try
     await Seed.SeedData(context);
 
     //Seed.ClearTickets(context);
-
     //Seed.ClearConnectionsEtc(context);
     await Seed.SeedConnectionsEtc(context);
 }

@@ -292,12 +292,12 @@ hr.solid {
     align-items: center;
     background-color: white;
     padding: 5px; /* Add padding for spacing */
-    margin: 30px auto;
+    margin-bottom: 30px;
     margin-right: 70px;
     margin-left: 70px;
     display: flex;
     flex-direction: column;
-    font-size: 30px;
+    font-size: 26px;
     padding-top: 20px;
 }
 .TicketInfoColumn {
@@ -323,7 +323,7 @@ hr.solid {
     align-items: center;
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    margin: 20px;
     font-weight: bold;
     font-size: 38px;
 }
@@ -347,4 +347,13 @@ hr.solid {
     align-items: center;
     display: flex;
     justify-content: center;
+}
+.separator {
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.TravelerInfoInput {
+  margin: 5px;
 }

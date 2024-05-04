@@ -7,6 +7,7 @@ import TicketList from "./TicketList";
 import tickets from "./tickets.js";
 import Navbar from "./Navbar.js";
 import AccountPanel from "./AccountPanel.js";
+import HomePage from "./HomePage.js";
 import TicketConformation from "./TicketConfirmation";
 import { connectionsData } from "./connections.js";
 
@@ -24,6 +25,7 @@ render() {
       <Navbar />
       <Routes>
         <Route path="/" element={<LoginPage />} />
+        <Route path="/home" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegistrationPage />} />
         <Route path="/account" element={ <AccountPanel />} />

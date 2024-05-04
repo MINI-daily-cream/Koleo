@@ -2,8 +2,7 @@
   "ExpandedNodes": [
     "",
     "\\API",
-    "\\API\\Services",
-    "\\API\\Services\\Interfaces",
+    "\\API\\Controllers",
     "\\Application",
     "\\Domain",
     "\\Domain\\MainComponents",

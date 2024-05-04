@@ -9,8 +9,9 @@
     "\\Domain\\MainComponents",
     "\\Domain\\Services",
     "\\koleo-frontend",
-    "\\koleo-frontend\\public"
+    "\\koleo-frontend\\public",
+    "\\koleo-frontend\\src"
   ],
-  "SelectedNode": "\\API\\API.csproj",
+  "SelectedNode": "\\Koleo.sln",
   "PreviewInSolutionExplorer": false
 }

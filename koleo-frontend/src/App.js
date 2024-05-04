@@ -1,4 +1,4 @@
-import React from "react";
+import {React, Component} from "react";
 import {Routes, BrowserRouter as Router, Route } from 'react-router-dom'
 import './App.css';
 import LoginPage from './LoginPage';
@@ -10,7 +10,14 @@ import AccountPanel from "./AccountPanel.js";
 import TicketConformation from "./TicketConfirmation";
 import { connectionsData } from "./connections.js";
 
-function App() {
+class App extends Component{
+
+constructor(props)
+{
+  super(props);
+}
+
+render() {
   const login = window.localStorage.getItem("isLoggedIn");
   return (
     <Router>
@@ -22,10 +29,10 @@ function App() {
         <Route path="/account" element={login ? <AccountPanel /> : <LoginPage />} />
               {/*<Route path="/tickets" element={<AccountPanel />} /> */}
               <Route path="/tickets" element={<TicketList tickets={tickets} />} />
-              <Route path="/ticketConfirmation" element={<TicketConformation connections={connectionsData} />} />
+              <Route path="/ticketConfirmation" element={<TicketConformation />} />
       </Routes>
     </Router>
   );
 }
-
+}
 export default App;

@@ -1,13 +1,34 @@
 ﻿import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { faUser, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 
 import {stationsData } from "./connections.js";
 
-const TicketConfirmation = ({connectionsData, id }) => { // here there is USERS id
+const TicketConfirmation = ({ }) => { // here there is USERS id
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
+    const [connection, setConnection] = useState('');
+    const UserId = 1;
+
+    useEffect(() => {
+        // Fetch connection data when component mounts
+        const fetchConnection = async () => {
+            try {
+                const response = await fetch("https://localhost:5001/api/Connection"); // Adjust the API endpoint URL
+                if (response.ok) {
+                    const data = await response.json();
+                    setConnection(data);
+                } else {
+                    console.error('Failed to fetch connection data');
+                }
+            } catch (error) {
+                console.error('Error fetching connection data:', error);
+            }
+        };
+
+        fetchConnection(); // Call the fetchConnection function
+    }, []); // Empty dependency array t
 
     const handleNameChange = (e) => {
         setName(e.target.value);
@@ -18,12 +39,13 @@ const TicketConfirmation = ({connectionsData, id }) => { // here there is USERS 
 
     const handleBuyButtonClick = async () => {
         const requestBody = {
-            connections: connectionsData,
+            connections: connection,
             targetName: name,
             targetSurname: surname
         };
+
         try {
-            const response = await fetch(`/buy/${id}`, {
+            const response = await fetch(`/buy/${UserId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -46,7 +68,7 @@ const TicketConfirmation = ({connectionsData, id }) => { // here there is USERS 
             <div className="TravelTimeInfo">
                 <div className="TicketInfoColumn">
                     <div className="TicketInfoColumnText">Odjazd</div>
-                    <div className="TicketInfoColumnData">{timeDep}</div>
+                    <div className="TicketInfoColumnData">{}</div>
                 </div>
                 <div className="TicketInfoColumn">
                     <div className="TicketInfoColumnText">Przyjazd</div>
@@ -95,15 +117,6 @@ const TicketConfirmation = ({connectionsData, id }) => { // here there is USERS 
         wagonNumber: 'A12',
         seatNumber: '7',
     };
-    // error here
-    const firstConnection = connectionsData[0];
-    const lastConnection = connectionsData[connectionsData.length - 1];
-
-    // Accessing station names using station IDs
-    const firstStartStationName = stationsData.find(station => station.id === firstConnection.startStationId)?.name;
-    const firstEndStationName = stationsData.find(station => station.id === firstConnection.endStationId)?.name;
-    const lastStartStationName = stationsData.find(station => station.id === lastConnection.startStationId)?.name;
-    const lastEndStationName = stationsData.find(station => station.id === lastConnection.endStationId)?.name;
     return (
         <div>
             <div className="TicketInfoHeader">
@@ -111,19 +124,23 @@ const TicketConfirmation = ({connectionsData, id }) => { // here there is USERS 
             </div>
             <form onSubmit={handleBuyButtonClick }>
                 <div className="TravelDestInfo">
-                      <div className="ticket-details">
-                        <div className='text' id='od-do'>Od:</div>
-                        <div className="icon">
-                          <FontAwesomeIcon icon={faMapMarkerAlt} />
+                    <div className="ticket-details">
+                    <div className='text' id='od-do'>Od:</div>
+                    <div className="icon">
+                        <FontAwesomeIcon icon={faMapMarkerAlt} />
+                    </div>
+                        {/* {connection.map(con=> */}
+                        <div>
+                            <div className='text'>{connection.startStation_Id}</div>
+                            <div className='od-do-spacer' />
+                            <div className='text' id='od-do'>Do:</div>
+                            <div className="icon">
+                            <FontAwesomeIcon icon={faMapMarkerAlt} />
+                            </div>
+                            <div className='text'>{connection.endStation_Id}</div>
                         </div>
-                        <div className='text'>{firstStartStationName}</div>
-                        <div className='od-do-spacer' />
-                        <div className='text' id='od-do'>Do:</div>
-                        <div className="icon">
-                          <FontAwesomeIcon icon={faMapMarkerAlt} />
-                        </div>
-                        <div className='text'>{lastEndStationName}</div>
-                        </div>
+                        {/* )}   */}
+                    </div>
                 </div>
                 <TravelTime date={ticketData.date} timeDep={ticketData.timeDep} timeArr={ticketData.timeArr} />
                 <TrainInfo trainNumber={ticketData.trainNumber} wagonNumber={ticketData.wagonNumber} seatNumber={ticketData.seatNumber} />

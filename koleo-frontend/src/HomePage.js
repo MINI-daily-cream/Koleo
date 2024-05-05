@@ -7,8 +7,10 @@ import 'react-calendar/dist/Calendar.css';
 // npm install --save moment react-moment
 import moment from 'moment'
 import { Link } from 'react-router-dom';
+// npm install @mui/material @emotion/react @emotion/styled
+import SelectLabels from './sharedComponents/SelectListSourceCity';
 
-const LoginPage = () => {
+const HomePage = () => {
     const [sourceCity, setSourceCity] = useState('');
     const [destinationCity, setDestinationCity] = useState('');
     const [showCalendar, setShowCalendar] = useState(false);
@@ -60,40 +62,13 @@ const LoginPage = () => {
                 <h1>Wyszukaj polączenie</h1>
                 <div className='account-panel-inside1'>
                     <div className='ConnectionInfoColumn'>
-                    {/* <div className="TravelerInfoInput">
-                        <label htmlFor="name">Skąd:</label>
-                        <input
-                            type="text"
-                            placeholder='Warszawa'
-                            id="sourceCity"
-                            value={sourceCity}
-                            onChange={handleSourceCityChange}
-                            required
-                        />
-                    </div>
-                    <div className="TravelerInfoInput">
-                        <label htmlFor="surname">Dokąd:</label>
-                        <input
-                            type="text"
-                            placeholder='Kraków'
-                            id="destinationCity"
-                            value={destinationCity}
-                            onChange={handleDestinationCityChange} 
-                            required
-                        />
-                    </div> */}
                     <div>
-                        <button onClick={handleCitiesButtonScr}>Show List</button>
-                        {showListSrc && (
-                            <select value={selectedCitySrc} onChange={handleCitiesListButtonClickScr}>
-                            {items.map((item, index) => (
-                              <option key={index} value={item}>
-                                {item}
-                              </option>
-                            ))}
-                          </select>
-                        )}
-                        {selectedCitySrc && <p>You selected: {selectedCitySrc}</p>}
+                       <SelectLabels onCityChange={setSelectedCitySrc} LabelName={"Skąd"}></SelectLabels>
+                       {/* <p>Selected City: {selectedCitySrc}</p>  */}
+                    </div>
+                    <div>
+                       <SelectLabels onCityChange={setSelectedCityDst} LabelName={"Dokąd"}></SelectLabels>
+                       {/* <p>Selected City: {selectedCityDst}</p> */}
                     </div>
                     <div className='dateViewTile'>
                         <button className='icon-button' onClick={handleCalendarButtonClick}>
@@ -127,4 +102,4 @@ const LoginPage = () => {
     )
 }
 
-export default LoginPage;
+export default HomePage;

@@ -449,3 +449,28 @@ hr.solid {
   display: flex;
   flex-direction: row;
 }
+.ad-list{
+  display: flex;
+  flex-direction: row;
+  margin: 20px auto;
+  justify-content: center;
+  align-items: center;
+}
+.ad-block {
+  display: flex;
+  flex-direction: column;
+  margin: auto 30px;
+  justify-content: center;
+  align-items: center;
+}
+
+.ad-block img {
+  max-width: 200px;
+  max-height: 200px;
+}
+.ad-block .ad-content {
+  background-color: #858585;
+  color: black;
+  font-size: 16px;
+  margin-top: 10px;
+}

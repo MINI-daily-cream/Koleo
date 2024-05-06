@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrain, faCalendar, faClock, faGreaterThan, faMinus, faArrowRight, faUser, faMapMarkerAlt, faTicketAlt } from '@fortawesome/free-solid-svg-icons';
 // npm install react-calendar
@@ -9,13 +9,15 @@ import moment from 'moment'
 import { Link } from 'react-router-dom';
 // npm install @mui/material @emotion/react @emotion/styled
 import SelectLabels from './sharedComponents/SelectListSourceCity';
+import AdvertismentList from './AdvertimsmentFiles/AdvertismentList';
 
 const HomePage = () => {
     const [showCalendar, setShowCalendar] = useState(false);
     const [selectedDate, setSelectedDate] = useState(Date.now);
     const [selectedCitySrc, setSelectedCitySrc] = useState('');
     const [selectedCityDst, setSelectedCityDst] = useState('');
-
+    const [ads, setAds] = useState([])
+    
     const handleCalendarButtonClick = () => {
         setShowCalendar(!showCalendar);
     }
@@ -32,6 +34,30 @@ const HomePage = () => {
         window.location.href = "/FoundConnections";
     }
     
+
+    function getAllAds(){
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    //const response = xhr.responseText;
+                    console.log(response);
+                    setAds(response);
+                } else {
+                    console.error('Błąd pobierania danych:', xhr.status);
+                    // Obsługa błędów
+                }
+            }
+        };
+
+        xhr.open('GET', `https://localhost:5001/api/Advertisment/getAllAds`);
+        xhr.send();
+    }
+
+    useEffect( () => {
+        getAllAds();
+    }, [])
     return (
         <div>
             <div className="TicketInfoHeader">
@@ -76,6 +102,9 @@ const HomePage = () => {
                     </div>
                 </div>
                 
+            </div>
+            <div className='AdList'>
+                <AdvertismentList ads={ads} />
             </div>
         </div>
     )

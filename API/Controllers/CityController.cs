@@ -1,4 +1,5 @@
 using API.Services.Interfaces;
+using Application;
 using Domain;
 using Koleo.Models;
 using Microsoft.AspNetCore.Http;
@@ -17,7 +18,7 @@ namespace API.Controllers
             _context = context;
         }
 
-        [HttpGet]
+        [HttpGet("getCities")]
         public Task<List<City>> GetCities()
         {
             return Task.FromResult(_context.Cities.ToList());

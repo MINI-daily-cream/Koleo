@@ -405,3 +405,47 @@ hr.solid {
   flex-direction: row;
   justify-content: flex-end;
 }
+.connection-list {
+  float: left;
+  margin-left: 50px;
+  /* margin-bottom: 20px; */
+  display: flex;
+  /* flex-wrap: wrap; */
+  overflow: auto;
+  gap: 20px;
+  max-width: 100%;
+}
+.connection {
+  /* flex: 1; */
+  /* display: flex; */
+  /* overflow:; */
+  /* max-width: max-content; */
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+   min-width: max-content; 
+}
+.connection-text-column {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 10px auto;
+  justify-content: space-between;
+}
+.connection-text-column .text {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+  margin: 5px;
+}
+.connection-text-column .time {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+  font-size: 30px;
+}
+.connection-row-info {
+  display: flex;
+  flex-direction: row;
+}

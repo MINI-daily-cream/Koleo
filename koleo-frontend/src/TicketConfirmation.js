@@ -11,7 +11,7 @@ const TicketConfirmation = ({ }) => { // here there is USERS id
     const [mainConnection, setmainConnection] = useState(
         {startStation : '', endStation: '', startDate: '', endDate: '', startTime: '', endTime: ''}
     );
-    const UserId = 1;
+    const [userId, setuserId] = useState("C4630E12-DEE8-411E-AF44-E3CA970455CE")
 
     useEffect(() => {
         // Fetch connection data when component mounts
@@ -21,7 +21,8 @@ const TicketConfirmation = ({ }) => { // here there is USERS id
                 if (response.ok) {
                     const data = await response.json();
                     setConnection(data);
-
+                    console.log(data);
+                    
                     const mappedData = {
                         startStation : data[0].startStation,
                         endStation : data[data.length-1].endStation,
@@ -53,14 +54,16 @@ const TicketConfirmation = ({ }) => { // here there is USERS id
     };
 
     const handleBuyButtonClick = async () => {
+        console.log(connection[0].id)
         const requestBody = {
-            connections: connection,
+            userId: userId,
+            connectionIds: connection.map(conn => conn.id),
             targetName: name,
             targetSurname: surname
         };
 
         try {
-            const response = await fetch(`/buy/${UserId}`, {
+            const response = await fetch(`https://localhost:5001/api/Ticket/buy/${userId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -243,7 +246,7 @@ const TicketConfirmation = ({ }) => { // here there is USERS id
                 </div>
                 <div className="ButtonAligment">
                 {/*TODO: set "to" prop*/}
-                    <Link to="/"><button type="submit" className="ConfirmationButton">Wróć</button></Link>
+                    <Link to="/FoundConnections"><button type="submit" className="ConfirmationButton">Wróć</button></Link>
                     <Link to="/"><button type="submit"
                         className="ConfirmationButton"
                         onClick={handleBuyButtonClick }

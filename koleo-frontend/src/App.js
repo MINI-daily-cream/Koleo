@@ -10,6 +10,7 @@ import AccountPanel from "./AccountPanel.js";
 import HomePage from "./HomePage.js";
 import TicketConformation from "./TicketConfirmation";
 import { connectionsData } from "./connections.js";
+import FoundConnectionList from "./FoundConnections";
 
 class App extends Component{
 
@@ -33,6 +34,7 @@ render() {
               <Route path="/tickets" element={<AccountPanel />} />
               <Route path="/tickets" element={<TicketList tickets={tickets} />} />
               <Route path="/ticketConfirmation" element={<TicketConformation />} />
+              <Route path="/FoundConnections" element={<FoundConnectionList />} />
       </Routes>
     </Router>
   );

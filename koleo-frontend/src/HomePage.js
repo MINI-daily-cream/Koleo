@@ -11,23 +11,11 @@ import { Link } from 'react-router-dom';
 import SelectLabels from './sharedComponents/SelectListSourceCity';
 
 const HomePage = () => {
-    const [sourceCity, setSourceCity] = useState('');
-    const [destinationCity, setDestinationCity] = useState('');
     const [showCalendar, setShowCalendar] = useState(false);
     const [selectedDate, setSelectedDate] = useState(Date.now);
-    const [showListSrc, setShowListSrc] = useState(false);
     const [selectedCitySrc, setSelectedCitySrc] = useState('');
-    const [showListDst, setShowListDst] = useState(false);
     const [selectedCityDst, setSelectedCityDst] = useState('');
 
-    const items = ['Item 1', 'Item 2', 'Item 3'];
-
-    const handleSourceCityChange = (e) => {
-        setSourceCity(e.target.value);
-    };
-    const handleDestinationCityChange = (e) => {
-        setDestinationCity(e.target.value);
-    };
     const handleCalendarButtonClick = () => {
         setShowCalendar(!showCalendar);
     }
@@ -35,24 +23,15 @@ const HomePage = () => {
         setSelectedDate(date);
         setShowCalendar(!showCalendar);
     }
-    const handleCitiesListButtonClickScr = (item) => {
-        setSelectedCitySrc(item);
-        setShowListSrc(!showListSrc);
+    const handleFindButtonClick = (event) => {
+        if(selectedCitySrc == selectedCityDst) {
+            alert('Nie można wybrac tego samego miasta');
+            event.preventDefault();
+            return;     
+        }
+        window.location.href = "/FoundConnections";
     }
-    const handleCitiesButtonScr = () => {
-        setShowListSrc(!showListSrc);
-    }
-    const handleCitiesListButtonClickDst = (item) => {
-        setSelectedCityDst(item);
-        setShowListDst(!showListDst);
-    }
-    const handleCitiesButtonDst = () => {
-        setShowListDst(!showListDst);
-    }
-    const handleFindButtonClick = () => {
-
-    }
-
+    
     return (
         <div>
             <div className="TicketInfoHeader">

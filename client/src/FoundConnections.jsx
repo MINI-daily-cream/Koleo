@@ -13,7 +13,7 @@ const FoundConnectionList = () => {
             if (xhr.status === 200) {
                 const response = JSON.parse(xhr.responseText);
                 //const response = xhr.responseText;
-                console.log(response);
+                // console.log(response);
                 setConnections(response);
             } else {
                 console.error('Błąd pobierania danych:', xhr.status);

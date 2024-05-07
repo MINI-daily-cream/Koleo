@@ -94,8 +94,8 @@ try
     await context.Database.MigrateAsync();
     await Seed.SeedData(context);
 
-    //Seed.ClearTickets(context);
-    //Seed.ClearConnectionsEtc(context);
+    Seed.ClearTickets(context);
+    Seed.ClearConnectionsEtc(context);
     await Seed.SeedConnectionsEtc(context);
 }
 catch (Exception ex)

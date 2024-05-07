@@ -159,7 +159,7 @@ namespace Koleo.Services
         private async Task<(List<Connection>?, bool)> GetConnectionsByTicket(string ticketId)
         {
             //string sql = $"SELECT c.* FROM TicketConnections tc JOIN Connections c ON tc.Connection_Id = c.Id WHERE tc.Ticket_Id = '{ticketId}'";
-            string sql = $"SELECT * FROM Connections c JOIN TicketConnections tc ON c.Id=tc.Connection_Id WHERE tc.Ticket_Id='{ticketId}'";
+            string sql = $"SELECT c.* FROM Connections c JOIN TicketConnections tc ON c.Id=tc.Connection_Id WHERE tc.Ticket_Id='{ticketId}'";
             var result = await _databaseService.ExecuteSQLLastRow(sql);
             //var result = await _databaseService.ExecuteSQL(sql);
             if(!result.Item2) return(null, false);
@@ -179,13 +179,13 @@ namespace Koleo.Services
             {
                 //Id = Guid.NewGuid(),
                 Id = Guid.Parse((string)row[0]),
-                Duration = TimeSpan.Parse((string)row[1]),
+                StartStation_Id = (string)row[1],
                 EndStation_Id = (string)row[2],
-                EndTime = DateTime.Parse((string)row[3]),
-                KmNumber = (int)((System.Int64)row[4]),
-                StartStation_Id = (string)row[5],
-                StartTime = DateTime.Parse((string)row[6]),
-                Train_Id = (string)row[7],
+                Train_Id = (string)row[3],
+                StartTime = DateTime.Parse((string)row[4]),
+                EndTime = DateTime.Parse((string)row[5]),
+                KmNumber = (int)((System.Int64)row[6]),
+                Duration = TimeSpan.Parse((string)row[7]), 
             }).ToList(), true) ;
         }
 

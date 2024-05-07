@@ -18,12 +18,12 @@ const TicketConfirmation = ({ navigation, route }) => { // here there is USERS i
     const [mainConnection, setmainConnection] = useState(
         {startStation : '', endStation: '', startDate: '', endDate: '', startTime: '', endTime: ''}
     );
-    const [userId, setuserId] = useState("C4630E12-DEE8-411E-AF44-E3CA970455CE")
+    const [userId, setuserId] = useState(localStorage.getItem('id'))
 
     useEffect( () => {
-        console.log("connection is")
+        // console.log("connection is")
         // console.log(route.params.connection);
-        console.log(state);
+        // console.log(state);
         setmainConnection(state)
       }, [])
 
@@ -35,10 +35,11 @@ const TicketConfirmation = ({ navigation, route }) => { // here there is USERS i
     };
 
     const handleBuyButtonClick = async () => {
+        console.log(userId)
         console.log(mainConnection.id)
         const requestBody = {
-            userId: userId,
-            connectionIds: connection.map(conn => conn.id),
+            // userId: userId,
+            connectionIds: [mainConnection.id],
             // connectionIds: connection.map(conn => conn.id),
             targetName: name,
             targetSurname: surname

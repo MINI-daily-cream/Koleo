@@ -6,7 +6,7 @@ export default function AccountPage() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const url = 'http://localhost:5231/api/users/' + localStorage.getItem('user');
+            const url = 'http://localhost:5001/api/users/' + localStorage.getItem('user');
             const config = {
                 headers: {Authorization: 'Bearer ' + localStorage.getItem('jwtToken')}
             }

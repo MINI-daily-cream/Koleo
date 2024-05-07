@@ -1,25 +1,34 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
-using API.Interfaces;
-using API.Services;
 using API.Services.Interfaces;
 using Koleo.Models;
+using Koleo.Services;
 using KoleoPL.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
+using Persistence;
+using SQLitePCL;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Persistence;
-using SQLitePCL;
-
+using System.Text;
+using System.IdentityModel.Tokens.Jwt;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddScoped<IDatabaseServiceAPI, DatabaseServiceAPI>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<ITicketServive, TicketService>();
+// builder.Services.AddScoped<ITokenService, TokenService>();
+
+builder.Services.AddControllers();
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlite(
@@ -27,8 +36,17 @@ builder.Services.AddDbContext<DataContext>(options =>
         // b => b.MigrationsAssembly("Persistence")
     )
 );
-
-builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("CorsPolicy", policy =>
+    {
+        policy.AllowAnyOrigin()
+        //.SetIsOriginAllowedToAllowWildcardSubdomains()
+        .AllowAnyMethod().AllowAnyHeader();
+        //;
+        //.AllowCredentials();
+    });
+});
 
 builder.Services.AddAuthentication(options => {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -43,19 +61,8 @@ builder.Services.AddAuthentication(options => {
                     ClockSkew = TimeSpan.Zero
                 };
 });
+
 builder.Services.AddAuthorization();
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll", policy =>
-    {
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader();
-    });
-});
-
-
 
 var app = builder.Build();
 
@@ -66,44 +73,31 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
-
-// using var scope = app.Services.CreateScope();
-// var services = scope.ServiceProvider;
-// try
-// {
-//     var context = services.GetRequiredService<DataContext>();
-//     await context.Database.MigrateAsync();
-//     await Seed.SeedData(context);
-// }
-// catch (Exception ex)
-// {
-//     var logger = services.GetRequiredService<ILogger<Program>>();
-//     logger.LogError(ex, "An error occured during migration");
-    
-// }
-
-// DatabaseServiceAPI dbService = new DatabaseServiceAPI(builder.Configuration);
-
-// Console.WriteLine("-------------------USERS-----------------------------------");
-// //await dbService.ExecuteSQL("INSERT INTO Users (Id, Name, Surname, Email, Password, CardNumber) VALUES (3, 'Wojciech', 'Domitrz', 'wd@mini.pw.edu.pl', '123', '333')");
-// var users = await DatabaseService.ExecuteSQL("SELECT * FROM Users");
-
-// // Act
-
-
-// Console.WriteLine($"Number of users: {users.Count}");
-// foreach (var row in users)
-// {
-//     foreach (var rec in row) Console.Write($"{rec} ");
-//     Console.WriteLine();
-// }
-app.UseCors("AllowAll");
+app.UseCors("CorsPolicy");
 app.UseAuthentication();
 app.UseAuthorization(); 
 
+app.UseHttpsRedirection();
+
 app.MapControllers();
 
-// dbService.Backup();
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+try
+{
+    var context = services.GetRequiredService<DataContext>();
+    await context.Database.MigrateAsync();
+    await Seed.SeedData(context);
+
+    //Seed.ClearTickets(context);
+    //Seed.ClearConnectionsEtc(context);
+    await Seed.SeedConnectionsEtc(context);
+}
+catch (Exception ex)
+{
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "An error occured during migration");
+    
+}
 
 app.Run();

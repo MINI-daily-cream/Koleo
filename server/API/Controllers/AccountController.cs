@@ -1,96 +1,50 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using API.Interfaces;
-using API.Services;
-using Koleo.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using API.Services.Interfaces;
+using Domain;
+using Koleo.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Persistence;
 
-namespace Auth.Controllers
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
+namespace API.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("api/account")]
     public class AccountController : ControllerBase
     {
-        private DataContext dataContext;
-        private ITokenService tokenService;
-        public AccountController(DataContext dataContext, ITokenService tokenService)
+        private readonly IAccountService _accountService;
+        private readonly AdminService _adminService;
+        public AccountController(IAccountService accountService, AdminService adminService) 
         {
-            this.tokenService = tokenService;
-            this.dataContext = dataContext;
+            _accountService = accountService;
+            _adminService = adminService;
         }
 
-        [HttpGet]
-        public ActionResult<string> get()
+        [HttpGet("{id}")]
+        public Task<AccountInfo> Get(string id)
         {
-            Console.WriteLine("weszlo");
-            return "yep";
-        }
-        [HttpPost("register")]
-        public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
-        {
-            if(await UserExists(registerDto.username))
-                return BadRequest("Username taken");
-            using var hmac = new HMACSHA512();
-            var user = new User
-            {
-                UserName = registerDto.username,
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.password)),
-                PasswordSalt = hmac.Key,
-                Name = "",
-                Surname = "",
-                Email = "",
-                Password = "",
-                CardNumber = ""
-            };
-            dataContext.Users.ToList().ForEach(x => Console.WriteLine(x.UserName));
-
-            await dataContext.AddAsync(user);
-            await dataContext.SaveChangesAsync();
-            return new UserDto
-            {
-                username = user.UserName,
-                token = tokenService.CreateToken(user)
-            };
-        }
-        public async Task<bool> UserExists(string username)
-        {
-            return await dataContext.Users.AnyAsync(usr => usr.UserName == username);
+            return _accountService.GetAccountInfo(id.ToUpper())!;
         }
 
-        [HttpPost("login")]
-        public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
+        [HttpPut("{id}")]
+        public Task<bool> Update(string id, [FromBody]AccountInfo newInfo)
         {
-            if(! await UserExists(loginDto.username))
-                return Unauthorized("Username not found");
-            
-            var user = await dataContext.Users.FirstOrDefaultAsync(usr => usr.UserName == loginDto.username);
+            return _accountService.UpdateAccountInfo(id.ToUpper(), newInfo.Name, newInfo.Surname, newInfo.Email);
+        }
 
-            using var hmac = new HMACSHA512(user.PasswordSalt);
+        [HttpPut("admin-request/accept")]
+        public Task<bool> Accept(string userId) {
+            return _adminService.GiveAdminPermissions(userId.ToUpper());
+        }
 
-            var test_password = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.password));
-
-            if(test_password.Length != user.PasswordHash.Length)
-                return Unauthorized("Wrong password");
-
-            for(int i = 0; i < test_password.Length; i++)
-            {
-                if(test_password[i] != user.PasswordHash[i])
-                {
-                    return Unauthorized("Wrong password");
-                }
-            }
-            return new UserDto
-            {
-                username = loginDto.username,
-                token = tokenService.CreateToken(user)
-            };
+        [HttpPut("admin-request/reject")]
+        public Task<bool> Reject(string userId)
+        {
+            return _adminService.RejectAdminRequest(userId.ToUpper());
+        }
+        [HttpDelete("delete-user/{userId}")]
+        public Task<bool> DeleteUser(string userId) { 
+            return _adminService.DeleteUser(userId.ToUpper());
         }
     }
 }

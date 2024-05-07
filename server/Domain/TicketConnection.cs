@@ -9,7 +9,7 @@ namespace Application
     public class TicketConnection
     {
         public Guid Id { get; set; }
-        public int Ticket_Id { get; set; }
-        public int Connection_Id { get; set; }
+        public string Ticket_Id { get; set; }
+        public string Connection_Id { get; set; }
     }
 }

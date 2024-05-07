@@ -4,18 +4,18 @@ using KoleoPL.Services;
 
 namespace Koleo.Services
 {
-    public class AccountService
+    public class AccountService : IAccountService
     {
         private readonly IDatabaseServiceAPI _databaseService;
         public AccountService(IDatabaseServiceAPI databaseService)
         {
             _databaseService = databaseService;
         }
-        public async Task<AccountInfo>? GetAccountInfo(Guid userId)
+        public async Task<AccountInfo>? GetAccountInfo(string userId)
         {
             string sql = $"SELECT Name, Surname, Email FROM Users WHERE Id = '{userId}'";
-            var result = await _databaseService.ExecuteSQL(sql);
-            if (result.Count > 0)
+            (var result, bool success) = await _databaseService.ExecuteSQL(sql);
+            if (success && result.Count > 0)
             {
                 string[] userData = result[0];
                 string name = userData[0];
@@ -25,19 +25,11 @@ namespace Koleo.Services
             }
             return null;
         }
-        public async Task<bool> UpdateAccountInfo(Guid userId, string newName, string newSurname, string newEmail)
+        public async Task<bool> UpdateAccountInfo(string userId, string newName, string newSurname, string newEmail)
         {
             string sql = $"UPDATE Users SET Name = '{newName}', Surname = '{newSurname}', Email = '{newEmail}' WHERE Id = '{userId}'";
-            try
-            {
-                await _databaseService.ExecuteSQL(sql);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error occured: {ex.Message}");
-                return false;
-            }
+            var result = await _databaseService.ExecuteSQL(sql);
+            return result.Item2;
         }
 
         // the same as GetAccountInfo

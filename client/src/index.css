@@ -478,3 +478,8 @@ hr.solid {
   font-weight: 700;
   margin-top: 10px;
 }
+
+.errorMessage {
+  color: red;
+  font-size: 30px;
+}

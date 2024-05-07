@@ -7,7 +7,7 @@ namespace Auth
 {
     public class UserDto
     {
-        public string username { get; set; }
+        public string id { get; set; }
         public string token { get; set; }
     }
 }

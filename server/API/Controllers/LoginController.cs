@@ -35,17 +35,17 @@ namespace Auth.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
-            if(await UserExists(registerDto.username))
+            if(await UserExists(registerDto.email))
                 return BadRequest("Username taken");
             using var hmac = new HMACSHA512();
             var user = new User
             {
-                UserName = registerDto.username,
+                UserName = "",
                 PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.password)),
                 PasswordSalt = hmac.Key,
                 Name = "",
                 Surname = "",
-                Email = "",
+                Email = registerDto.email,
                 Password = "",
                 CardNumber = ""
             };
@@ -55,22 +55,22 @@ namespace Auth.Controllers
             await dataContext.SaveChangesAsync();
             return new UserDto
             {
-                username = user.UserName,
+                id = user.Id.ToString().ToUpper(),
                 token = tokenService.CreateToken(user)
             };
         }
-        public async Task<bool> UserExists(string username)
+        public async Task<bool> UserExists(string email)
         {
-            return await dataContext.Users.AnyAsync(usr => usr.UserName == username);
+            return await dataContext.Users.AnyAsync(usr => usr.Email == email);
         }
 
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
-            if(! await UserExists(loginDto.username))
+            if(!await UserExists(loginDto.email))
                 return Unauthorized("Username not found");
             
-            var user = await dataContext.Users.FirstOrDefaultAsync(usr => usr.UserName == loginDto.username);
+            var user = await dataContext.Users.FirstOrDefaultAsync(usr => usr.Email == loginDto.email);
 
             using var hmac = new HMACSHA512(user.PasswordSalt);
 
@@ -88,7 +88,7 @@ namespace Auth.Controllers
             }
             return new UserDto
             {
-                username = loginDto.username,
+                id = user.Id.ToString().ToUpper(),
                 token = tokenService.CreateToken(user)
             };
         }

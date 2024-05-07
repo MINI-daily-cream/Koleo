@@ -11,6 +11,7 @@ import HomePage from "./HomePage.jsx";
 import TicketConformation from "./TicketConfirmation.jsx";
 import { connectionsData } from "./connections.jsxx";
 import FoundConnectionList from "./FoundConnections.jsx";
+import axios from "axios";
 
 class App extends Component{
 
@@ -21,6 +22,7 @@ constructor(props)
 
 render() {
   const login = window.localStorage.getItem("isLoggedIn");
+  
   return (
     <Router>
       <Navbar />

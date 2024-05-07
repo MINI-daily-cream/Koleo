@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import { faUser, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import TimeComponent from "./sharedComponents/TimeComponent.jsx";
+import apiBaseUrl from "./config.js";
 
 const TicketConfirmation = ({ }) => { // here there is USERS id
     const [name, setName] = useState('');
@@ -17,7 +18,8 @@ const TicketConfirmation = ({ }) => { // here there is USERS id
         // Fetch connection data when component mounts
         const fetchConnection = async () => {
             try {
-                const response = await fetch("https://localhost:5001/api/Connection"); // Adjust the API endpoint URL
+                // const response = await fetch("https://localhost:5001/api/Connection"); // Adjust the API endpoint URL
+                const response = await fetch(`${apiBaseUrl}/api/Connection`); // Adjust the API endpoint URL
                 if (response.ok) {
                     const data = await response.json();
                     setConnection(data);
@@ -63,7 +65,8 @@ const TicketConfirmation = ({ }) => { // here there is USERS id
         };
 
         try {
-            const response = await fetch(`https://localhost:5001/api/Ticket/buy/${userId}`, {
+            // const response = await fetch(`https://localhost:5001/api/Ticket/buy/${userId}`, {
+            const response = await fetch(`${apiBaseUrl}/api/Ticket/buy/${userId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import TicketList from './TicketList';
 import tickets from './tickets';
+import apiBaseUrl from './config';
 
 const AccountPanel = () => {
   const [userId, setuserId] = useState("C4630E12-DEE8-411E-AF44-E3CA970455CE")
@@ -22,7 +23,8 @@ const AccountPanel = () => {
         }
     };
 
-    xhr.open('GET', `https://localhost:5001/api/Ticket/list-by-user/${userId}`);
+    // xhr.open('GET', `https://localhost:5001/api/Ticket/list-by-user/${userId}`);
+    xhr.open('GET', `${apiBaseUrl}/api/Ticket/list-by-user/${userId}`);
     xhr.withCredentials = true;
     xhr.send();
   }

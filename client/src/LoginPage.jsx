@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import apiBaseUrl from './config.js';
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -11,6 +11,7 @@ const LoginPage = () => {
   };
 
   const handlePasswordChange = (e) => {
+    console.log();
     const newPassword = e.target.value;
     setPassword(newPassword);
   };
@@ -24,6 +25,7 @@ const LoginPage = () => {
 
   return (
     <div className="form">
+      <h1>{`${apiBaseUrl}/api/Connection`}</h1>
       <h1>Zaloguj się</h1>
       <form onSubmit={handleSubmit}>
         <div>

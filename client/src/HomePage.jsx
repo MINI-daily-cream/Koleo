@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 // npm install @mui/material @emotion/react @emotion/styled
 import SelectLabels from './sharedComponents/SelectListSourceCity';
 import AdvertismentList from './AdvertimsmentFiles/AdvertismentList';
+import apiBaseUrl from './config';
 
 const HomePage = () => {
     const [showCalendar, setShowCalendar] = useState(false);
@@ -51,7 +52,8 @@ const HomePage = () => {
             }
         };
 
-        xhr.open('GET', `https://localhost:5001/api/Ad/GetAllAds`);
+        // xhr.open('GET', `https://localhost:5001/api/Ad/GetAllAds`);
+        xhr.open('GET', `${apiBaseUrl}/api/Ad/GetAllAds`);
         xhr.send();
     }
 

@@ -3,15 +3,15 @@ import { Routes, BrowserRouter as Router, Route } from 'react-router-dom';
 import { createRoot } from 'react-dom/client'; // Correct import for React 18
 import './App.css';
 import './index.css';
-import LoginPage from './LoginPage';
-import RegistrationPage from './RegistrationPage';
-import TicketList from "./TicketList";
+import LoginPage from './LoginPage.jsx';
+import RegistrationPage from './RegistrationPage.jsx';
+import TicketList from "./TicketList.jsx";
 import tickets from "./tickets.jsx";
 import Navbar from "./Navbar.jsx";
 import AccountPanel from "./AccountPanel.jsx";
 import HomePage from "./HomePage.jsx";
-import TicketConfirmation from './TicketConfirmation'; // Make sure the file name matches
-import FoundConnectionList from "./FoundConnections";
+import TicketConfirmation from './TicketConfirmation.jsx'; // Make sure the file name matches
+import FoundConnectionList from "./FoundConnections.jsx";
 
 const root = createRoot(document.getElementById('root')); // Use createRoot to initialize the root
 root.render(

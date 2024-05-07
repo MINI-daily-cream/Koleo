@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import ConnectionList from './ConnectionFiles/ConnectionList';
+import apiBaseUrl from './config';
 
 const FoundConnectionList = () => {
   //const [userId, setuserId] = useState("C4630E12-DEE8-411E-AF44-E3CA970455CE")
@@ -21,7 +22,8 @@ const FoundConnectionList = () => {
         }
     };
 
-    xhr.open('GET', `https://localhost:5001/api/Connection`);
+    // xhr.open('GET', `https://localhost:5001/api/Connection`);
+    xhr.open('GET', `${apiBaseUrl}/api/Connection`);
     xhr.send();
   }
 

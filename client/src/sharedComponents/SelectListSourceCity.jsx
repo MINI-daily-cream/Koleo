@@ -1,6 +1,7 @@
 //import * as React from 'react';
 import React, { useState, useEffect } from 'react';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import apiBaseUrl from '../config';
 
 const SelectLabels = ({ onCityChange, LabelName} ) => {
   const [city, setCity] = useState('');
@@ -27,7 +28,8 @@ const SelectLabels = ({ onCityChange, LabelName} ) => {
         }
     };
 
-    xhr.open('GET', `https://localhost:5001/api/City/getCities`);
+    // xhr.open('GET', `https://localhost:5001/api/City/getCities`);
+    xhr.open('GET', `${apiBaseUrl}/api/City/getCities`);
     xhr.send();
   }
 

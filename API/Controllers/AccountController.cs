@@ -12,7 +12,7 @@ namespace API.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly IAccountService _accountService;
+      private readonly IAccountService _accountService;
         private readonly AdminService _adminService;
         public AccountController(IAccountService accountService, AdminService adminService) 
         {
@@ -23,7 +23,7 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public Task<AccountInfo> Get(string id)
         {
-            return _accountService.GetAccountInfo(id.ToUpper())!;
+                        return _accountService.GetAccountInfo(id.ToUpper())!;
         }
 
         [HttpPut("{id}")]
@@ -41,10 +41,27 @@ namespace API.Controllers
         public Task<bool> Reject(string userId)
         {
             return _adminService.RejectAdminRequest(userId.ToUpper());
+
         }
         [HttpDelete("delete-user/{userId}")]
         public Task<bool> DeleteUser(string userId) { 
             return _adminService.DeleteUser(userId.ToUpper());
+
+
         }
+
+        [HttpPut("{id}/ChangePassword")]
+        public Task<bool> ChangePassword(string id, string newPassword, string oldPassword)
+        {
+          
+            return _accountService.ChangeUserPassword(id, newPassword, oldPassword);
+        }
+        [HttpDelete("{id}")]
+        public Task<bool> DeleteAccount(string id)
+        {
+            
+            return _accountService.DeleteUserAccount(id);
+        }
+
     }
 }

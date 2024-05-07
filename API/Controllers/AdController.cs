@@ -1,4 +1,4 @@
-using API.Services.Interfaces;
+﻿using API.Services.Interfaces;
 using Application;
 using Domain;
 using Koleo.Models;
@@ -10,15 +10,15 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AdvertismentController : ControllerBase
+    public class AdController : ControllerBase
     {
         private readonly DataContext _context;
-        public AdvertismentController(DataContext context)
+        public AdController(DataContext context)
         {
             _context = context;
         }
 
-        [HttpGet("getAllAds")]
+        [HttpGet("GetAllAds")]
         public Task<List<Advertisment>> GetAds()
         {
             return Task.FromResult(_context.Advertisments.ToList());

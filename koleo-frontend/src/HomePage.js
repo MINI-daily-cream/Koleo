@@ -51,7 +51,7 @@ const HomePage = () => {
             }
         };
 
-        xhr.open('GET', `https://localhost:5001/api/Advertisment/getAllAds`);
+        xhr.open('GET', `https://localhost:5001/api/Ad/GetAllAds`);
         xhr.send();
     }
 

@@ -1,2 +1,2 @@
-const apiBaseUrl = 'https://localhost:5001';
+const apiBaseUrl = 'https://koleo-server.azurewebsites.net/';
 export default apiBaseUrl;

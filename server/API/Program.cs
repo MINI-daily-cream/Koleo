@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using API.Interfaces;
 using API.Services;
@@ -28,6 +29,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 );
 
 builder.Services.AddScoped<ITokenService, TokenService>();
+
 builder.Services.AddAuthentication(options => {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options => {
@@ -36,9 +38,12 @@ builder.Services.AddAuthentication(options => {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenKey"])),
                     ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidateAudience = false,
+                    NameClaimType = JwtRegisteredClaimNames.Name,
+                    ClockSkew = TimeSpan.Zero
                 };
 });
+builder.Services.AddAuthorization();
 
 builder.Services.AddCors(options =>
 {

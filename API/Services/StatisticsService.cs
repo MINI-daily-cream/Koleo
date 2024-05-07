@@ -1,17 +1,73 @@
+using API.Services.Interfaces;
+using Koleo.Models;
+using Domain;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 namespace Koleo.Services
 {
-    public class StatisticsService
+    public class StatisticsService: IStatisticsService
     {
-        public StatisticsService()
+        private readonly IDatabaseServiceAPI _databaseService;
+
+        public StatisticsService(IDatabaseServiceAPI databaseService)
         {
+            _databaseService = databaseService;
         }
-        public void GetByUser()
+        public async Task<StatisticsInfo>? GetByUser(string userID)
         {
 
+            string sql = $"SELECT * FROM STATISTICS WHERE USER_ID ={userID}";
+            var result = await _databaseService.ExecuteSQLLastRow(sql);
+            if (result.Item1.Count > 0)
+            {
+                string[] userData = new string[result.Item1[0].Length];
+                for(int i = 0; i < result.Item1[0].Length;i++)
+                {
+                    string s = result.Item1[0][i].ToString();
+                    userData[i] = s;
+                }
+                StatisticsInfo statisticsInfo = new StatisticsInfo(userData[0], userData[1], userData[2], userData[3], userData[4], userData[5], userData[6]);
+                return statisticsInfo;
+            }
+            return null;
         }
-        public void Update()
+        public async void Update(string userID,ConnectionInfoObject connectionInfoObject)
         {
-            
+
+            string sql = $"SELECT * FROM STATISTICS WHERE USER_ID ={userID}";
+            var result = await _databaseService.ExecuteSQLLastRow(sql);
+            if (result.Item1.Count > 0)
+            {
+                string[] userData = new string[result.Item1[0].Length];
+                for (int i = 0; i < result.Item1[0].Length; i++)
+                {
+                    string s = result.Item1[0][i].ToString();
+                    userData[i] = s;
+                }
+                int km_number = int.Parse(userData[2])+connectionInfoObject.KmNumber;
+                int train_number = int.Parse(userData[3])+connectionInfoObject.TrainNumber;
+                int connections_number = int.Parse(userData[4])+1;
+                TimeSpan longest_connection = TimeSpan.Parse(userData[5]);
+                int point = int.Parse(userData[6]);
+
+                if (connectionInfoObject.Duration > longest_connection) longest_connection = connectionInfoObject.Duration;
+
+                sql = $"UPDATE STATISTICS SET kmnumber ={km_number}, trainnumber={train_number}, connectionsnumber = {connections_number}, longestconnection_time={longest_connection}";
+              await _databaseService.ExecuteSQL(sql);
+            }
+            else
+            {
+                int km_number = connectionInfoObject.KmNumber;
+                int train_number =  connectionInfoObject.TrainNumber;
+                int connections_number =  1;
+                TimeSpan longest_connection = connectionInfoObject.Duration;
+                int points = 0;
+
+                
+
+                sql =$"INSERT INTO STATISTICS(id,user_id,kmnumber, trainnumber, connectionsnumber, longestconnectiontime,points) VALUES({userID} {userID} { km_number}, { train_number}, { connections_number}, { longest_connection} {points})";
+
+                await _databaseService.ExecuteSQL(sql);
+            }
         }
     }
 }

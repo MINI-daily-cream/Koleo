@@ -17,6 +17,20 @@ namespace Persistence.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.4");
 
+            modelBuilder.Entity("Application.AdminCandidate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("User_Id")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AdminCandidates");
+                });
+
             modelBuilder.Entity("Application.AdminComplaint", b =>
                 {
                     b.Property<Guid>("Id")
@@ -40,9 +54,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Application.City", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -55,9 +69,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Application.CityStation", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("City_Id")
                         .HasColumnType("INTEGER");
@@ -106,9 +120,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Application.Station", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -125,13 +139,11 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Connection_Id")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Connection_Id")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<string>("Ticket_Id")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Ticket_Id")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -148,27 +160,29 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Provider_Id")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Provider_Id")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.ToTable("Trains");
                 });
 
-            modelBuilder.Entity("Domain.AdminCandidate", b =>
+            modelBuilder.Entity("Domain.UserAdLink", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("Ad_Id")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("User_Id")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.ToTable("AdminCandidates");
+                    b.ToTable("UserAdLinks");
                 });
 
             modelBuilder.Entity("Koleo.Models.Admin", b =>
@@ -258,9 +272,8 @@ namespace Persistence.Migrations
                     b.Property<TimeSpan>("Duration")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("EndStation_Id")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("EndStation_Id")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("TEXT");
@@ -268,16 +281,14 @@ namespace Persistence.Migrations
                     b.Property<int>("KmNumber")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("StartStation_Id")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("StartStation_Id")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Train_Id")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Train_Id")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -361,9 +372,8 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("User_Id")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("User_Id")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 

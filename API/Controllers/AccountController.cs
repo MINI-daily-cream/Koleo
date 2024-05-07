@@ -1,6 +1,5 @@
 ﻿using API.Services.Interfaces;
 using Domain;
-using Koleo.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,38 +12,35 @@ namespace API.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IAccountService _accountService;
-        private readonly AdminService _adminService;
-        public AccountController(IAccountService accountService, AdminService adminService) 
+        public AccountController(IAccountService accountService) 
         {
             _accountService = accountService;
-            _adminService = adminService;
         }
 
         [HttpGet("{id}")]
         public Task<AccountInfo> Get(string id)
         {
-            return _accountService.GetAccountInfo(id.ToUpper())!;
+            return _accountService.GetAccountInfo(id)!;
         }
 
         [HttpPut("{id}")]
         public Task<bool> Update(string id, [FromBody]AccountInfo newInfo)
         {
-            return _accountService.UpdateAccountInfo(id.ToUpper(), newInfo.Name, newInfo.Surname, newInfo.Email);
+            return _accountService.UpdateAccountInfo(id, newInfo.Name, newInfo.Surname, newInfo.Email);
         }
 
-        [HttpPut("admin-request/accept")]
-        public Task<bool> Accept(string userId) {
-            return _adminService.GiveAdminPermissions(userId.ToUpper());
-        }
-
-        [HttpPut("admin-request/reject")]
-        public Task<bool> Reject(string userId)
+        [HttpPut("{id}/ChangePassword")]
+        public Task<bool> ChangePassword(string id, string newPassword, string oldPassword)
         {
-            return _adminService.RejectAdminRequest(userId.ToUpper());
+          
+            return _accountService.ChangeUserPassword(id, newPassword, oldPassword);
         }
-        [HttpDelete("delete-user/{userId}")]
-        public Task<bool> DeleteUser(string userId) { 
-            return _adminService.DeleteUser(userId.ToUpper());
+        [HttpDelete("{id}")]
+        public Task<bool> DeleteAccount(string id)
+        {
+            
+            return _accountService.DeleteUserAccount(id);
         }
+
     }
 }

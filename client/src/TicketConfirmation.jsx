@@ -1,53 +1,31 @@
 ﻿import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import { faUser, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import TimeComponent from "./sharedComponents/TimeComponent.jsx";
 import apiBaseUrl from "./config.js";
-import axios from 'axios'
 
-const TicketConfirmation = ({ }) => { // here there is USERS id
+const TicketConfirmation = ({ navigation, route }) => { // here there is USERS id
+    const { state } = useLocation();
+
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
-    const [connection, setConnection] = useState([]);
+    // const [connection, setConnection] = useState(propValue);
+    
+    const location = useLocation();
+    // const connection1 = location.state.myProp;
+    // let { connection } = useParams();
     const [mainConnection, setmainConnection] = useState(
         {startStation : '', endStation: '', startDate: '', endDate: '', startTime: '', endTime: ''}
     );
-    const [userId, setuserId] = useState("C4630E12-DEE8-411E-AF44-E3CA970455CE")
+    const [userId, setuserId] = useState(localStorage.getItem('id'))
 
-    useEffect(() => {
-        // Fetch connection data when component mounts
-        const fetchConnection = async () => {
-            try {
-                // const response = await fetch("https://localhost:5001/api/Connection"); // Adjust the API endpoint URL
-                const response = await fetch(`${apiBaseUrl}/api/Connection`); // Adjust the API endpoint URL
-                if (response.ok) {
-                    const data = await response.json();
-                    setConnection(data);
-                    console.log(data);
-                    
-                    const mappedData = {
-                        startStation : data[0].startStation,
-                        endStation : data[data.length-1].endStation,
-                        startDate : data[0].startDate,
-                        endDate : data[data.length-1].endDate,
-                        startTime: data[0].startTime,
-                        endTime: data[data.length-1].endTime,
-                        sourceCity: data[0].sourceCity,
-                        destinationCity: data[data.length-1].destinationCity,
-                    }
-                    // Set the mapped data to the state
-                    setmainConnection(mappedData);
-                } else {
-                    console.error('Failed to fetch connection data');
-                }
-            } catch (error) {
-                console.error('Error fetching connection data:', error);
-            }
-        };
-
-        fetchConnection(); // Call the fetchConnection function
-    }, []); // Empty dependency array t
+    useEffect( () => {
+        // console.log("connection is")
+        // console.log(route.params.connection);
+        // console.log(state);
+        setmainConnection(state)
+      }, [])
 
     const handleNameChange = (e) => {
         setName(e.target.value);
@@ -57,36 +35,25 @@ const TicketConfirmation = ({ }) => { // here there is USERS id
     };
 
     const handleBuyButtonClick = async () => {
-        console.log(connection[0].id)
+        console.log(userId)
+        console.log(mainConnection.id)
         const requestBody = {
-            userId: userId,
-            connectionIds: connection.map(conn => conn.id),
+            // userId: userId,
+            connectionIds: [mainConnection.id],
+            // connectionIds: connection.map(conn => conn.id),
             targetName: name,
             targetSurname: surname
         };
 
         try {
-
-            const url = `${apiBaseUrl}/api/Ticket/buy/` + localStorage.getItem('id');
-            const config = {
-                // headers: {Authorization: 'Bearer ' + localStorage.getItem('jwtToken')},
-                body: JSON.stringify(requestBody)
-            };
-
-            console.log(url);
-            console.log(config);
-
-            const response = await axios.post(url, config);
-
-
             // const response = await fetch(`https://localhost:5001/api/Ticket/buy/${userId}`, {
-            // const response = await fetch(`${apiBaseUrl}/api/Ticket/buy/${userId}`, {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: JSON.stringify(requestBody)
-            // });
+            const response = await fetch(`${apiBaseUrl}/api/Ticket/buy/${userId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestBody)
+            });
 
             if (response.ok) {
                 console.log('Ticket purchased successfully.');
@@ -103,38 +70,36 @@ const TicketConfirmation = ({ }) => { // here there is USERS id
                 <div className="separator">
                     <h3>Przez stacje:</h3>
                     <hr></hr>
-                    {connection.map((con) => ( 
-                        <div className="stationItem">
-                            <FromStationToStation startStation={con.startStation} endStation={con.endStation}></FromStationToStation>
-                            <TrainInfo trainNumber={con.providerName} wagonNumber={ticketData.wagonNumber} seatNumber={ticketData.seatNumber} />
-                            <div className="TravelTimeInfo">
-                            <div className="TicketInfoColumn">
-                                <div className="TicketInfoColumnText">Odjazd</div>
-                                <div className="TicketInfoColumnData">
-                                    <TimeComponent time={con.startTime}></TimeComponent>
-                                </div>
-                            </div>
-                            <div className="TicketInfoColumn">
-                                <div className="TicketInfoColumnText">Przyjazd</div>
-                                <div className="TicketInfoColumnData">
-                                    <TimeComponent time={con.endTime}></TimeComponent>
-                                </div>
-                            </div>
-                            <div className="TicketInfoColumn">
-                                <div className="TicketInfoColumnText">Czas podróży</div>
-                                <div className="TicketInfoColumnData">{con.duration}</div>
-                            </div>
-                            <div className="TicketInfoColumn">
-                                <div className="TicketInfoColumnText">Data odjazdu</div>
-                                <div className="TicketInfoColumnData">{con.startDate}</div>
-                            </div>
-                            <div className="TicketInfoColumn">
-                                <div className="TicketInfoColumnText">Data przyjazdu</div>
-                                <div className="TicketInfoColumnData">{con.endDate}</div>
-                            </div>
+                    <div className="stationItem">
+                        <FromStationToStation startStation={mainConnection.startStation} endStation={mainConnection.endStation}></FromStationToStation>
+                        <TrainInfo trainNumber={mainConnection.providerName} wagonNumber={ticketData.wagonNumber} seatNumber={ticketData.seatNumber} />
+                        <div className="TravelTimeInfo">
+                        <div className="TicketInfoColumn">
+                            <div className="TicketInfoColumnText">Odjazd</div>
+                            <div className="TicketInfoColumnData">
+                                <TimeComponent time={mainConnection.startTime}></TimeComponent>
                             </div>
                         </div>
-                    ))}
+                        <div className="TicketInfoColumn">
+                            <div className="TicketInfoColumnText">Przyjazd</div>
+                            <div className="TicketInfoColumnData">
+                                <TimeComponent time={mainConnection.endTime}></TimeComponent>
+                            </div>
+                        </div>
+                        <div className="TicketInfoColumn">
+                            <div className="TicketInfoColumnText">Czas podróży</div>
+                            <div className="TicketInfoColumnData">{mainConnection.duration}</div>
+                        </div>
+                        <div className="TicketInfoColumn">
+                            <div className="TicketInfoColumnText">Data odjazdu</div>
+                            <div className="TicketInfoColumnData">{mainConnection.startDate}</div>
+                        </div>
+                        <div className="TicketInfoColumn">
+                            <div className="TicketInfoColumnText">Data przyjazdu</div>
+                            <div className="TicketInfoColumnData">{mainConnection.endDate}</div>
+                        </div>
+                        </div>
+                    </div>
                     <hr></hr>
                 </div>
             </div>                
@@ -204,15 +169,6 @@ const TicketConfirmation = ({ }) => { // here there is USERS id
         );
     };
     const ticketData = {
-        date: '2024-04-25',
-        timeDep: '10:00',
-        timeArr: '12:30',
-        //name: 'Jon',
-        //surname: 'Some',
-        trainNumber: '1234',
-        finalStation: 'Destination',
-        departureStation: 'Warszawa',
-        arrivalStation: 'Gdańsk',
         wagonNumber: 'A12',
         seatNumber: '7',
     };

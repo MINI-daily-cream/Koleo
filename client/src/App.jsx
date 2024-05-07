@@ -12,6 +12,8 @@ import TicketConformation from "./TicketConfirmation.jsx";
 import { connectionsData } from "./connections.jsxx";
 import FoundConnectionList from "./FoundConnections.jsx";
 import axios from "axios";
+import ComplaintPage from "./ComplaintFiles/ComplaintPageUser";
+import complaints from "./ComplaintFiles/complaints";
 
 class App extends Component{
 
@@ -32,6 +34,7 @@ render() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegistrationPage />} />
         <Route path="/account" element={ <AccountPanel />} />
+        <Route path="/complaints" element={ <ComplaintPage complaints={complaints} />} />
         {/* <Route path="/account" element={login ? <AccountPanel /> : <LoginPage />} /> */}
               <Route path="/tickets" element={<AccountPanel />} />
               <Route path="/tickets" element={<TicketList tickets={tickets} />} />

@@ -292,12 +292,12 @@ hr.solid {
     align-items: center;
     background-color: white;
     padding: 5px; /* Add padding for spacing */
-    margin: 30px auto;
+    margin-bottom: 30px;
     margin-right: 70px;
     margin-left: 70px;
     display: flex;
     flex-direction: column;
-    font-size: 30px;
+    font-size: 26px;
     padding-top: 20px;
 }
 .TicketInfoColumn {
@@ -323,7 +323,7 @@ hr.solid {
     align-items: center;
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    margin: 20px;
     font-weight: bold;
     font-size: 38px;
 }
@@ -347,4 +347,134 @@ hr.solid {
     align-items: center;
     display: flex;
     justify-content: center;
+}
+.separator {
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.TravelerInfoInput {
+  margin: 5px;
+}
+.dateViewTile {
+  background-color: #ddd;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  margin: auto 10px;
+  display: flex;
+}
+.dateViewTile .text{
+  margin-left: 5px;
+}
+.ConnectionInfoColumn{
+    display: flex;
+    flex-direction: row;
+    margin: 10px auto;
+    align-items: center;
+}
+.ButtonAligment .Button {
+  background: #ff9d00;
+  color: #fff;
+  border: 0;
+  padding: 16px;
+  border-radius: 16px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 18px;
+  min-width: 150px;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+.ButtonAligment .Button:hover {
+  background-color: #0056b3;
+}
+.account-panel-inside1 {
+  padding: 50px 10px;
+  background-color: #d1d1d1;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.calendarButton {
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.connection-list {
+  float: left;
+  margin-left: 50px;
+  /* margin-bottom: 20px; */
+  display: flex;
+  /* flex-wrap: wrap; */
+  overflow: auto;
+  gap: 20px;
+  max-width: 100%;
+}
+.connection {
+  /* flex: 1; */
+  /* display: flex; */
+  /* overflow:; */
+  /* max-width: max-content; */
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+   min-width: max-content; 
+}
+.connection-text-column {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 10px auto;
+  justify-content: space-between;
+}
+.connection-text-column .text {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+  margin: 5px;
+}
+.connection-text-column .time {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+  font-size: 30px;
+}
+.connection-row-info {
+  display: flex;
+  flex-direction: row;
+}
+.ad-list{
+  display: flex;
+  flex-direction: row;
+  margin: 20px auto;
+  justify-content: center;
+  align-items: center;
+  
+}
+.ad-block {
+  display: flex;
+  flex-direction: column;
+  margin: auto 30px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #ff9d00;
+}
+
+.ad-block img {
+  max-width: 200px;
+  max-height: 200px;
+}
+.ad-block .ad-content {
+  color: black;
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 10px;
 }

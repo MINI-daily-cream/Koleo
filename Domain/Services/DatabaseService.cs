@@ -31,7 +31,9 @@ namespace Koleo.Models
                 //Console.WriteLine(dataReader["Surname"]);
 
                 var values = new string[dataReader.FieldCount];
+                
                 dataReader.GetValues(values);
+               
                 results.Add(values);
             }
             

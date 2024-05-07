@@ -9,7 +9,7 @@ namespace Application
     public class Train
     {
         public Guid Id { get; set; }
-        public string Provider_Id { get; set; }
+        public int Provider_Id { get; set; }
         public string Name { get; set; }
     }
 }

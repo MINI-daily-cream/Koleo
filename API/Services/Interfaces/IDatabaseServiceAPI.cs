@@ -2,7 +2,7 @@
 {
     public interface IDatabaseServiceAPI
     {
-        Task<(List<string[]>, bool)> ExecuteSQL(string sql);
+        Task<List<string[]>> ExecuteSQL(string sql);
         Task<(List<object[]>, bool)> ExecuteSQLLastRow(string sql);
     }
 }

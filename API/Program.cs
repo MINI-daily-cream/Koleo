@@ -16,6 +16,10 @@ builder.Services.AddScoped<IDatabaseServiceAPI, DatabaseServiceAPI>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<ITicketServive, TicketService>();
+builder.Services.AddScoped<IStatisticsService,StatisticsService>();
+builder.Services.AddScoped<IRankingService,RankingService>();
+
+
 
 
 builder.Services.AddControllers(opt =>

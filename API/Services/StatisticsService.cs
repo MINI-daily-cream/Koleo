@@ -44,7 +44,7 @@ namespace Koleo.Services
                     userData[i] = s;
                 }
                 int km_number = int.Parse(userData[2])+connectionInfoObject.KmNumber;
-                int train_number = int.Parse(userData[3])+connectionInfoObject.TrainNumber;
+                int train_number = int.Parse(userData[3])+int.Parse(connectionInfoObject.TrainNumber);
                 int connections_number = int.Parse(userData[4])+1;
                 TimeSpan longest_connection = TimeSpan.Parse(userData[5]);
                 int point = int.Parse(userData[6]);
@@ -57,14 +57,14 @@ namespace Koleo.Services
             else
             {
                 int km_number = connectionInfoObject.KmNumber;
-                int train_number =  connectionInfoObject.TrainNumber;
+                string train_number =  connectionInfoObject.TrainNumber;
                 int connections_number =  1;
                 TimeSpan longest_connection = connectionInfoObject.Duration;
                 int points = 0;
 
                 
 
-                sql =$"INSERT INTO STATISTICS(id,user_id,kmnumber, trainnumber, connectionsnumber, longestconnectiontime,points) VALUES({userID} {userID} { km_number}, { train_number}, { connections_number}, { longest_connection} {points})";
+                sql =$"INSERT INTO STATISTICS(id,user_id,kmnumber, trainnumber, connectionsnumber, longestconnectiontime,points) VALUES({userID}, {userID}, {km_number}, {train_number}, {connections_number}, {longest_connection}, {points})";
 
                 await _databaseService.ExecuteSQL(sql);
             }

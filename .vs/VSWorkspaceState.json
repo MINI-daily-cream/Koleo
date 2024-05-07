@@ -12,5 +12,8 @@
     "\\koleo-frontend\\src"
   ],
   "SelectedNode": "\\Koleo.sln",
+    "\\.github",
+    "\\.github\\workflows"
+  ],
   "PreviewInSolutionExplorer": false
 }

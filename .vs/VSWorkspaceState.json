@@ -1,12 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\API",
-    "\\Domain\\MainComponents",
-    "\\koleo-frontend",
-    "\\koleo-frontend\\src",
-    "\\UnitTests\\Services"
+    "\\.github",
+    "\\.github\\workflows"
   ],
-  "SelectedNode": "\\API\\Program.cs",
   "PreviewInSolutionExplorer": false
 }

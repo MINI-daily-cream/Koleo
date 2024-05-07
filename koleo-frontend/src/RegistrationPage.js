@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const RegistrationPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -38,9 +38,9 @@ const RegistrationPage = () => {
       return;
     }
     // Tutaj można dodać logikę rejestracji
-    console.log('Email:', email);
-    console.log('Password:', password);
-    console.log('Confirm Password:', confirmPassword);
+    console.log("Email:", email);
+    console.log("Password:", password);
+    console.log("Confirm Password:", confirmPassword);
   };
 
   return (
@@ -76,11 +76,22 @@ const RegistrationPage = () => {
             onChange={handleConfirmPasswordChange}
             required
           />
-          {passwordError && <p className='password-error' style={{ color: 'red', fontSize: 30 }}>{passwordError}</p>}
+          {passwordError && (
+            <p
+              className="password-error"
+              style={{ color: "red", fontSize: 30 }}
+            >
+              {passwordError}
+            </p>
+          )}
         </div>
-        <p className='bottom-text' disabled>Masz już konto? <Link to="/login">Zaloguj się</Link></p>
+        <p className="bottom-text" disabled>
+          Masz już konto? <Link to="/login">Zaloguj się</Link>
+        </p>
         {/* <button type="submit">Zarejestruj się</button> */}
-        <Link to="/account"><button type="submit">Zarejestruj się</button></Link>
+        <Link to="/account">
+          <button type="submit">Zarejestruj się</button>
+        </Link>
       </form>
     </div>
   );

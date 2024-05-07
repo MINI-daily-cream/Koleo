@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using API.Interfaces;
 using API.Services;
+using API.Services.Interfaces;
 using Koleo.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -20,10 +21,12 @@ namespace Auth.Controllers
     {
         private DataContext dataContext;
         private ITokenService tokenService;
-        public AccountController(DataContext dataContext, ITokenService tokenService)
+        private IUserService userService;
+        public AccountController(DataContext dataContext, ITokenService tokenService, IUserService userService)
         {
             this.tokenService = tokenService;
             this.dataContext = dataContext;
+            this.userService = userService;
         }
 
         [HttpGet]
@@ -35,7 +38,7 @@ namespace Auth.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
-            if(await UserExists(registerDto.email))
+            if(await userService.UserExists(registerDto.email))
                 return BadRequest("Username taken");
             using var hmac = new HMACSHA512();
             var user = new User
@@ -59,15 +62,15 @@ namespace Auth.Controllers
                 token = tokenService.CreateToken(user)
             };
         }
-        public async Task<bool> UserExists(string email)
-        {
-            return await dataContext.Users.AnyAsync(usr => usr.Email == email);
-        }
+        //public async Task<bool> UserExists(string email)
+        //{
+        //    return await dataContext.Users.AnyAsync(usr => usr.Email == email);
+        //}
 
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
-            if(!await UserExists(loginDto.email))
+            if(!await userService.UserExists(loginDto.email))
                 return Unauthorized("Username not found");
             
             var user = await dataContext.Users.FirstOrDefaultAsync(usr => usr.Email == loginDto.email);

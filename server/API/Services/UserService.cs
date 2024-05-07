@@ -1,9 +1,10 @@
 using API.Services.Interfaces;
 using Koleo.Models;
+using Persistence;
 
 namespace Koleo.Services
 {
-    public class UserService : IAccountSettingsServer
+    public class UserService : IUserService
     {
         private readonly IDatabaseServiceAPI _databaseService;
         public UserService(IDatabaseServiceAPI databaseService)
@@ -45,6 +46,17 @@ namespace Koleo.Services
                 return false;
             }
             return results[0][0] == password;
+        }
+
+        public async Task<bool> UserExists(string email)
+        {
+            string sql = $"SELECT * FROM Users WHERE Email = '{email}'";
+            var (results, isSuccess) = await _databaseService.ExecuteSQLLastRow(sql);
+            if (!isSuccess || results.Count == 0)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

@@ -23,6 +23,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<IDatabaseServiceAPI, DatabaseServiceAPI>();
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<ITicketServive, TicketService>();
 builder.Services.AddScoped<ITokenService, TokenService>();

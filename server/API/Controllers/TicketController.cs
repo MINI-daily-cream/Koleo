@@ -27,6 +27,7 @@ namespace API.Controllers
         [HttpPost("buy/{userId}")]
         public async Task<string> Buy(string userId, [FromBody] BuyTicketDTO info)
         {
+            Console.WriteLine("pala");
             return (await _ticketService.Buy(userId.ToUpper(), info.connectionIds, info.targetName, info.targetSurname)).Item1;
         }
 

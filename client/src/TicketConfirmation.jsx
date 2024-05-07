@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { faUser, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import TimeComponent from "./sharedComponents/TimeComponent.jsx";
 import apiBaseUrl from "./config.js";
+import axios from 'axios'
 
 const TicketConfirmation = ({ }) => { // here there is USERS id
     const [name, setName] = useState('');
@@ -65,14 +66,27 @@ const TicketConfirmation = ({ }) => { // here there is USERS id
         };
 
         try {
-            // const response = await fetch(`https://localhost:5001/api/Ticket/buy/${userId}`, {
-            const response = await fetch(`${apiBaseUrl}/api/Ticket/buy/${userId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+
+            const url = `${apiBaseUrl}/api/Ticket/buy/` + localStorage.getItem('id');
+            const config = {
+                // headers: {Authorization: 'Bearer ' + localStorage.getItem('jwtToken')},
                 body: JSON.stringify(requestBody)
-            });
+            };
+
+            console.log(url);
+            console.log(config);
+
+            const response = await axios.post(url, config);
+
+
+            // const response = await fetch(`https://localhost:5001/api/Ticket/buy/${userId}`, {
+            // const response = await fetch(`${apiBaseUrl}/api/Ticket/buy/${userId}`, {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify(requestBody)
+            // });
 
             if (response.ok) {
                 console.log('Ticket purchased successfully.');

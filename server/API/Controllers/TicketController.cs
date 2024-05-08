@@ -19,9 +19,17 @@ namespace API.Controllers
             _ticketService = ticketService;
         }
 
+        [Authorize]
         [HttpGet("list-by-user/{userId}")]
         public Task<List<TicketInfoDTO>> List(string userId)
         {
+            Console.WriteLine("o cholera");
+            Console.WriteLine(userId);
+            Console.WriteLine(User.Identity.Name);
+            if(userId != User.Identity.Name)
+            {
+                return null;
+            }
             return Task.FromResult(_ticketService.ListByUser(userId.ToUpper()).Result.Item1);
         }
 

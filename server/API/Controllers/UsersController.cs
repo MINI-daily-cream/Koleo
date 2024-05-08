@@ -36,13 +36,16 @@ namespace Auth.Controllers
         [HttpGet("{username}")]
         public  async Task<ActionResult<User>> GetUser(string username)
         {
+            Console.WriteLine("Heja");
+            Console.WriteLine(username);
+            Console.WriteLine(User.Identity.Name);
             if(username != User.Identity.Name)
             {
                 return Forbid();
             }
-
-            return await dataContext.Users.FirstOrDefaultAsync(x => x.UserName == username);
+            Console.WriteLine("przeszlo");
+            return await dataContext.Users.FindAsync(new Guid(username));
+            // return await dataContext.Users.FirstOrDefaultAsync(x => x.UserName == username);
         }
-
     }
 }

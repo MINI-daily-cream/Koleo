@@ -1,57 +1,57 @@
-﻿import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link, useLocation, useParams } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import { faUser, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import TimeComponent from "./sharedComponents/TimeComponent.jsx";
 import apiBaseUrl from "./config.js";
-
+import axios from 'axios'
 const TicketConfirmation = ({ navigation, route }) => { // here there is USERS id
-    const navigate = useNavigate();
     const { state } = useLocation();
 
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
+    // const [connection, setConnection] = useState(propValue);
+    
+    const location = useLocation();
+    // const connection1 = location.state.myProp;
+    // let { connection } = useParams();
     const [mainConnection, setmainConnection] = useState(
         {startStation : '', endStation: '', startDate: '', endDate: '', startTime: '', endTime: ''}
     );
-    const [userId, setuserId] = useState(localStorage.getItem('id'))
+    const [userId, setUserId] = useState(localStorage.getItem('id'));
+    const [jwtToken, setJwtToken] = useState(localStorage.getItem('jwtToken'));
 
-    useEffect( () => {
-        // console.log("connection is")
-        // console.log(route.params.connection);
-        // console.log(state);
-        setmainConnection(state)
-      }, [])
 
+    useEffect(() => {
+        setmainConnection(state);
+    }, []);
+    
     const handleNameChange = (e) => {
         setName(e.target.value);
     };
+    
     const handleSurnameChange = (e) => {
         setSurname(e.target.value);
     };
-
+    
     const handleBuyButtonClick = async () => {
-        console.log(userId)
-        console.log(mainConnection.id)
+        console.log(userId);
+        console.log(mainConnection.id);
         const requestBody = {
-            // userId: userId,
             connectionIds: [mainConnection.id],
-            // connectionIds: connection.map(conn => conn.id),
             targetName: name,
             targetSurname: surname
         };
-
+    
         try {
-            // const response = await fetch(`https://localhost:5001/api/Ticket/buy/${userId}`, {
-            const response = await fetch(`${apiBaseUrl}/api/Ticket/buy/${userId}`, {
-                method: 'POST',
+            const response = await axios.post(`${apiBaseUrl}/api/Ticket/buy/${userId}`, requestBody, {
                 headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(requestBody)
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jwtToken}`
+                }
             });
-
-            if (response.ok) {
+    
+            if (response.status === 200) {
                 console.log('Ticket purchased successfully.');
             } else {
                 console.error('Failed to purchase ticket.');
@@ -59,8 +59,8 @@ const TicketConfirmation = ({ navigation, route }) => { // here there is USERS i
         } catch (error) {
             console.error('Network error:', error);
         }
-        navigate('/account')
-    }
+    };
+    
     const ByStations = () => {
         return (
             <div className="TravelTimeInfo">
@@ -217,9 +217,10 @@ const TicketConfirmation = ({ navigation, route }) => { // here there is USERS i
                 <div className="ButtonAligment">
                 {/*TODO: set "to" prop*/}
                     <Link to="/FoundConnections"><button type="submit" className="ConfirmationButton">Wróć</button></Link>
-                    <button type="button"
-                    className="ConfirmationButton"
-                    onClick={handleBuyButtonClick }>Kupuję</button>
+                    <Link to="/"><button type="submit"
+                        className="ConfirmationButton"
+                        onClick={handleBuyButtonClick }
+                    >Kupuję</button></Link>
                     </div>
             </form>
         </div>

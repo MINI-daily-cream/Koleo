@@ -3,6 +3,7 @@ using API.Services.Interfaces;
 using Domain;
 using Koleo.Models;
 using Koleo.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,15 +19,31 @@ namespace API.Controllers
             _ticketService = ticketService;
         }
 
+        [Authorize]
         [HttpGet("list-by-user/{userId}")]
         public Task<List<TicketInfoDTO>> List(string userId)
         {
+            Console.WriteLine("o cholera");
+            Console.WriteLine(userId);
+            Console.WriteLine(User.Identity.Name);
+            if(userId != User.Identity.Name)
+            {
+                return null;
+            }
             return Task.FromResult(_ticketService.ListByUser(userId.ToUpper()).Result.Item1);
         }
 
+        [Authorize]
         [HttpPost("buy/{userId}")]
-        public async Task<string> Buy(string userId, [FromBody] BuyTicketDTO info)
+        public async Task<ActionResult<string>> Buy(string userId, [FromBody] BuyTicketDTO info)
         {
+            Console.WriteLine("Panie");
+            Console.WriteLine(userId);
+            Console.WriteLine(User.Identity.Name);
+            if(userId != User.Identity.Name)
+            {
+                return Forbid();
+            }
             return (await _ticketService.Buy(userId.ToUpper(), info.connectionIds, info.targetName, info.targetSurname)).Item1;
         }
 

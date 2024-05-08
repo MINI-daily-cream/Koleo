@@ -97,6 +97,7 @@ try
     //Seed.ClearTickets(context);
     //Seed.ClearConnectionsEtc(context);
     await Seed.SeedConnectionsEtc(context);
+    await Seed.SeedAds(context);
 }
 catch (Exception ex)
 {

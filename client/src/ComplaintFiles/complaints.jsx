@@ -1,4 +1,4 @@
-const tickets = [
+const complaints = [
     {
       userId: 1,
       ticketId: 1,
@@ -21,4 +21,4 @@ const tickets = [
     },
   ];
   
-  export default tickets;
+export default complaints;

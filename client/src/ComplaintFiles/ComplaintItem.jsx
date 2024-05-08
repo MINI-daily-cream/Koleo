@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrain, faCalendar, faClock, faGreaterThan, faMinus, faArrowRight, faUser, faMapMarkerAlt, faTicketAlt } from '@fortawesome/free-solid-svg-icons';
@@ -12,18 +13,21 @@ const ComplaintItem = ({ TicketId, Content }) => {
     };
   
     const handleSaveContent = () => {
+        // update database
       setIsEditing(false);
-      // Here you can implement logic to save the edited content
-      // For demonstration purposes, I'm just logging it
       console.log('Content saved:', content);
     };
   
     const handleChange = (e) => {
       setContent(e.target.value);
     };
+    const handleDelete = () => {
+        // delete from database
+      };
   return (
     <div className='connection'>
-      <div className='header'>{TicketId}</div>
+        <div>
+      <div className='header'>Bilet: {TicketId}</div>
       {isEditing ? (
         <textarea
           className="content"
@@ -39,7 +43,8 @@ const ComplaintItem = ({ TicketId, Content }) => {
       ) : (
         <button className='ConfirmationButton' onClick={handleEditContent}>Edytuj</button>
       )}
-      <button type="submit" className='ConfirmationButton'>Usuń</button>
+      <button type="submit" className='ConfirmationButton' onClick={handleDelete}>Usuń</button>
+      </div>
     </div>
   );
 };

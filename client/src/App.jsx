@@ -34,7 +34,7 @@ render() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegistrationPage />} />
         <Route path="/account" element={ <AccountPanel />} />
-        <Route path="/complaints" element={ <ComplaintPage complaints={complaints} />} />
+        {/* <Route path="/complaints" element={ <ComplaintPage complaints={complaints} />} /> */}
         {/* <Route path="/account" element={login ? <AccountPanel /> : <LoginPage />} /> */}
               <Route path="/tickets" element={<AccountPanel />} />
               <Route path="/tickets" element={<TicketList tickets={tickets} />} />

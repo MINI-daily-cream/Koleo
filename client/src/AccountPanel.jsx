@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import TicketList from './TicketList';
 import tickets from './tickets';
 import apiBaseUrl from './config';
+import { Link } from 'react-router-dom';
 
 const AccountPanel = () => {
   const [userId, setuserId] = useState("C4630E12-DEE8-411E-AF44-E3CA970455CE")
@@ -45,6 +46,7 @@ const AccountPanel = () => {
                 <a href="#">Bilety</a>
                 <a href="#">Statystki</a>
                 <a href="#">Osiągnięcia</a>
+                <Link to="/complaints">Skargi</Link>
             </div>
             {/* <div className='content'><TicketList tickets={tickets} /></div> */}
             <TicketList tickets={tickets} />

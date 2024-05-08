@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import TicketList from './TicketList';
 import tickets from './tickets';
 import apiBaseUrl from './config';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const AccountPanel = () => {
@@ -55,6 +56,7 @@ const AccountPanel = () => {
                 <a href="#">Bilety</a>
                 <a href="#">Statystki</a>
                 <a href="#">Osiągnięcia</a>
+                <Link to="/complaints">Skargi</Link>
             </div>
             <div className='content'><TicketList tickets={tickets} /></div>
     

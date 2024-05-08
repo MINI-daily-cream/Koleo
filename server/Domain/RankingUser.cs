@@ -11,5 +11,11 @@ namespace Application
         public Guid Id { get; set; }
         public int Ranking_Id { get; set; }
         public int User_Id { get; set; }
+
+        public int Points { get; set; }
+
+        public int Position { get; set; }
+
+
     }
 }

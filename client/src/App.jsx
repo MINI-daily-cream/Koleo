@@ -24,7 +24,7 @@ constructor(props)
 
 render() {
   const login = window.localStorage.getItem("isLoggedIn");
-  
+
   return (
     <Router>
       <Navbar />

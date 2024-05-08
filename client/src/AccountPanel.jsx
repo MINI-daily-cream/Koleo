@@ -3,31 +3,32 @@ import TicketList from './TicketList';
 import tickets from './tickets';
 import apiBaseUrl from './config';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const AccountPanel = () => {
-  const [userId, setuserId] = useState("C4630E12-DEE8-411E-AF44-E3CA970455CE")
+  const [userId, setuserId] = useState(localStorage.getItem('id'))
   const [tickets, setTickets] = useState([{}])
 
   function getTickets(){
-    const xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                // const response = JSON.parse(xhr.responseText);
-                const response = xhr.responseText;
-                console.log(response);
-                setTickets(response);
-            } else {
-                console.error('Błąd pobierania danych:', xhr.status);
-                // Obsługa błędów
-            }
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${apiBaseUrl}/api/Ticket/list-by-user/${userId}`);
+        // localStorage.setItem('jwtToken', response.data.token);
+        // localStorage.setItem('id', response.data.id);
+        console.log(response)
+        setTickets(response.data);
+      }
+      catch(error) {
+        if (error === 'Bad request') {
+            console.log('user exists');
+            // setPasswordError("Podany użytkownik już istnieje");
+        } else {
+            console.error('An error occurred:', error);
+            // setPasswordError("Wystąpił błąd podczas rejestracji");
         }
-    };
-
-    // xhr.open('GET', `https://localhost:5001/api/Ticket/list-by-user/${userId}`);
-    xhr.open('GET', `${apiBaseUrl}/api/Ticket/list-by-user/${userId}`);
-    xhr.withCredentials = true;
-    xhr.send();
+      }
+    }
+    fetchData();
   }
 
   useEffect( () => {

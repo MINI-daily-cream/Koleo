@@ -19,7 +19,7 @@ namespace API.Controllers
         }
 
         [HttpGet("list-by-user/{userId}")]
-        public Task<List<ConnectionInfoObject>> List(string userId)
+        public Task<List<TicketInfoDTO>> List(string userId)
         {
             return Task.FromResult(_ticketService.ListByUser(userId.ToUpper()).Result.Item1);
         }

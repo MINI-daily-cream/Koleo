@@ -1,11 +1,23 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrain, faCalendar, faClock, faGreaterThan, faMinus, faArrowRight, faUser, faMapMarkerAlt, faTicketAlt } from '@fortawesome/free-solid-svg-icons';
 
-const ConnectionItem = ({ StartDate, EndDate, StartTime, EndTime,
-  Duration, TrainNumber, StartStation, EndStation, ProviderName,
-  SourceCity, DestinationCity, DepartureTime, ArrivalTime, KmNumber }) => {
+const ConnectionItem = ({ connection }) => {
+    const navigate = useNavigate();
+
+    function goToConfirmation() {
+      // navigate(`/ticketConfirmation/${connection}`);
+      console.log(connection);
+      navigate(`/ticketConfirmation`, {state: connection });
+      // navigate(`/ticketConfirmation`, {state: {connection} });
+    }
+
+    // useEffect( () => {
+    //   console.log(connection);
+    // }, [])
+
   return (
     <div className='connection'>
       <div className='connection-text-column'>
@@ -13,34 +25,36 @@ const ConnectionItem = ({ StartDate, EndDate, StartTime, EndTime,
         <div className='text'>Przyjazd</div>
       </div>
       <div className='connection-text-column'>
-        <div className='time'>{StartTime}</div>
+        <div className='time'>{connection.departureTime}</div>
         <div className="icon" id='arrow'>
           <FontAwesomeIcon icon={faArrowRight} />
         </div>
-        <div className='time'>{EndTime}</div>
+        <div className='time'>{connection.arrivalTime}</div>
       </div>
       <div className='connection-text-column'>
-        <div className='text'>{StartDate}</div>
-        <div className='text'>{EndDate}</div>
+        <div className='text'>{connection.startDate}</div>
+        <div className='text'>{connection.endDate}</div>
       </div>
       <div className='connection-text-column'>
-        <div className='text'>{StartStation}</div>
-        <div className='text'>{EndStation}</div>
+        <div className='text'>{connection.startStation}</div>
+        <div className='text'>{connection.endStation}</div>
       </div>
       <div className='connection-row-info'>
         <div className="icon">
           <FontAwesomeIcon icon={faClock} />
         </div>
-        <div className='text'>{Duration}</div>
+        <div className='text'>{connection.duration}</div>
       </div>
       <div className='connection-row-info'>
         <div className="icon">
           <FontAwesomeIcon icon={faTrain} />
         </div>
-        <div className='text'>{ProviderName}</div>
+        <div className='text'>{connection.providerName}</div>
       </div>
       <div className='ButtonAligment'>
-      <Link to="/ticketConfirmation"><button type="submit" className='ConfirmationButton'>Wybierz</button></Link>
+      {/* <Link to="/ticketConfirmation"> */}
+      <button type="button" className='ConfirmationButton' onClick={goToConfirmation}>Wybierz</button>
+        {/* </Link> */}
       </div>
     </div>
   );

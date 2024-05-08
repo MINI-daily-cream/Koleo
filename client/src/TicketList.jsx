@@ -7,15 +7,15 @@ const TicketList = ({ tickets }) => {
     <div className="ticket-list">
       {tickets.map((ticket) => (
         <Ticket 
-            key={ticket.key} 
-            date={ticket.date} 
-            timeDep={ticket.timeDep}
-            timeArr={ticket.timeArr}
-            passengerName={ticket.passengerName} 
+            key={ticket.id} 
+            date={ticket.startDate} 
+            timeDep={ticket.startTime}
+            timeArr={ticket.endTime}
+            passengerName={`${ticket.name} ${ticket.surname}`} 
             trainNumber={ticket.trainNumber}
-            finalStation={ticket.finalStation}
-            departureStation={ticket.departureStation} 
-            arrivalStation={ticket.arrivalStation} 
+            finalStation={ticket.endStation}
+            departureStation={ticket.startStation} 
+            arrivalStation={ticket.endStation} 
             wagonNumber={ticket.wagonNumber} 
             seatNumber={ticket.seatNumber} 
       />

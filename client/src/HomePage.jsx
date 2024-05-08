@@ -6,13 +6,14 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 // npm install --save moment react-moment
 import moment from 'moment'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // npm install @mui/material @emotion/react @emotion/styled
 import SelectLabels from './sharedComponents/SelectListSourceCity';
 import AdvertismentList from './AdvertimsmentFiles/AdvertismentList';
 import apiBaseUrl from './config';
 
 const HomePage = () => {
+    const navigate = useNavigate();
     const [showCalendar, setShowCalendar] = useState(false);
     const [selectedDate, setSelectedDate] = useState(Date.now);
     const [selectedCitySrc, setSelectedCitySrc] = useState('');
@@ -33,6 +34,7 @@ const HomePage = () => {
             return;     
         }
         window.location.href = "/FoundConnections";
+        // navigate("/FoundConnections");
     }
     
 
@@ -85,10 +87,12 @@ const HomePage = () => {
                     </div>
                     <div className="ButtonAligment">
                         {/*TODO: set "to" prop*/}
-                        <Link to="/"><button type="submit"
+                        {/* <Link to="/"> */}
+                            <button type="button"
                             className="Button"
                             onClick={handleFindButtonClick }
-                            >Wyszukaj</button></Link>
+                            >Wyszukaj</button>
+                        {/* </Link> */}
                     </div>
                     </div>
                     <div className='calendarButton'>

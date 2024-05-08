@@ -7,6 +7,7 @@ using iTextSharp.text.pdf;
 using Document = iTextSharp.text.Document;
 using Org.BouncyCastle.Asn1.X509.SigI;
 using API.Services.Interfaces;
+using API.DTOs;
 
 namespace Koleo.Services
 {
@@ -30,23 +31,23 @@ namespace Koleo.Services
             return ("", false);
         }
 
-        public async Task<(List<ConnectionInfoObject>, bool)> ListByUser(string userId)
+        public async Task<(List<TicketInfoDTO>, bool)> ListByUser(string userId)
         {
             var result = await GetTicketsByUser(userId);
-            if (!result.Item2) return (new List<ConnectionInfoObject> { }, false);
+            if (!result.Item2) return (new List<TicketInfoDTO> { }, false);
             List<string> ticketIds = result.Item1;
-            List<ConnectionInfoObject> connectionsInfo = new List<ConnectionInfoObject>();
+            List<TicketInfoDTO> connectionsInfo = new List<TicketInfoDTO>();
             foreach (string ticketId in ticketIds)
             {
                 var tmpResult = await UpdateConnectionsInfoList(ticketId, connectionsInfo);
-                if (!tmpResult) return (new List<ConnectionInfoObject> { }, false);
+                if (!tmpResult) return (new List<TicketInfoDTO> { }, false);
             }
             return (connectionsInfo, true);
         }
 
         public async Task<bool> Generate(string userId, string ticketId)
         {
-            List<ConnectionInfoObject> connectionsInfo = new List<ConnectionInfoObject>();
+            List<TicketInfoDTO> connectionsInfo = new List<TicketInfoDTO>();
             var tmpResult = await UpdateConnectionsInfoList(ticketId, connectionsInfo);
             if (!tmpResult) return false;
             string sql = $"SELECT Target_Name, Target_Surname FROM Tickets WHERE Id = '{ticketId}'";
@@ -156,36 +157,33 @@ namespace Koleo.Services
             //return (result.Item1.Select(row => string.Parse(row[0])).ToList(), true);
         }
 
+        private async Task<(string[], bool)> GetTicketById(string ticketId)
+        {
+            string sql = $"SELECT * FROM Tickets WHERE Id='{ticketId}'";
+            var result = await _databaseService.ExecuteSQL(sql);
+            if (!result.Item2) return (null, false);
+            return (result.Item1[0], true);
+        }
+
         private async Task<(List<Connection>?, bool)> GetConnectionsByTicket(string ticketId)
         {
             //string sql = $"SELECT c.* FROM TicketConnections tc JOIN Connections c ON tc.Connection_Id = c.Id WHERE tc.Ticket_Id = '{ticketId}'";
-            string sql = $"SELECT * FROM Connections c JOIN TicketConnections tc ON c.Id=tc.Connection_Id WHERE tc.Ticket_Id='{ticketId}'";
+            string sql = $"SELECT c.* FROM Connections c JOIN TicketConnections tc ON c.Id=tc.Connection_Id WHERE tc.Ticket_Id='{ticketId}'";
             var result = await _databaseService.ExecuteSQLLastRow(sql);
             //var result = await _databaseService.ExecuteSQL(sql);
             if(!result.Item2) return(null, false);
-
-            //var row = result.Item1[0];
-            //var Id = Guid.Parse((string)row[0]);
-            //var Duration = TimeSpan.Parse((string)row[1]);
-            //var EndStation_Id = (string)row[2];
-            //var EndTime = DateTime.Parse((string)row[3]);
-            //var KmNumber = (int)((System.Int64)row[4]);
-            ////var KmNumber = int.Parse((string)row[4]);
-            //var StartStation_Id = (string)row[5];
-            //var StartTime = DateTime.Parse((string)row[6]);
-            //var Train_Id = (string)row[7];
 
             return (result.Item1.Select(row => new Connection
             {
                 //Id = Guid.NewGuid(),
                 Id = Guid.Parse((string)row[0]),
-                Duration = TimeSpan.Parse((string)row[1]),
+                StartStation_Id = (string)row[1],
                 EndStation_Id = (string)row[2],
-                EndTime = DateTime.Parse((string)row[3]),
-                KmNumber = (int)((System.Int64)row[4]),
-                StartStation_Id = (string)row[5],
-                StartTime = DateTime.Parse((string)row[6]),
-                Train_Id = (string)row[7],
+                Train_Id = (string)row[3],
+                StartTime = DateTime.Parse((string)row[4]),
+                EndTime = DateTime.Parse((string)row[5]),
+                KmNumber = (int)((System.Int64)row[6]),
+                Duration = TimeSpan.Parse((string)row[7]), 
             }).ToList(), true) ;
         }
 
@@ -213,11 +211,16 @@ namespace Koleo.Services
             return (result.Item1[0][0], true);
         }
 
-        private async Task<bool> UpdateConnectionsInfoList(string ticketId, List<ConnectionInfoObject> connectionsInfo)
+        private async Task<bool> UpdateConnectionsInfoList(string ticketId, List<TicketInfoDTO> connectionsInfo)
         {
             var result = await GetConnectionsByTicket(ticketId);
             if(!result.Item2) return false;
             List<Connection> connections = result.Item1;
+
+            var result1 = await GetTicketById(ticketId);
+            if (!result1.Item2) return false;
+            string[] ticketInfo = result1.Item1;
+
             foreach (Connection connection in connections)
             {
 
@@ -227,7 +230,42 @@ namespace Koleo.Services
                 var sourceCityName = await GetCityNameByStationId(connection.StartStation_Id);
                 var destinationCityName = await GetCityNameByStationId(connection.EndStation_Id);
                 if (!startStationName.Item2 || !endStationName.Item2 || !providerName.Item2 || !sourceCityName.Item2 || !destinationCityName.Item2) return false;
-                connectionsInfo.Add(new ConnectionInfoObject
+                connectionsInfo.Add(new TicketInfoDTO
+                {
+                    Id = connection.Id.ToString().ToUpper(),
+                    StartDate = DateOnly.FromDateTime(connection.StartTime.Date),
+                    EndDate = DateOnly.FromDateTime(connection.EndTime.Date),
+                    StartTime = TimeOnly.FromDateTime(connection.StartTime),
+                    EndTime = TimeOnly.FromDateTime(connection.EndTime),
+                    TrainNumber = connection.Train_Id,
+                    StartStation = startStationName.Item1,
+                    EndStation = endStationName.Item1,
+                    ProviderName = providerName.Item1,
+                    SourceCity = sourceCityName.Item1,
+                    DestinationCity = destinationCityName.Item1,
+                    DepartureTime = connection.StartTime.ToShortTimeString(),
+                    ArrivalTime = connection.EndTime.ToShortTimeString(),
+                    KmNumber = connection.KmNumber,
+                    Duration = connection.Duration,
+                    Name = ticketInfo[2],
+                    Surname = ticketInfo[3],
+                });
+            }
+            return true;
+        }
+
+        private async Task<bool> UpdateConnectionsInfoForBrowsing(List<Connection> connections, List<TicketInfoDTO> connectionsInfo)
+        {
+            foreach (Connection connection in connections)
+            {
+
+                var startStationName = await GetStationNameById(connection.StartStation_Id);
+                var endStationName = await GetStationNameById(connection.EndStation_Id);
+                var providerName = await GetProviderNameById(connection.Train_Id);
+                var sourceCityName = await GetCityNameByStationId(connection.StartStation_Id);
+                var destinationCityName = await GetCityNameByStationId(connection.EndStation_Id);
+                if (!startStationName.Item2 || !endStationName.Item2 || !providerName.Item2 || !sourceCityName.Item2 || !destinationCityName.Item2) return false;
+                connectionsInfo.Add(new TicketInfoDTO
                 {
                     Id = connection.Id.ToString().ToUpper(),
                     StartDate = DateOnly.FromDateTime(connection.StartTime.Date),
@@ -249,46 +287,13 @@ namespace Koleo.Services
             return true;
         }
 
-        private async Task<bool> UpdateConnectionsInfoForBrowsing(List<Connection> connections, List<ConnectionInfoObject> connectionsInfo)
+        public async Task<(List<TicketInfoDTO>, bool)> GetConnectionsInfo(List<Connection> connections)
         {
-            foreach (Connection connection in connections)
-            {
-
-                var startStationName = await GetStationNameById(connection.StartStation_Id);
-                var endStationName = await GetStationNameById(connection.EndStation_Id);
-                var providerName = await GetProviderNameById(connection.Train_Id);
-                var sourceCityName = await GetCityNameByStationId(connection.StartStation_Id);
-                var destinationCityName = await GetCityNameByStationId(connection.EndStation_Id);
-                if (!startStationName.Item2 || !endStationName.Item2 || !providerName.Item2 || !sourceCityName.Item2 || !destinationCityName.Item2) return false;
-                connectionsInfo.Add(new ConnectionInfoObject
-                {
-                    Id = connection.Id.ToString().ToUpper(),
-                    StartDate = DateOnly.FromDateTime(connection.StartTime.Date),
-                    EndDate = DateOnly.FromDateTime(connection.EndTime.Date),
-                    StartTime = TimeOnly.FromDateTime(connection.StartTime),
-                    EndTime = TimeOnly.FromDateTime(connection.EndTime),
-                    TrainNumber = connection.Train_Id,
-                    StartStation = startStationName.Item1,
-                    EndStation = endStationName.Item1,
-                    ProviderName = providerName.Item1,
-                    SourceCity = sourceCityName.Item1,
-                    DestinationCity = destinationCityName.Item1,
-                    DepartureTime = connection.StartTime.ToShortTimeString(),
-                    ArrivalTime = connection.EndTime.ToShortTimeString(),
-                    KmNumber = connection.KmNumber,
-                    Duration = connection.Duration
-                });
-            }
-            return true;
-        }
-
-        public async Task<(List<ConnectionInfoObject>, bool)> GetConnectionsInfo(List<Connection> connections)
-        {
-            List<ConnectionInfoObject> connectionsInfo = new List<ConnectionInfoObject>();
+            List<TicketInfoDTO> connectionsInfo = new List<TicketInfoDTO>();
             foreach (var connection in connections)
             {
                 var tmpResult = await UpdateConnectionsInfoForBrowsing(connections, connectionsInfo);
-                if (!tmpResult) return (new List<ConnectionInfoObject> { }, false);
+                if (!tmpResult) return (new List<TicketInfoDTO> { }, false);
             }
             return (connectionsInfo, true);
         }

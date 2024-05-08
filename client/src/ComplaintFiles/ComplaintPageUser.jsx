@@ -6,7 +6,8 @@ import apiBaseUrl from '../config';
 const ComplaintPage = ({complaints}) => {
 
     ////
-    const [userId, setUserId] = useState("1");
+    const [userId, setuserId] = useState(localStorage.getItem('id'))
+  const [jwtToken, setJwtToken] = useState(localStorage.getItem('jwtToken'));
     ////
   const [ticketId, setTicketId] = useState('');
   const [content, setContent] = useState('');
@@ -55,8 +56,8 @@ const handleCreate = async () => {
   return (
     <div className='account-panel'>
         <h1>Moje skragi</h1>
-        <h1>token is{localStorage.getItem('jwtToken')}</h1>
-        <h1>id is{localStorage.getItem('id')}</h1>
+        {/* <h1>token is{localStorage.getItem('jwtToken')}</h1> */}
+        {/* <h1>id is{localStorage.getItem('id')}</h1> */}
         <div className='account-panel-inside'>
         <div>
           <label htmlFor="ticketId">Ticket ID:</label>
@@ -64,9 +65,11 @@ const handleCreate = async () => {
         </div>
         <div>
           <label htmlFor="content">Content:</label>
-          <textarea id="content" value={content} onChange={(e) => setContent(e.target.value)} />
+          <textarea id="content" value={content} maxLength={200} onChange={(e) => setContent(e.target.value)} />
         </div>
+        <div className='ButtonAligment'>
         <button type="button" className='ConfirmationButton' onClick={handleCreate}>Dodaj skargę</button>
+        </div>
             <ComplaintList complaints={complaints}></ComplaintList>
         </div>
     </div>

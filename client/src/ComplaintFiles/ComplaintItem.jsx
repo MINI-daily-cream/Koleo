@@ -15,22 +15,22 @@ const ComplaintItem = ({ TicketId, Content }) => {
 
     const handleSaveContent = async () => {
         // update database
-        try {
-            const response = await axios.post(`${apiBaseUrl}/api/Complaint/edit/${userId}`, {
-                "ticketId": ticketId,
-                "content": content
-            });
-            //navigate("/account");
-            // console.log(response)
-        }
-        catch (error) {
-            if (error === 'Unauthorized') {
-                console.log('Unauthorized. Please log in.');
-                setShowErrorMessage(true);
-            } else {
-                console.error('An error occurred:', error);
-            }
-        };
+        // try {
+        //     const response = await axios.post(`${apiBaseUrl}/api/Complaint/edit/${userId}`, {
+        //         "ticketId": ticketId,
+        //         "content": content
+        //     });
+        //     //navigate("/account");
+        //     // console.log(response)
+        // }
+        // catch (error) {
+        //     if (error === 'Unauthorized') {
+        //         console.log('Unauthorized. Please log in.');
+        //         setShowErrorMessage(true);
+        //     } else {
+        //         console.error('An error occurred:', error);
+        //     }
+        // };
         setIsEditing(false);
         console.log('Content saved:', content);
     };

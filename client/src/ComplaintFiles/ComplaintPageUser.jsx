@@ -35,7 +35,6 @@ const ComplaintPage = ({complaints}) => {
 //     fetchData();
 //   }, [])
 const handleCreate = async () => {
-    // delete from database
 //     try {
 //         const response = await axios.post(`${apiBaseUrl}/api/Complaint/make/${userId}`,{
 //             "ticketId": ticketId,

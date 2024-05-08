@@ -11,7 +11,7 @@ const TicketList = ({ tickets }) => {
             date={ticket.startDate} 
             timeDep={ticket.startTime}
             timeArr={ticket.endTime}
-            passengerName={ticket.passengerName} 
+            passengerName={`${ticket.name} ${ticket.surname}`} 
             trainNumber={ticket.trainNumber}
             finalStation={ticket.endStation}
             departureStation={ticket.startStation} 

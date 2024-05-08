@@ -1,4 +1,5 @@
-﻿using API.Services.Interfaces;
+﻿using API.DTOs;
+using API.Services.Interfaces;
 using Domain;
 using Koleo.Models;
 using Microsoft.AspNetCore.Http;
@@ -20,7 +21,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public Task<List<ConnectionInfoObject>> Get()
+        public Task<List<TicketInfoDTO>> Get()
         {
             return Task.FromResult(_ticketService.GetConnectionsInfo(_context.Connections.ToList()).Result.Item1);
         }

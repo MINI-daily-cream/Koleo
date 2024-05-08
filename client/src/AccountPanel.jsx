@@ -36,9 +36,7 @@ const AccountPanel = () => {
 
   return (
     <div className='account-panel'>
-        <h1>Moje Konto</h1>
-        <h1>token is{localStorage.getItem('jwtToken')}</h1>
-        <h1>id is{localStorage.getItem('id')}</h1>
+        <h1>Moje Konto   id is {localStorage.getItem('id')}</h1>
         <div className='account-panel-inside'>
             <div className="sidenav">
                 <a href="#">Dane użytkownika</a>

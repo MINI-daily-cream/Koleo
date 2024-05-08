@@ -1,20 +1,16 @@
 ﻿import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import { faUser, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import TimeComponent from "./sharedComponents/TimeComponent.jsx";
 import apiBaseUrl from "./config.js";
 
 const TicketConfirmation = ({ navigation, route }) => { // here there is USERS id
+    const navigate = useNavigate();
     const { state } = useLocation();
 
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
-    // const [connection, setConnection] = useState(propValue);
-    
-    const location = useLocation();
-    // const connection1 = location.state.myProp;
-    // let { connection } = useParams();
     const [mainConnection, setmainConnection] = useState(
         {startStation : '', endStation: '', startDate: '', endDate: '', startTime: '', endTime: ''}
     );
@@ -63,6 +59,7 @@ const TicketConfirmation = ({ navigation, route }) => { // here there is USERS i
         } catch (error) {
             console.error('Network error:', error);
         }
+        navigate('/account')
     }
     const ByStations = () => {
         return (
@@ -220,10 +217,9 @@ const TicketConfirmation = ({ navigation, route }) => { // here there is USERS i
                 <div className="ButtonAligment">
                 {/*TODO: set "to" prop*/}
                     <Link to="/FoundConnections"><button type="submit" className="ConfirmationButton">Wróć</button></Link>
-                    <Link to="/"><button type="submit"
-                        className="ConfirmationButton"
-                        onClick={handleBuyButtonClick }
-                    >Kupuję</button></Link>
+                    <button type="button"
+                    className="ConfirmationButton"
+                    onClick={handleBuyButtonClick }>Kupuję</button>
                     </div>
             </form>
         </div>

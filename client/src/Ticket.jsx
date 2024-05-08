@@ -1,8 +1,46 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrain, faCalendar, faClock, faGreaterThan, faMinus, faArrowRight, faUser, faMapMarkerAlt, faTicketAlt } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
+import apiBaseUrl from './config.js';
 
-const Ticket = ({ date, timeDep, timeArr, passengerName, trainNumber, finalStation, departureStation, arrivalStation, wagonNumber, seatNumber }) => {
+const Ticket = ({ ticketId, date, timeDep, timeArr, passengerName, trainNumber, finalStation, departureStation, arrivalStation, wagonNumber, seatNumber }) => {
+  function handleReturn(){
+    const postData = async () => {
+      try {
+        const response = await axios.post(`${apiBaseUrl}/api/Ticket/remove/${ticketId}`);
+        if(response.status == 200) 
+          location.reload();
+      }
+      catch(error) {
+        if (error === 'Unauthorized') {
+            console.log('Unauthorized. Please log in.');
+        } else {
+            console.error('An error occurred:', error);
+        }
+      }
+    }
+    postData();
+  }
+
+  function handleGenerate(){
+    const postData = async () => {
+      try {
+        const response = await axios.post(`${apiBaseUrl}/api/Ticket/generate/${localStorage.getItem('id')}/${ticketId}`);
+        if(response.status == 200) 
+          location.reload();
+      }
+      catch(error) {
+        if (error === 'Unauthorized') {
+            console.log('Unauthorized. Please log in.');
+        } else {
+            console.error('An error occurred:', error);
+        }
+      }
+    }
+    postData();
+  }
+  
   return (
     <div className="ticket">
       <div className="ticket-details">
@@ -61,7 +99,8 @@ const Ticket = ({ date, timeDep, timeArr, passengerName, trainNumber, finalStati
         <div className='car-seat-number'>Wagon: {wagonNumber}</div>
         <div className='car-seat-number'>Miejsce: {seatNumber}</div>
       </div>
-      <button className="return-ticket">Zwróć bilet</button>
+      <button className="return-ticket" onClick={handleReturn}>Zwróć bilet</button>
+      <button className="return-ticket" style={{float: 'right'}} onClick={handleGenerate}>Generuj PDF</button>
     </div>
   );
 };

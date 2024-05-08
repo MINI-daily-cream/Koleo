@@ -58,7 +58,7 @@ namespace Auth.Controllers
             await dataContext.SaveChangesAsync();
             return new UserDto
             {
-                id = user.Id.ToString().ToUpper(),
+                id = user.Id.ToString(),
                 token = tokenService.CreateToken(user)
             };
         }
@@ -91,7 +91,7 @@ namespace Auth.Controllers
             }
             return new UserDto
             {
-                id = user.Id.ToString().ToUpper(),
+                id = user.Id.ToString(),
                 token = tokenService.CreateToken(user)
             };
         }

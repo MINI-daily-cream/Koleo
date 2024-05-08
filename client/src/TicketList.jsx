@@ -7,7 +7,8 @@ const TicketList = ({ tickets }) => {
     <div className="ticket-list">
       {tickets.map((ticket) => (
         <Ticket 
-            key={ticket.id} 
+            key={ticket.id}
+            ticketId={ticket.id}
             date={ticket.startDate} 
             timeDep={ticket.startTime}
             timeArr={ticket.endTime}

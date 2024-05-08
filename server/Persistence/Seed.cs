@@ -303,6 +303,9 @@ namespace Persistence
             var allTickets = _context.Tickets.ToList();
             _context.Tickets.RemoveRange(allTickets);
 
+            var allTicketConnections = _context.TicketConnections.ToList();
+            _context.TicketConnections.RemoveRange(allTicketConnections);
+
             _context.SaveChanges();
         }
     }

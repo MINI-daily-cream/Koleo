@@ -232,7 +232,7 @@ namespace Koleo.Services
                 if (!startStationName.Item2 || !endStationName.Item2 || !providerName.Item2 || !sourceCityName.Item2 || !destinationCityName.Item2) return false;
                 connectionsInfo.Add(new TicketInfoDTO
                 {
-                    Id = connection.Id.ToString().ToUpper(),
+                    Id = ticketInfo[0],
                     StartDate = DateOnly.FromDateTime(connection.StartTime.Date),
                     EndDate = DateOnly.FromDateTime(connection.EndTime.Date),
                     StartTime = TimeOnly.FromDateTime(connection.StartTime),

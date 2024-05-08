@@ -19,6 +19,8 @@ const TicketConfirmation = ({ navigation, route }) => { // here there is USERS i
         {startStation : '', endStation: '', startDate: '', endDate: '', startTime: '', endTime: ''}
     );
     const [userId, setUserId] = useState(localStorage.getItem('id'));
+    const [jwtToken, setJwtToken] = useState(localStorage.getItem('jwtToken'));
+
 
     useEffect(() => {
         setmainConnection(state);
@@ -44,7 +46,8 @@ const TicketConfirmation = ({ navigation, route }) => { // here there is USERS i
         try {
             const response = await axios.post(`${apiBaseUrl}/api/Ticket/buy/${userId}`, requestBody, {
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jwtToken}`
                 }
             });
     

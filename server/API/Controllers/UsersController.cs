@@ -23,7 +23,6 @@ namespace Auth.Controllers
             return "healthy";
         }
    
-
         [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<List<User>>> GetUsers()

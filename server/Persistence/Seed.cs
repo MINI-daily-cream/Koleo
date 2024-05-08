@@ -8,10 +8,54 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+/*
+INSERT INTO Advertisments (Id, AdContent, AdLinkUrl, AdImageUrl, AdCategory, AdOwner)
+VALUES ('66E720C1-5327-4000-9452-461D183A8B1A', 'Ratowanie kotów', 'https://fundacjakot.pl/', 'https://fundacjakot.pl/wp-content/uploads/2023/05/342604087_644061157735387_2155973485546997108_n.jpg', 1, 'FundacjaKot');
+
+INSERT INTO Advertisments (Id, AdContent, AdLinkUrl, AdImageUrl, AdCategory, AdOwner)
+VALUES ('66E720C1-5327-4000-9452-461D183A8B1C', 'Zabawki dla dzieci', 'https://www.smyk.com/zabawki-gry.html', 'https://img.smyk.com/220x/https://bin.smyk.com/media/product/1600/1/lego-speed-champions-ferrari-812-competizione-76914-7405507.jpg', 1, 'Smyk');
+INSERT INTO Advertisments (Id, AdContent, AdLinkUrl, AdImageUrl, AdCategory, AdOwner)
+VALUES ('66E720C1-5327-4000-9452-461D183A8A2B', 'Tanie loty', 'https://www.fru.pl/tanie-loty/do-Stany+Zjednoczone-US/',  'https://www.fru.pl/media/img/uploaded/LP/NYC2.jpg', 1, 'Fru.pl');
+
+
+*/
 namespace Persistence
 {
     public class Seed
     {
+        public static async Task SeedAds(DataContext context)
+        {
+            if (context.Advertisments.Any()) return;
+            var ads = new List<Advertisment>
+            {
+                new Advertisment
+                {
+                    AdContent = "Ratowanie kotów",
+                    AdLinkUrl = "https://fundacjakot.pl/",
+                    AdImageUrl="https://fundacjakot.pl/wp-content/uploads/2023/05/342604087_644061157735387_2155973485546997108_n.jpg",
+                    AdCategory = 0,
+                    AdOwner = "FundacjaKot"
+                },
+
+                new Advertisment
+                {
+                    AdContent = "Zabawki dla dzieci",
+                    AdLinkUrl = "https://www.smyk.com/zabawki-gry.html",
+                    AdImageUrl="https://img.smyk.com/220x/https://bin.smyk.com/media/product/1600/1/lego-speed-champions-ferrari-812-competizione-76914-7405507.jpg",
+                    AdCategory = 0,
+                    AdOwner = "Smyk"
+                },
+                new Advertisment
+                {
+                    AdContent = "Tanie loty",
+                    AdLinkUrl = "https://www.fru.pl/tanie-loty/do-Stany+Zjednoczone-US/",
+                    AdImageUrl="https://www.fru.pl/media/img/uploaded/LP/NYC2.jpg",
+                    AdCategory = 0,
+                    AdOwner = "Fru.pl"
+                }
+            };
+        }
         public static async Task SeedData(DataContext context)
         {
             if (context.Users.Any()) return;

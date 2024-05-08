@@ -65,8 +65,8 @@ body {
   color: #f1356d;
 }
 .content {
-  max-width: 600px;
-  margin: 40px auto;
+  max-width: 1400px;
+  /* margin: 40px auto; */
   padding: 20px;
 }
 

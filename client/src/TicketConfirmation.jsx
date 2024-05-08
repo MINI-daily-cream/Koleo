@@ -217,7 +217,7 @@ const TicketConfirmation = ({ navigation, route }) => { // here there is USERS i
                 <div className="ButtonAligment">
                 {/*TODO: set "to" prop*/}
                     <Link to="/FoundConnections"><button type="submit" className="ConfirmationButton">Wróć</button></Link>
-                    <Link to="/"><button type="submit"
+                    <Link to="/account"><button type="submit"
                         className="ConfirmationButton"
                         onClick={handleBuyButtonClick }
                     >Kupuję</button></Link>

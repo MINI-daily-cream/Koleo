@@ -12,6 +12,8 @@ import AccountPanel from "./AccountPanel.jsx";
 import HomePage from "./HomePage.jsx";
 import TicketConfirmation from './TicketConfirmation.jsx'; // Make sure the file name matches
 import FoundConnectionList from "./FoundConnections.jsx";
+import complaints from "./ComplaintFiles/complaints";
+import ComplaintPage from "./ComplaintFiles/ComplaintPageUser";
 
 const root = createRoot(document.getElementById('root')); // Use createRoot to initialize the root
 root.render(
@@ -27,6 +29,7 @@ root.render(
         <Route path="/tickets" element={<TicketList tickets={tickets} />} />
         <Route path="/ticketConfirmation" element={<TicketConfirmation />} />
         <Route path="/FoundConnections" element={<FoundConnectionList />} />
+        <Route path="/complaints" element={ <ComplaintPage complaints={complaints} />} />
       </Routes>
     </Router>
   </React.StrictMode>

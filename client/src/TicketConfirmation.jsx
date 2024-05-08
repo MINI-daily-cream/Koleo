@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { faUser, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import TimeComponent from "./sharedComponents/TimeComponent.jsx";
 import apiBaseUrl from "./config.js";
-
+import axios from 'axios'
 const TicketConfirmation = ({ navigation, route }) => { // here there is USERS id
     const { state } = useLocation();
 
@@ -18,44 +18,37 @@ const TicketConfirmation = ({ navigation, route }) => { // here there is USERS i
     const [mainConnection, setmainConnection] = useState(
         {startStation : '', endStation: '', startDate: '', endDate: '', startTime: '', endTime: ''}
     );
-    const [userId, setuserId] = useState(localStorage.getItem('id'))
+    const [userId, setUserId] = useState(localStorage.getItem('id'));
 
-    useEffect( () => {
-        // console.log("connection is")
-        // console.log(route.params.connection);
-        // console.log(state);
-        setmainConnection(state)
-      }, [])
-
+    useEffect(() => {
+        setmainConnection(state);
+    }, []);
+    
     const handleNameChange = (e) => {
         setName(e.target.value);
     };
+    
     const handleSurnameChange = (e) => {
         setSurname(e.target.value);
     };
-
+    
     const handleBuyButtonClick = async () => {
-        console.log(userId)
-        console.log(mainConnection.id)
+        console.log(userId);
+        console.log(mainConnection.id);
         const requestBody = {
-            // userId: userId,
             connectionIds: [mainConnection.id],
-            // connectionIds: connection.map(conn => conn.id),
             targetName: name,
             targetSurname: surname
         };
-
+    
         try {
-            // const response = await fetch(`https://localhost:5001/api/Ticket/buy/${userId}`, {
-            const response = await fetch(`${apiBaseUrl}/api/Ticket/buy/${userId}`, {
-                method: 'POST',
+            const response = await axios.post(`${apiBaseUrl}/api/Ticket/buy/${userId}`, requestBody, {
                 headers: {
                     'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(requestBody)
+                }
             });
-
-            if (response.ok) {
+    
+            if (response.status === 200) {
                 console.log('Ticket purchased successfully.');
             } else {
                 console.error('Failed to purchase ticket.');
@@ -63,7 +56,8 @@ const TicketConfirmation = ({ navigation, route }) => { // here there is USERS i
         } catch (error) {
             console.error('Network error:', error);
         }
-    }
+    };
+    
     const ByStations = () => {
         return (
             <div className="TravelTimeInfo">

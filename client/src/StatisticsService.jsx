@@ -29,43 +29,33 @@ const StatisticsService = () => {
     fetchUserAchievements();
   }, []); */
   return (
-    <div className="account-panel">
-      <h1>Moje Osiągnięcia</h1>
-      <div className="account-panel-inside">
-        <div className="sidenav">
-          <Link to="/AccountService">Dane użytkownika</Link>
-          <a href="#">Bilety</a>
-          <a href="#">Statystki</a>
-          <Link to="/Statistics">Statystyki</Link>
-          <a href="#">Osiągnięcia</a>
+    <>
+      {userAchievements ? (
+        <div className="user-achievements">
+          <p>
+            <strong>Przejechane kilometry:</strong>{" "}
+            {userAchievements.KmNumber}
+          </p>
+          <p>
+            <strong>Liczba podróży pociągiem:</strong>{" "}
+            {userAchievements.TrainNumber}
+          </p>
+          <p>
+            <strong>Liczba połączeń:</strong>{" "}
+            {userAchievements.ConnectionsNumber}
+          </p>
+          <p>
+            <strong>Najdłuższy czas podróży:</strong>{" "}
+            {userAchievements.LongestConnectionTime}
+          </p>
+          <p>
+            <strong>Punkty:</strong> {userAchievements.Points}
+          </p>
         </div>
-        {userAchievements ? (
-          <div className="user-achievements">
-            <p>
-              <strong>Przejechane kilometry:</strong>{" "}
-              {userAchievements.KmNumber}
-            </p>
-            <p>
-              <strong>Liczba podróży pociągiem:</strong>{" "}
-              {userAchievements.TrainNumber}
-            </p>
-            <p>
-              <strong>Liczba połączeń:</strong>{" "}
-              {userAchievements.ConnectionsNumber}
-            </p>
-            <p>
-              <strong>Najdłuższy czas podróży:</strong>{" "}
-              {userAchievements.LongestConnectionTime}
-            </p>
-            <p>
-              <strong>Punkty:</strong> {userAchievements.Points}
-            </p>
-          </div>
-        ) : (
-          <p>Ładowanie osiągnięć użytkownika...</p>
-        )}
-      </div>
-    </div>
+      ) : (
+        <p>Ładowanie osiągnięć użytkownika...</p>
+      )}
+    </>
   );
 };
 

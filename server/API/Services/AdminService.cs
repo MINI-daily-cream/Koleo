@@ -4,7 +4,7 @@ using Org.BouncyCastle.Asn1.X509;
 
 namespace Koleo.Services
 {
-    public class AdminService : IAccountSettingsServer
+    public class AdminService : IAdminService
     {
         private readonly IDatabaseServiceAPI _databaseService;
         public AdminService(IDatabaseServiceAPI databaseService) // jakieś DI

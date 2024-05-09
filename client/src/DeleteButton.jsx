@@ -1,27 +1,35 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import apiBaseUrl from "./config";
 
 const DeleteAccountButton = () => {
-  const handleDeleteAccount = async () => {
-    const id = "C4630E12-DEE8-411E-AF44-E3CA970455CE"; // Assuming you have the ID of the account you want to delete
+  const navigate = useNavigate();
+  const [userId, setuserId] = useState(localStorage.getItem('id'))
+  const [jwtToken, setJwtToken] = useState(localStorage.getItem('jwtToken'));
 
-    try {
-      const response = await fetch(`https://localhost:5001/api/Account/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to delete account");
+  async function handleDeleteAccount() {
+    console.log("hello")
+    const makeRequest = async () => {
+      try {
+        const response = await axios.delete(`${apiBaseUrl}/api/Account/delete-user/${userId}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwtToken}`
+            }
+        });
+      } 
+      catch(error) {
+        if (error === 'Bad request') {
+            console.error('user exists');
+        } else {
+            console.error('An error occurred:', error);
+        }
       }
-
-      console.log("Account deleted successfully");
-      // Optionally, you can perform additional actions here after successful deletion
-    } catch (error) {
-      console.error("Error deleting account:", error);
-    }
-  };
+    };
+    await makeRequest();
+    navigate("/after-delete")
+  }
 
   return (
     <button

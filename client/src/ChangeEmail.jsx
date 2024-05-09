@@ -1,29 +1,40 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import apiBaseUrl from "./config";
 
 const ChangeEmail = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
-  const [userData, setUserData] = useState(null);
-  const id = 3;
+  const [userInfo, setUserInfo] = useState(null);
+  const [userId, setuserId] = useState(localStorage.getItem('id'))
+  const [jwtToken, setJwtToken] = useState(localStorage.getItem('jwtToken'));
 
-  useEffect(() => {
-    const fetchUserData = async () => {
+  function getUserData() {
+    const fetchData = async () => {
       try {
-        const response = await fetch(
-          `https://localhost:5001/api/Account/${id}`
-        );
-        if (!response.ok) {
-          throw new Error("Błąd pobierania danych użytkownika");
+        const response = await axios.get(`${apiBaseUrl}/api/Account/${userId}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwtToken}`
+            }
+        });
+        setUserInfo(response.data);
+      } 
+      catch(error) {
+        if (error === 'Bad request') {
+            console.error('user exists');
+        } else {
+            console.error('An error occurred:', error);
         }
-        const userData = await response.json();
-        setUserData(userData);
-      } catch (error) {
-        console.error("Wystąpił błąd:", error);
       }
     };
+    fetchData();
+  }
 
-    fetchUserData();
-  }, []);
+  useEffect( () => {
+    getUserData();
+  }, [])
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -32,24 +43,30 @@ const ChangeEmail = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch(`https://localhost:5001/api/Account/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: userData.name,
-          surname: userData.surname,
-          email: email,
-        }),
-      });
+    const newInfo = {
+      name: userInfo.name,
+      surname: userInfo.surname,
+      email: email,
+    };
 
-      if (!response.ok) {
-        throw new Error("Błąd podczas zmiany adresu email");
+    try {
+      const response = await axios.put(`${apiBaseUrl}/api/Account/${userId}`, 
+        newInfo,
+        {
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${jwtToken}`
+          }
+        }
+      );
+      navigate("/account/info");
+    }
+    catch(error) {
+      if (error === 'Bad request') {
+          console.error('user exists');
+      } else {
+          console.error('An error occurred:', error);
       }
-    } catch (error) {
-      console.error("Wystąpił błąd:", error);
     }
   };
 

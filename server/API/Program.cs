@@ -22,6 +22,7 @@ builder.Services.AddControllers();
 
 
 builder.Services.AddScoped<IDatabaseServiceAPI, DatabaseServiceAPI>();
+builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();

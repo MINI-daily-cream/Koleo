@@ -31,7 +31,7 @@ root.render(
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegistrationPage />} />
         <Route path="/account" element={<AccountPanel />}>
-          <Route path="tickets" element={<TicketList tickets={tickets} />} />
+          <Route path="tickets" element={<TicketList />} />
           <Route path="info" element={<AccountService />} />
           <Route path="statistics" element={<StatisticsService />} />
         </Route>

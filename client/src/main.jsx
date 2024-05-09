@@ -14,6 +14,11 @@ import TicketConfirmation from './TicketConfirmation.jsx'; // Make sure the file
 import FoundConnectionList from "./FoundConnections.jsx";
 import complaints from "./ComplaintFiles/complaints";
 import ComplaintPage from "./ComplaintFiles/ComplaintPageUser";
+import AccountService from './AccountService.jsx';
+import StatisticsService from './StatisticsService.jsx';
+import ChangeEmail from './ChangeEmail.jsx';
+import ChangePassword from './ChangePassword.jsx';
+import AfterDeleteScreen from './AfterDeleteScreen.jsx';
 
 const root = createRoot(document.getElementById('root')); // Use createRoot to initialize the root
 root.render(
@@ -25,11 +30,17 @@ root.render(
         <Route path="/home" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegistrationPage />} />
-        <Route path="/account" element={<AccountPanel />} />
-        <Route path="/tickets" element={<TicketList tickets={tickets} />} />
+        <Route path="/account" element={<AccountPanel />}>
+          <Route path="tickets" element={<TicketList tickets={tickets} />} />
+          <Route path="info" element={<AccountService />} />
+          <Route path="statistics" element={<StatisticsService />} />
+        </Route>
+        <Route path="/ChangeEmail" element={<ChangeEmail />} />
+        <Route path="/ChangePassword" element={<ChangePassword />} />
         <Route path="/ticketConfirmation" element={<TicketConfirmation />} />
         <Route path="/FoundConnections" element={<FoundConnectionList />} />
         <Route path="/complaints" element={ <ComplaintPage complaints={complaints} />} />
+        <Route path="/after-delete" element={ <AfterDeleteScreen />} />
       </Routes>
     </Router>
   </React.StrictMode>

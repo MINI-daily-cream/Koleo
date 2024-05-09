@@ -13,8 +13,8 @@ namespace API.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IAccountService _accountService;
-        private readonly AdminService _adminService;
-        public AccountController(IAccountService accountService, AdminService adminService) 
+        private readonly IAdminService _adminService;
+        public AccountController(IAccountService accountService, IAdminService adminService) 
         {
             _accountService = accountService;
             _adminService = adminService;

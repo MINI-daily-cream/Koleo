@@ -483,3 +483,8 @@ hr.solid {
   color: red;
   font-size: 30px;
 }
+
+.after-delete-link {
+  color: var(--orange-pkp);
+  font-size: 30px;
+}

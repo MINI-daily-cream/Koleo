@@ -46,8 +46,8 @@ namespace Auth.Controllers
                 UserName = "",
                 PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.password)),
                 PasswordSalt = hmac.Key,
-                Name = "",
-                Surname = "",
+                Name = registerDto.name,
+                Surname = registerDto.surname,
                 Email = registerDto.email,
                 Password = "",
                 CardNumber = ""

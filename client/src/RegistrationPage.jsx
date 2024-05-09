@@ -17,10 +17,19 @@ const RegistrationPage = () => {
   );
 
   const navigate = useNavigate();
+  const [name, setName] = useState('');
+  const [surname, setSurname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
+
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  };
+  const handleSurnameChange = (e) => {
+    setSurname(e.target.value);
+  };
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -52,15 +61,17 @@ const RegistrationPage = () => {
       return;
     }
 
-    const fetchData = async () => {
+    const postData = async () => {
       try {
         const response = await axios.post(`${apiBaseUrl}/api/account/register`,{
+          "name": name,
+          "surname": surname,
           "email": email,
           "password": password
         });
         localStorage.setItem('jwtToken', response.data.token);
         localStorage.setItem('id', response.data.id);
-        navigate("/account");
+        navigate("/account/info");
         // console.log(response)
       }
       catch(error) {
@@ -73,14 +84,34 @@ const RegistrationPage = () => {
         }
       }
     }
-    fetchData();
+    postData();
   }
 
   return (
     <div className="form">
       <h1>Zarejestruj się</h1>
       <form>
-        <div>
+      <div>
+          <label>Imię:</label>
+          <input
+            type="text"
+            id="name"
+            value={name}
+            onChange={handleNameChange}
+            required
+          />
+      </div>
+      <div>
+          <label>Nazwisko:</label>
+          <input
+            type="text"
+            id="surname"
+            value={surname}
+            onChange={handleSurnameChange}
+            required
+          />
+      </div>
+      <div>
           <label htmlFor="email">Adres e-mail:</label>
           <input
             type="email"
@@ -89,7 +120,7 @@ const RegistrationPage = () => {
             onChange={handleEmailChange}
             required
           />
-        </div>
+      </div>
         <div>
           <label htmlFor="password">Hasło:</label>
           <input

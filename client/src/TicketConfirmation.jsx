@@ -19,9 +19,34 @@ const TicketConfirmation = ({ navigation, route }) => { // here there is USERS i
     const [userId, setUserId] = useState(localStorage.getItem('id'));
     const [jwtToken, setJwtToken] = useState(localStorage.getItem('jwtToken'));
 
+    function getUserData() {
+        const fetchData = async () => {
+          try {
+            const response = await axios.get(`${apiBaseUrl}/api/Account/${userId}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jwtToken}`
+                }
+            });
+            // setUserInfo(response.data);
+            setName(response.data.name);
+            setSurname(response.data.surname);
+          } 
+          catch(error) {
+            if (error === 'Bad request') {
+                console.error('user exists');
+            } else {
+                console.error('An error occurred:', error);
+            }
+          }
+        };
+        fetchData();
+      }
+
 
     useEffect(() => {
         setmainConnection(state);
+        getUserData();
     }, []);
     
     const handleNameChange = (e) => {
@@ -35,6 +60,7 @@ const TicketConfirmation = ({ navigation, route }) => { // here there is USERS i
     const handleBuyButtonClick = async () => {
         console.log(userId);
         console.log(mainConnection.id);
+        
         const requestBody = {
             connectionIds: [mainConnection.id],
             targetName: name,
@@ -48,16 +74,15 @@ const TicketConfirmation = ({ navigation, route }) => { // here there is USERS i
                     'Authorization': `Bearer ${jwtToken}`
                 }
             });
-    
             if (response.status === 200) {
                 console.log('Ticket purchased successfully.');
             } else {
                 console.error('Failed to purchase ticket.');
             }
-            navigate("/account/tickets")
         } catch (error) {
             console.error('Network error:', error);
         }
+        navigate("/account/tickets");
     };
     
     const ByStations = () => {
@@ -215,8 +240,8 @@ const TicketConfirmation = ({ navigation, route }) => { // here there is USERS i
                 </div>
                 <div className="ButtonAligment">
                 {/*TODO: set "to" prop*/}
-                    <Link to="/FoundConnections"><button type="submit" className="ConfirmationButton">Wróć</button></Link>
-                    <button type="submit"
+                    <Link to="/FoundConnections"><button type="button" className="ConfirmationButton">Wróć</button></Link>
+                    <button type="button"
                         className="ConfirmationButton"
                         onClick={handleBuyButtonClick }
                     >Kupuję</button>

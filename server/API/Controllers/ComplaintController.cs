@@ -24,21 +24,26 @@ namespace API.Controllers
         [HttpPut("edit/{complaintId}")]
         public Task<bool> Edit(string complaintId, ComplaintDTO complaintDto)
         {
-            return _complaintService.EditComplaint(complaintId, complaintDto.ticketId, complaintDto.content);
+            return _complaintService.EditComplaint(complaintId, complaintDto.content);
         }
         [HttpDelete("remove/{complaintId}")]
         public Task<bool> Remove(string complaintId)
         {
             return _complaintService.RemoveComplaint(complaintId);
         }
-        [HttpGet("list-by-user/{userId}")]
-        public Task<List<ComplaintWithAnswer>> List(string userId) { 
-            return Task.FromResult(_complaintService.ListComplaints(userId).Result.Item1);
+        [HttpGet("list-by-user-answered/{userId}")]
+        public Task<List<ComplaintWithAnswer>> UserListAnswered(string userId) { 
+            return Task.FromResult(_complaintService.ListAnsweredComplaintsByUser(userId).Result.Item1);
+        }
+        [HttpGet("list-by-user-unanswered/{userId}")]
+        public Task<List<ComplaintWithoutAnswer>> UserListUnanswered(string userId)
+        {
+            return Task.FromResult(_complaintService.ListUnansweredComplaintsByUser(userId).Result.Item1);
         }
         [HttpGet("list-by-admin")]
-        public Task<List<ComplaintWithoutAnswer>> ListUnanswered()
+        public Task<List<ComplaintWithoutAnswer>> AdminListUnanswered()
         {
-            return Task.FromResult(_complaintService.ListUnansweredComplaints().Result.Item1);
+            return Task.FromResult(_complaintService.ListUnansweredComplaintsByAdmin().Result.Item1);
         }
         [HttpPut("answer/{adminId}")]
         public Task<bool> ResponseComplaint(string adminId, AdminComplaintDTO admincomplaintDto) {

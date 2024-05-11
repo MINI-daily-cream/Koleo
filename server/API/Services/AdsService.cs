@@ -47,8 +47,8 @@ namespace KoleoPL.Services
         }
         public async Task<bool> AddNewAdvertisement(string AdContent, string AdLinkUrl, string AdImageUrl, AdvertismentCategory AdCategory, string AdOwner)
         {
-            string sql = $"INSERT INTO Advertisment (AdContent, AdLinkUrl, AdImageUrl, AdCategory) " +
-                $"VALUES ('{AdContent}, '{AdLinkUrl}', '{AdImageUrl}', '{AdCategory.ToString()}', '{AdOwner}')";
+            string sql = $"INSERT INTO Advertisment (Id, AdContent, AdLinkUrl, AdImageUrl, AdCategory) " +
+                $"VALUES ('{Guid.NewGuid().ToString().ToUpper()}', '{AdContent}', '{AdLinkUrl}', '{AdImageUrl}', '{AdCategory.ToString()}', '{AdOwner}')";
 
             try
             {
@@ -73,7 +73,7 @@ namespace KoleoPL.Services
             if (AdOwner != null) args.Add($"AdOwner = '{AdOwner}'");
 
             sql += string.Join(", ", args);
-            sql += $"WHERE Id = `{id}`";
+            sql += $"WHERE Id = '{id}'";
 
             try
             {
@@ -130,7 +130,7 @@ namespace KoleoPL.Services
             List<string> args = new List<string>();
             foreach (Advertisment ad in ads)
             {
-                args.Add($"('{ad.Id}', '{UserId}')");
+                args.Add($"('{Guid.NewGuid().ToString().ToUpper()}', '{ad.Id}', '{UserId}')");
             }
             sql += string.Join(", ", args);
             try

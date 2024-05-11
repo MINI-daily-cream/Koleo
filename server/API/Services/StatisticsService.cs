@@ -15,7 +15,7 @@ namespace Koleo.Services
         public async Task<StatisticsInfo>? GetByUser(string userID)
         {
 
-            string sql = $"SELECT * FROM STATISTICS WHERE USER_ID ={userID}";
+            string sql = $"SELECT * FROM STATISTICS WHERE User_Id='{userID}'";
             var result = await _databaseService.ExecuteSQLLastRow(sql);
             if (result.Item1.Count > 0)
             {
@@ -33,7 +33,7 @@ namespace Koleo.Services
         public async void Update(string userID,ConnectionInfoObject connectionInfoObject)
         {
 
-            string sql = $"SELECT * FROM STATISTICS WHERE USER_ID ={userID}";
+            string sql = $"SELECT * FROM STATISTICS WHERE User_Id='{userID}'";
             var result = await _databaseService.ExecuteSQLLastRow(sql);
             if (result.Item1.Count > 0)
             {
@@ -64,7 +64,7 @@ namespace Koleo.Services
 
                 
 
-                sql =$"INSERT INTO STATISTICS(id,user_id,kmnumber, trainnumber, connectionsnumber, longestconnectiontime,points) VALUES({userID}, {userID}, {km_number}, {train_number}, {connections_number}, {longest_connection}, {points})";
+                sql =$"INSERT INTO STATISTICS (Id, User_Id, KmNumber, TrainNumber, ConnectionsNumber, LongestConnectionTime, Points) VALUES('{Guid.NewGuid().ToString().ToUpper()}', '{userID}', '{userID}', '{km_number}', '{train_number}', '{connections_number}', '{longest_connection}', '{points}')";
 
                 await _databaseService.ExecuteSQL(sql);
             }

@@ -16,7 +16,7 @@ namespace Koleo.Services
         {
             if (await VerifyAccount(email))
             {
-                string sql = $"INSERT INTO Administrators (Name, Surname, Email, Password) VALUES ('{name}', '{surname}', '{email}', '{password}')";
+                string sql = $"INSERT INTO Administrators (Id, Name, Surname, Email, Password) VALUES ('{Guid.NewGuid().ToString().ToUpper()}', '{name}', '{surname}', '{email}', '{password}')";
                 var result = await _databaseService.ExecuteSQL(sql);
                 return result.Item2;
             }
@@ -51,7 +51,7 @@ namespace Koleo.Services
         }
         public async Task<bool> GiveAdminPermissions(string userId)
         {
-            string sql = $"SELECT Name, Surname, Email, Password FROM Users WHERE Id = {userId}";
+            string sql = $"SELECT Name, Surname, Email, Password FROM Users WHERE Id = '{userId}'";
             var (result, isSuccess) = await _databaseService.ExecuteSQL(sql);
             if (!isSuccess || result.Count == 0)
             {

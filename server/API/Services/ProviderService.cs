@@ -13,7 +13,7 @@ namespace Koleo.Services
 
         public async Task<bool> AddProvider(string providerName)
         {
-            string sql = $"INSERT INTO Providers (Name) VALUES ('{providerName}')";
+            string sql = $"INSERT INTO Providers (Id, Name) VALUES ('{Guid.NewGuid().ToString().ToUpper()}', '{providerName}')";
             var result = await _databaseService.ExecuteSQL(sql);
             return result.Item2;
         }

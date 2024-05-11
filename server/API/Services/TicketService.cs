@@ -44,7 +44,6 @@ namespace Koleo.Services
             }
             return (connectionsInfo, true);
         }
-
         public async Task<bool> Generate(string userId, string ticketId)
         {
             List<TicketInfoDTO> connectionsInfo = new List<TicketInfoDTO>();
@@ -59,38 +58,37 @@ namespace Koleo.Services
             string surname = userData[1];
             try
             {
-                string filePath = $"ticket_{ticketId}.pdf";
-                using (iTextSharp.text.Document document = new Document())
+
+                Document document = new Document();
+                PdfWriter.GetInstance(document, new FileStream($"ticket_{ticketId}.pdf", FileMode.Create));
+                document.Open();
+                document.Add(new Paragraph("Hello, World!"));
+                Paragraph title = new Paragraph("Ticket Information");
+                title.Alignment = Element.ALIGN_CENTER;
+                document.Add(title);
+                document.Add(Chunk.NEWLINE);
+                document.Add(new Paragraph($"Name and surname:{name} {surname}"));
+                foreach (var connection in connectionsInfo)
                 {
-                    using (PdfWriter writer = PdfWriter.GetInstance(document, new FileStream(filePath, FileMode.Create)))
-                    {
-                        document.Open();
-                        Paragraph title = new Paragraph("Ticket Information");
-                        title.Alignment = Element.ALIGN_CENTER;
-                        document.Add(title);
-                        document.Add(Chunk.NEWLINE);
-                        document.Add(new Paragraph($"Name and surname:{name} {surname}"));
-                        foreach (var connection in connectionsInfo)
-                        {
-                            document.Add(new Paragraph($"Date: {connection.StartDate.ToShortDateString()}"));
-                            document.Add(new Paragraph($"Train Number: {connection.TrainNumber}"));
-                            document.Add(new Paragraph($"Start Station: {connection.StartStation}"));
-                            document.Add(new Paragraph($"End Station: {connection.EndStation}"));
-                            document.Add(new Paragraph($"Provider: {connection.ProviderName}"));
-                            document.Add(new Paragraph($"Source City: {connection.SourceCity}"));
-                            document.Add(new Paragraph($"Destination City: {connection.DestinationCity}"));
-                            document.Add(new Paragraph($"Departure Time: {connection.DepartureTime}"));
-                            document.Add(new Paragraph($"Arrival Time: {connection.ArrivalTime}"));
-                            document.Add(new Paragraph($"Km Number: {connection.KmNumber}"));
-                            document.Add(new Paragraph($"Duration: {connection.Duration}"));
-                            document.Add(Chunk.NEWLINE);
-                        }
-                    }
+                    document.Add(new Paragraph($"Date: {connection.StartDate.ToShortDateString()}"));
+                    document.Add(new Paragraph($"Train Number: {connection.TrainNumber}"));
+                    document.Add(new Paragraph($"Start Station: {connection.StartStation}"));
+                    document.Add(new Paragraph($"End Station: {connection.EndStation}"));
+                    document.Add(new Paragraph($"Provider: {connection.ProviderName}"));
+                    document.Add(new Paragraph($"Source City: {connection.SourceCity}"));
+                    document.Add(new Paragraph($"Destination City: {connection.DestinationCity}"));
+                    document.Add(new Paragraph($"Departure Time: {connection.DepartureTime}"));
+                    document.Add(new Paragraph($"Arrival Time: {connection.ArrivalTime}"));
+                    document.Add(new Paragraph($"Km Number: {connection.KmNumber}"));
+                    document.Add(new Paragraph($"Duration: {connection.Duration}"));
+                    document.Add(Chunk.NEWLINE);
                 }
+                document.Close();
                 return true;
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"An error occurred: {ex.Message}");
                 return false;
             }
         }

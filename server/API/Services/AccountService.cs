@@ -45,7 +45,7 @@ namespace Koleo.Services
 
                     if (currentPassword != oldPassword)
                     {
-                        throw new Exception("Podane aktualne has�o jest nieprawid�owe");
+                        throw new Exception("Podane aktualne haslo jest nieprawidlowe");
                     }
 
                     string updatePasswordSql = $"UPDATE Users SET Password = '{newPassword}' WHERE Id = '{id}'";

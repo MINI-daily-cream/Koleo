@@ -8,6 +8,8 @@ using Document = iTextSharp.text.Document;
 using Org.BouncyCastle.Asn1.X509.SigI;
 using API.Services.Interfaces;
 using API.DTOs;
+using Org.BouncyCastle.Asn1.X509;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace Koleo.Services
 {
@@ -15,11 +17,11 @@ namespace Koleo.Services
     {
         private readonly IDatabaseServiceAPI _databaseService;
         private readonly IPaymentService _paymentService;
-
         public TicketService(IDatabaseServiceAPI databaseService, IPaymentService paymentService)
         {
             _databaseService = databaseService;
             _paymentService = paymentService;
+
         }
         public async Task<(string, bool)> Buy(string userId, List<string> connectionsIds, string targetName, string targetSurname)
         {
@@ -62,7 +64,6 @@ namespace Koleo.Services
                 Document document = new Document();
                 PdfWriter.GetInstance(document, new FileStream($"ticket_{ticketId}.pdf", FileMode.Create));
                 document.Open();
-                document.Add(new Paragraph("Hello, World!"));
                 Paragraph title = new Paragraph("Ticket Information");
                 title.Alignment = Element.ALIGN_CENTER;
                 document.Add(title);
@@ -84,6 +85,18 @@ namespace Koleo.Services
                     document.Add(Chunk.NEWLINE);
                 }
                 document.Close();
+                
+                sql = $"SELECT Email FROM Users WHERE Id = '{userId}'";
+                resultMain = await _databaseService.ExecuteSQL(sql);
+                if (!resultMain.Item2) return false;
+                result = resultMain.Item1;
+                userData = result[0];
+                string destEmail = userData[0],
+                subject = $"Koleo ticket",
+                message = "Your purhcased ticket:";
+                EmailSender emailSender = new EmailSender();
+                await emailSender.SendEmailAsync(destEmail, subject, message, $"ticket_{ticketId}.pdf");
+
                 return true;
             }
             catch (Exception ex)

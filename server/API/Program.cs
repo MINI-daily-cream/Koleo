@@ -34,6 +34,7 @@ builder.Services.AddScoped<IStatisticsService,StatisticsService>();
 builder.Services.AddScoped<ITicketServive, TicketService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IGetInfoFromIdService, GetInfoFromIdService>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

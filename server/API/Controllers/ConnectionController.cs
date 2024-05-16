@@ -25,5 +25,11 @@ namespace API.Controllers
         {
             return Task.FromResult(_ticketService.GetConnectionsInfo(_context.Connections.ToList()).Result.Item1);
         }
+
+        //[HttpGet]
+        //public Task<List<TicketInfoDTO>> Get(FindConnectionsDTO filters)
+        //{
+        //    return Task.FromResult(_ticketService.GetConnectionsInfo(_context.Connections.ToList()).Result.Item1);
+        //}
     }
 }

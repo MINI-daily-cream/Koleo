@@ -1,36 +1,38 @@
-﻿//using API.Services.Interfaces;
-//using Domain;
-//using Koleo.Models;
+﻿using API.DTOs;
+using API.Services.Interfaces;
+using Domain;
+using Koleo.Models;
 
-//namespace API.Services
-//{
-//    public class ConnectionService : IConnectionService
-//    {
-//        private readonly IDatabaseServiceAPI _databaseService;
-//        public ConnectionService(IDatabaseServiceAPI databaseService)
-//        {
-//            _databaseService = databaseService;
-//        }
-//        public async Task<Connection>? Get()
-//        {
-            
-//            string sql = $"SELECT TOP 1 * FROM Connections";
-//            (var result, bool success) = await _databaseService.ExecuteSQL(sql);
-//            if (success && result.Count > 0)
-//            {
-//                string[] userData = result[0];
-//                string name = userData[0];
-//                string surname = userData[1];
-//                string email = userData[2];
-//                return new AccountInfo(name, surname, email);
-//            }
-//            return null;
-//        }
-//        public async Task<bool> UpdateAccountInfo(string userId, string newName, string newSurname, string newEmail)
-//        {
-//            string sql = $"UPDATE Users SET Name = '{newName}', Surname = '{newSurname}', Email = '{newEmail}' WHERE Id = '{userId}'";
-//            var result = await _databaseService.ExecuteSQL(sql);
-//            return result.Item2;
-//        }
-//    }
-//}
+namespace API.Services
+{
+    public class ConnectionService : IConnectionService
+    {
+        private readonly IGetInfoFromIdService _getInfoFromIdService;
+        private readonly IGetIdFromInfoService _getIdFromInfoService;
+        public ConnectionService(IGetInfoFromIdService getInfoFromIdService, IGetIdFromInfoService getIdFromInfoService)
+        {
+            _getInfoFromIdService = getInfoFromIdService;
+            _getIdFromInfoService = getIdFromInfoService;
+        }
+
+        public async Task<(List<TicketInfoDTO>, bool)> GetConnectionsInfo(List<Connection> connections)
+        {
+            List<TicketInfoDTO> connectionsInfo = new List<TicketInfoDTO>();
+            foreach (var connection in connections)
+            {
+                var tmpResult = await _getInfoFromIdService.UpdateConnectionsInfoForBrowsing(connections, connectionsInfo);
+                if (!tmpResult) return (new List<TicketInfoDTO> { }, false);
+            }
+            return (connectionsInfo, true);
+        }
+
+        public async Task<(List<TicketInfoDTO>, bool)> GetFilteredConnections(FindConnectionsDTO filters)
+        {
+            var startStationIdsResult = await _getIdFromInfoService.GetStationIdsByCityName(filters.StartCity);
+            if(!startStationIdsResult.Item2) return (null, false);
+            string[] startStationIds = startStationIdsResult.Item1;
+
+            return (null, false);
+        }
+    }
+}

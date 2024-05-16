@@ -158,17 +158,6 @@ namespace Koleo.Services
             if(!tmpResult.Item2) return false;
             var result = await Generate(userId, ticketId);
             return result;
-        }   
-
-        public async Task<(List<TicketInfoDTO>, bool)> GetConnectionsInfo(List<Connection> connections)
-        {
-            List<TicketInfoDTO> connectionsInfo = new List<TicketInfoDTO>();
-            foreach (var connection in connections)
-            {
-                var tmpResult = await _getInfoFromIdService.UpdateConnectionsInfoForBrowsing(connections, connectionsInfo);
-                if (!tmpResult) return (new List<TicketInfoDTO> { }, false);
-            }
-            return (connectionsInfo, true);
         }
     }
 }

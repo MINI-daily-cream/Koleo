@@ -2,6 +2,6 @@
 {
     public interface IGetIdFromInfoService
     {
-        public Task<(string[]?, bool)> GetStationIdsByCityName(string cityName);
+        public Task<(List<string>?, bool)> GetStationIdsByCityName(string cityName);
     }
 }

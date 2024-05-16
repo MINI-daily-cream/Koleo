@@ -149,5 +149,27 @@ namespace API.Services
             }
             return true;
         }
+
+        public async Task<(List<Connection>?, bool)> GetConnectionsByStationIds(string startStationId, string endStationId)
+        {
+            //string sql = $"SELECT c.* FROM TicketConnections tc JOIN Connections c ON tc.Connection_Id = c.Id WHERE tc.Ticket_Id = '{ticketId}'";
+            string sql = $"SELECT DISTINCT c.* FROM Stations s JOIN Connections c ON (c.StartStation_Id='{startStationId}' AND c.EndStation_Id='{endStationId}')";
+            var result = await _databaseService.ExecuteSQLLastRow(sql);
+            //var result = await _databaseService.ExecuteSQL(sql);
+            if (!result.Item2) return (null, false);
+
+            return (result.Item1.Select(row => new Connection
+            {
+                //Id = Guid.NewGuid(),
+                Id = Guid.Parse((string)row[0]),
+                StartStation_Id = (string)row[1],
+                EndStation_Id = (string)row[2],
+                Train_Id = (string)row[3],
+                StartTime = DateTime.Parse((string)row[4]),
+                EndTime = DateTime.Parse((string)row[5]),
+                KmNumber = (int)((System.Int64)row[6]),
+                Duration = TimeSpan.Parse((string)row[7]),
+            }).ToList(), true);
+        }
     }
 }

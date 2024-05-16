@@ -27,7 +27,7 @@ namespace API.Services
             return (result.Item1[0][0], true);
         }
 
-        public async Task<(string[]?, bool)> GetStationIdsByCityName(string cityName)
+        public async Task<(List<string>?, bool)> GetStationIdsByCityName(string cityName)
         {
             //string sql = $"SELECT s.Id FROM Stations s JOIN  WHERE Name='{cityName}'";
             var cityIdResult = await GetCityIdByName(cityName);
@@ -37,7 +37,15 @@ namespace API.Services
             string sql = $"SELECT s.Id FROM Stations s JOIN CityStations cs ON s.Id = cs.Station_Id WHERE cs.City_Id ='{cityId}'";
             var result = await _databaseService.ExecuteSQL(sql);
             if (!result.Item2) return (null, false);
-            return (result.Item1[0], true);
+
+            List<string> stationIds = new List<string>();
+            
+            foreach (string[] idArr in result.Item1)
+            {
+                stationIds.Add(idArr[0]);
+            }
+
+            return (stationIds, true);
         }
     }
 }

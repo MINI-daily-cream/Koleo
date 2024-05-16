@@ -75,9 +75,9 @@ namespace Koleo.Services
             if (!result.Item2) return (new List<ComplaintWithoutAnswer> { }, false);
             return (result.Item1.Select(row => new ComplaintWithoutAnswer
             {
-                User_Id = row[0],
-                Ticket_Id = row[1],
-                Content = row[2]
+                User_Id = row[1],
+                Ticket_Id = row[2],
+                Content = row[3]
             }).ToList(), true);
         }
 

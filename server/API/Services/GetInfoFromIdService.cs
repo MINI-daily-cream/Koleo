@@ -117,7 +117,7 @@ namespace API.Services
             return true;
         }
 
-        public async Task<bool> UpdateConnectionsInfoForBrowsing(List<Connection> connections, List<TicketInfoDTO> connectionsInfo)
+        public async Task<bool> UpdateConnectionsInfoForBrowsing(List<Connection> connections, List<ConnectionInfoDTO> connectionsInfo)
         {
             foreach (Connection connection in connections)
             {
@@ -128,7 +128,7 @@ namespace API.Services
                 var sourceCityName = await GetCityNameByStationId(connection.StartStation_Id);
                 var destinationCityName = await GetCityNameByStationId(connection.EndStation_Id);
                 if (!startStationName.Item2 || !endStationName.Item2 || !providerName.Item2 || !sourceCityName.Item2 || !destinationCityName.Item2) return false;
-                connectionsInfo.Add(new TicketInfoDTO
+                connectionsInfo.Add(new ConnectionInfoDTO
                 {
                     Id = connection.Id.ToString().ToUpper(),
                     StartDate = DateOnly.FromDateTime(connection.StartTime.Date),

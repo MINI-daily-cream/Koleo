@@ -15,21 +15,16 @@ namespace API.Services
             _getIdFromInfoService = getIdFromInfoService;
         }
 
-        public async Task<(List<TicketInfoDTO>, bool)> GetConnectionsInfo(List<Connection> connections)
+        public async Task<(List<ConnectionInfoDTO>, bool)> GetConnectionsInfo(List<Connection> connections)
         {
-            List<TicketInfoDTO> connectionsInfo = new List<TicketInfoDTO>();
+            List<ConnectionInfoDTO> connectionsInfo = new List<ConnectionInfoDTO>();
             var tmpResult = await _getInfoFromIdService.UpdateConnectionsInfoForBrowsing(connections, connectionsInfo);
-            if (!tmpResult) return (new List<TicketInfoDTO> { }, false);
+            if (!tmpResult) return (new List<ConnectionInfoDTO> { }, false);
 
-            //foreach (var connection in connections)
-            //{
-            //    var tmpResult = await _getInfoFromIdService.UpdateConnectionsInfoForBrowsing(connections, connectionsInfo);
-            //    if (!tmpResult) return (new List<TicketInfoDTO> { }, false);
-            //}
             return (connectionsInfo, true);
         }
 
-        public async Task<(List<TicketInfoDTO>, bool)> GetFilteredConnections(FindConnectionsDTO filters)
+        public async Task<(List<ConnectionInfoDTO>, bool)> GetFilteredConnections(FindConnectionsDTO filters)
         {
             var startStationIdsResult = await _getIdFromInfoService.GetStationIdsByCityName(filters.StartCity);
             if(!startStationIdsResult.Item2) return (null, false);
@@ -39,15 +34,23 @@ namespace API.Services
             if (!endStationIdsResult.Item2) return (null, false);
             List<string> endStationIds = endStationIdsResult.Item1;
 
-            var connectionsResult = await _getInfoFromIdService.GetConnectionsByStationIds(startStationIds[1], endStationIds[0]);
-            if (!connectionsResult.Item2) return (null, false);
-            List<Connection> connections = connectionsResult.Item1;
 
+            List<Connection> connections = new List<Connection>();
+
+            foreach(var start in startStationIds)
+            {
+                foreach(var end in endStationIds)
+                {
+                    var connectionsResult = await _getInfoFromIdService.GetConnectionsByStationIds(start, end);
+                    if (!connectionsResult.Item2) return (null, false);
+                    List<Connection> connections1 = connectionsResult.Item1;
+                    connections.AddRange(connections1);
+                }
+            }
 
             var connectionsInfoResult = await GetConnectionsInfo(connections);
             if (!connectionsInfoResult.Item2) return (null, false);
-            List<TicketInfoDTO> connectionsInfo = connectionsInfoResult.Item1;
-
+            List<ConnectionInfoDTO> connectionsInfo = connectionsInfoResult.Item1;
 
             return (connectionsInfo, true);
         }

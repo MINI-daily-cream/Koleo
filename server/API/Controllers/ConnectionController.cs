@@ -21,13 +21,13 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public Task<List<TicketInfoDTO>> Get()
+        public Task<List<ConnectionInfoDTO>> Get()
         {
             return Task.FromResult(_connectionService.GetConnectionsInfo(_context.Connections.ToList()).Result.Item1);
         }
 
         [HttpGet("filtered")]
-        public Task<List<TicketInfoDTO>> Get(FindConnectionsDTO filters)
+        public Task<List<ConnectionInfoDTO>> Get(FindConnectionsDTO filters)
         {
             return Task.FromResult(_connectionService.GetFilteredConnections(filters).Result.Item1);
         }

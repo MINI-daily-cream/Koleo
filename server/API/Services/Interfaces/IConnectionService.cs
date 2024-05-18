@@ -6,7 +6,7 @@ namespace API.Services.Interfaces
 {
     public interface IConnectionService
     {
-        public Task<(List<TicketInfoDTO>, bool)> GetConnectionsInfo(List<Connection> connections);
-        public Task<(List<TicketInfoDTO>, bool)> GetFilteredConnections(FindConnectionsDTO filters);
+        public Task<(List<ConnectionInfoDTO>, bool)> GetConnectionsInfo(List<Connection> connections);
+        public Task<(List<ConnectionInfoDTO>, bool)> GetFilteredConnections(FindConnectionsDTO filters);
     }
 }

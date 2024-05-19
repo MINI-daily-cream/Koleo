@@ -266,7 +266,8 @@ hr.solid {
   background-color: var(--orange-pkp);
   color: #fff;
   border: none;
-  padding: 8px 12px;
+  padding: 8px 7px;
+  margin: 3px;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;

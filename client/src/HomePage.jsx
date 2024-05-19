@@ -33,8 +33,13 @@ const HomePage = () => {
             event.preventDefault();
             return;     
         }
-        window.location.href = "/FoundConnections";
-        // navigate("/FoundConnections");
+
+        navigate("/FoundConnections", {state: {
+            startCity: selectedCitySrc,
+            endCity: selectedCityDst,
+            day: "2024-05-16T17:08:37.872Z"
+            // day: selectedDate.toString()
+        }});
     }
     
 

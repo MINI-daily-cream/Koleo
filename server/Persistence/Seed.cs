@@ -92,11 +92,23 @@ namespace Persistence
                 },
                 new Station
                 {
+                    Name = "Warszawa Gdańska"
+                },
+                new Station
+                {
                     Name = "Kraków Główny"
                 },
                 new Station
                 {
                     Name = "Łódź Fabryczna"
+                },
+                new Station
+                {
+                    Name = "Łódź Widzew"
+                },
+                new Station
+                {
+                    Name = "Łódź Kaliska"
                 },
                 new Station
                 {
@@ -161,6 +173,11 @@ namespace Persistence
                 },
                 new CityStation
                 {
+                    City_Id = cities.Find(city => city.Name == "Warszawa").Id,
+                    Station_Id = stations.Find(station => station.Name == "Warszawa Gdańska").Id
+                },
+                new CityStation
+                {
                     City_Id = cities.Find(city => city.Name == "Kraków").Id,
                     Station_Id = stations.Find(station => station.Name == "Kraków Główny").Id
                 },
@@ -168,6 +185,16 @@ namespace Persistence
                 {
                     City_Id = cities.Find(city => city.Name == "Łódź").Id,
                     Station_Id = stations.Find(station => station.Name == "Łódź Fabryczna").Id
+                },
+                new CityStation
+                {
+                    City_Id = cities.Find(city => city.Name == "Łódź").Id,
+                    Station_Id = stations.Find(station => station.Name == "Łódź Kaliska").Id
+                },
+                new CityStation
+                {
+                    City_Id = cities.Find(city => city.Name == "Łódź").Id,
+                    Station_Id = stations.Find(station => station.Name == "Łódź Widzew").Id
                 },
                 new CityStation
                 {
@@ -213,6 +240,46 @@ namespace Persistence
                 {
                     StartStation_Id = stations.Find(station => station.Name == "Warszawa Centralna").Id.ToString().ToUpper(),
                     EndStation_Id = stations.Find(station => station.Name == "Łódź Fabryczna").Id.ToString().ToUpper(),
+                    Train_Id = trains.Find(train => train.Name == "RUBINSTEIN").Id.ToString().ToUpper(),
+                    StartTime = new DateTime(2024, 05, 01, 9, 23, 0),
+                    EndTime = new DateTime(2024, 05, 01, 10, 39, 0),
+                    KmNumber = 1,
+                    Duration = Duration
+                },
+                new Connection
+                {
+                    StartStation_Id = stations.Find(station => station.Name == "Warszawa Zachodnia").Id.ToString().ToUpper(),
+                    EndStation_Id = stations.Find(station => station.Name == "Łódź Fabryczna").Id.ToString().ToUpper(),
+                    Train_Id = trains.Find(train => train.Name == "RUBINSTEIN").Id.ToString().ToUpper(),
+                    StartTime = new DateTime(2024, 05, 01, 9, 23, 0),
+                    EndTime = new DateTime(2024, 05, 01, 10, 39, 0),
+                    KmNumber = 1,
+                    Duration = Duration
+                },
+                new Connection
+                {
+                    StartStation_Id = stations.Find(station => station.Name == "Warszawa Centralna").Id.ToString().ToUpper(),
+                    EndStation_Id = stations.Find(station => station.Name == "Łódź Widzew").Id.ToString().ToUpper(),
+                    Train_Id = trains.Find(train => train.Name == "RUBINSTEIN").Id.ToString().ToUpper(),
+                    StartTime = new DateTime(2024, 05, 01, 9, 23, 0),
+                    EndTime = new DateTime(2024, 05, 01, 10, 39, 0),
+                    KmNumber = 1,
+                    Duration = Duration
+                },
+                new Connection
+                {
+                    StartStation_Id = stations.Find(station => station.Name == "Warszawa Gdańska").Id.ToString().ToUpper(),
+                    EndStation_Id = stations.Find(station => station.Name == "Łódź Fabryczna").Id.ToString().ToUpper(),
+                    Train_Id = trains.Find(train => train.Name == "RUBINSTEIN").Id.ToString().ToUpper(),
+                    StartTime = new DateTime(2024, 05, 01, 9, 23, 0),
+                    EndTime = new DateTime(2024, 05, 01, 10, 39, 0),
+                    KmNumber = 1,
+                    Duration = Duration
+                },
+                new Connection
+                {
+                    StartStation_Id = stations.Find(station => station.Name == "Warszawa Gdańska").Id.ToString().ToUpper(),
+                    EndStation_Id = stations.Find(station => station.Name == "Łódź Kaliska").Id.ToString().ToUpper(),
                     Train_Id = trains.Find(train => train.Name == "RUBINSTEIN").Id.ToString().ToUpper(),
                     StartTime = new DateTime(2024, 05, 01, 9, 23, 0),
                     EndTime = new DateTime(2024, 05, 01, 10, 39, 0),

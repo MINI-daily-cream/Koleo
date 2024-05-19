@@ -12,18 +12,24 @@ namespace API.Controllers
     [ApiController]
     public class ConnectionController : ControllerBase
     {
-        private readonly ITicketServive _ticketService;
+        private readonly IConnectionService _connectionService;
         private readonly DataContext _context;
-        public ConnectionController(ITicketServive ticketService, DataContext context)
+        public ConnectionController(IConnectionService connectionService, DataContext context)
         {
-            _ticketService = ticketService;
+            _connectionService = connectionService;
             _context = context;
         }
 
         [HttpGet]
-        public Task<List<TicketInfoDTO>> Get()
+        public Task<List<ConnectionInfoDTO>> Get()
         {
-            return Task.FromResult(_ticketService.GetConnectionsInfo(_context.Connections.ToList()).Result.Item1);
+            return Task.FromResult(_connectionService.GetConnectionsInfo(_context.Connections.ToList()).Result.Item1);
+        }
+
+        [HttpPost("filtered")]
+        public Task<List<ConnectionInfoDTO>> Get(FindConnectionsDTO filters)
+        {
+            return Task.FromResult(_connectionService.GetFilteredConnections(filters).Result.Item1);
         }
     }
 }

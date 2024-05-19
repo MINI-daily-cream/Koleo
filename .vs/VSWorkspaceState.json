@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\server"
+    "\\server",
+    "\\server\\UnitTestsProject"
   ],
-  "SelectedNode": "\\server\\Koleo.sln",
+  "SelectedNode": "\\server\\UnitTestsProject\\ComplaintServiceTests.cs",
   "PreviewInSolutionExplorer": false
 }

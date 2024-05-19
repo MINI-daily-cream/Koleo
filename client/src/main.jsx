@@ -19,6 +19,7 @@ import StatisticsService from './StatisticsService.jsx';
 import ChangeEmail from './ChangeEmail.jsx';
 import ChangePassword from './ChangePassword.jsx';
 import AfterDeleteScreen from './AfterDeleteScreen.jsx';
+import ChangeTicketData from './ChangeTicketDataPage.jsx';
 
 const root = createRoot(document.getElementById('root')); // Use createRoot to initialize the root
 root.render(
@@ -41,6 +42,7 @@ root.render(
         <Route path="/FoundConnections" element={<FoundConnectionList />} />
         <Route path="/complaints" element={ <ComplaintPage complaints={complaints} />} />
         <Route path="/after-delete" element={ <AfterDeleteScreen />} />
+        <Route path="/changeTicketDetails" element={ <ChangeTicketData />} />
       </Routes>
     </Router>
   </React.StrictMode>

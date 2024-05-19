@@ -62,9 +62,10 @@ namespace API.Controllers
         //public Task<bool> Add(string userId, List<Connection> connections, string targetName, string targetSurname);
         // to się wywołuje w buy
         [HttpPut("change-details/{userId}/{ticketId}")]
-        public Task<bool> ChangeDetails(string userId, string ticketId, string newTargetName, string newTargetSurname)
+        // public Task<bool> ChangeDetails(string userId, string ticketId, string newTargetName, string newTargetSurname)
+        public Task<bool> ChangeDetails(string userId, string ticketId, [FromBody] ChangeTicketDetailsDTO info)
         {
-            return _ticketService.ChangeDetails(userId.ToUpper(), ticketId.ToUpper(), newTargetName, newTargetSurname);
+            return _ticketService.ChangeDetails(userId.ToUpper(), ticketId.ToUpper(), info.targetName, info.targetSurname);
         }
     }
 }

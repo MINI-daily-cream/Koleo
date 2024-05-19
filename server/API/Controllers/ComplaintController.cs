@@ -46,8 +46,10 @@ namespace API.Controllers
             return Task.FromResult(_complaintService.ListUnansweredComplaintsByAdmin().Result.Item1);
         }
         [HttpPut("answer/{adminId}")]
-        public Task<bool> ResponseComplaint(string adminId, AdminComplaintDTO admincomplaintDto) {
+        public Task<bool> ResponseComplaint(string adminId, AdminComplaintDTO admincomplaintDto)
+        {
             return _complaintService.AnswerComplaint(adminId, admincomplaintDto.complaintId, admincomplaintDto.response);
         }
+
     }
 }

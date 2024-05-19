@@ -9,6 +9,6 @@ namespace Domain
     public class AdminCandidate
     {
         public Guid Id { get; set; }
-        public int User_Id { get; set; }
+        public string User_Id { get; set; }
     }
 }

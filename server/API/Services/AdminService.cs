@@ -1,4 +1,5 @@
 ﻿using API.Services.Interfaces;
+using Domain;
 using Koleo.Models;
 using Org.BouncyCastle.Asn1.X509;
 
@@ -10,26 +11,6 @@ namespace Koleo.Services
         public AdminService(IDatabaseServiceAPI databaseService) // jakieś DI
         {
             _databaseService = databaseService;
-        }
-
-        public async Task<bool> CreateAccount(string name, string surname, string email, string password, string? cardNumbe)
-        {
-            if (await VerifyAccount(email))
-            {
-                string sql = $"INSERT INTO Administrators (Id, Name, Surname, Email, Password) VALUES ('{Guid.NewGuid().ToString().ToUpper()}', '{name}', '{surname}', '{email}', '{password}')";
-                var result = await _databaseService.ExecuteSQL(sql);
-                return result.Item2;
-            }
-            return false;
-        }
-
-        public async Task<bool> VerifyAccount(string email)
-        {
-            string sql = $"SELECT COUNT(*) FROM Administrators WHERE Email = '{email}'";
-            var (results, isSuccess) = await _databaseService.ExecuteSQL(sql);
-            if (!isSuccess) return false;
-            int count = int.Parse(results[0][0]);
-            return count == 0;
         }
 
         public async Task<bool> RemoveAccount(Guid id)
@@ -49,6 +30,19 @@ namespace Koleo.Services
             }
             return results[0][0] == password;
         }
+
+        public async Task<(List<string>, bool)> ListAdminCandidates() {
+            string sql = "SELECT * FROM AdminCandidates";
+            var (results, isSuccess) = await _databaseService.ExecuteSQL(sql);
+            if (!isSuccess) return (new List<string>(), false);
+            List<string> res = new List<string>();
+            for (int i = 0; i < results.Count; ++i)
+            {
+                res.Add(results[i][1]);
+            }
+            return (res, true);
+
+        }
         public async Task<bool> GiveAdminPermissions(string userId)
         {
             string sql = $"SELECT Name, Surname, Email, Password FROM Users WHERE Id = '{userId}'";
@@ -61,15 +55,16 @@ namespace Koleo.Services
             string surname = result[0][1];
             string email = result[0][2];
             string password = result[0][3];
-            isSuccess = await CreateAccount(name, surname, email, password, null);
+            sql = $"INSERT INTO Administrators (Id, Name, Surname, Email, Password) VALUES ('{Guid.NewGuid().ToString().ToUpper()}', '{name}', '{surname}', '{email}', '{password}')";
+            (result, isSuccess) = await _databaseService.ExecuteSQL(sql);
             if (!isSuccess) return false;
-            sql = $"DELETE FROM AdminCandidates WHERE Id = '{userId}'";
+            sql = $"DELETE FROM AdminCandidates WHERE User_Id = '{userId}'";
             (result, isSuccess) = await _databaseService.ExecuteSQL(sql);
             return isSuccess;
         }
         public async Task<bool> RejectAdminRequest(string userId)
         {
-            string sql = $"DELETE FROM AdminCandidates WHERE Id = '{userId}'";
+            string sql = $"DELETE FROM AdminCandidates WHERE User_Id = '{userId}'";
             var (_, isSuccess) = await _databaseService.ExecuteSQL(sql);
             return isSuccess;
         }

@@ -67,5 +67,18 @@ namespace API.Controllers
         {
             return _ticketService.ChangeDetails(userId.ToUpper(), ticketId.ToUpper(), info.targetName, info.targetSurname);
         }
+        [Authorize]
+        [HttpGet("get-ticket-for-complaint/{userId}/{ticketId}")]
+        public Task<TicketInfoDTO> GetTicketForComplaint(string userId, string ticketId)
+        {
+            //Console.WriteLine("o cholera");
+            //Console.WriteLine(userId);
+            //Console.WriteLine(User.Identity.Name);
+            if(userId != User.Identity.Name)
+            {
+               return null;
+            }
+            return Task.FromResult(_ticketService.GetTicketByIdToComplaint(userId.ToUpper(), ticketId.ToUpper()).Result);
+        }
     }
 }

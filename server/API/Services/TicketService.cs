@@ -159,5 +159,23 @@ namespace Koleo.Services
             var result = await Generate(userId, ticketId);
             return result;
         }
+        public async Task<TicketInfoDTO> GetTicketByIdToComplaint(string userId, string ticketId)
+        {
+            List<TicketInfoDTO> connectionsInfo = new List<TicketInfoDTO>();
+            var tmpResult = await _getInfoFromIdService.UpdateConnectionsInfoList(ticketId, connectionsInfo);
+            if (!tmpResult) return new TicketInfoDTO();
+            return connectionsInfo[0];
+
+            // string sql = $"SELECT * FROM TicketConnections tc JOIN Connections c ON tc.Connection_Id=c.Id WHERE tc.Ticket_Id='{ticketId}'";
+            // var tmpResult = await _databaseService.ExecuteSQL(updateDetailsSql);
+            // if(!tmpResult.Item2) return new List<ConnectionInfoDto>();
+            // return (result.Item1.Select(row => new ConnectionInfoDto
+            // {
+            //     complaintId = row[0].ToString(),
+            //     ticketId = row[1],
+            //     content = row[2],
+            //     response = row[3]
+            // }).ToList(), true);
+        }
     }
 }

@@ -9,6 +9,7 @@ const ComplaintList = ({ complaints }) => {
             key={index} 
             TicketId={complaint.ticket_Id} 
             Content={complaint.content}
+            ComplaintId={complaint.complaintId}
       />
       ))}
     </div>

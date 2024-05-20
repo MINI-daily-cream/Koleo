@@ -49,6 +49,7 @@ const handleCreate = async () => {
       const requestBody = {
         ticketId: ticket,
         content: content,
+        complaintId: ''
         };
         const response = await axios.put(`${apiBaseUrl}/api/Complaint/make/${userId}`, requestBody, {
           headers: {
@@ -84,6 +85,7 @@ const handleCreate = async () => {
           </div>
           <div className='customTextArea'>
             {/* <label htmlFor="content">Content:</label> */}
+            <div className='header'>Treść:</div>
             <textarea id="content" value={content} maxLength={200} placeholder="Tekst skargi" onChange={(e) => setContent(e.target.value)} />
           </div>
           <div className='ButtonAligment'>

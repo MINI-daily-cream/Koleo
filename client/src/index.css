@@ -489,3 +489,7 @@ hr.solid {
   color: var(--orange-pkp);
   font-size: 30px;
 }
+#content {
+  width: 400px;
+  height: 200px;
+}

@@ -7,6 +7,7 @@ import { faTrain, faCalendar, faClock, faGreaterThan, faMinus, faArrowRight, faU
 
 const ComplaintItem = ({ TicketId, Content }) => {
     const [content, setContent] = useState(Content);
+    const [ticket, setTicket] = useState(TicketId);
     const [isEditing, setIsEditing] = useState(false);
 
     const handleEditContent = () => {
@@ -62,7 +63,7 @@ const ComplaintItem = ({ TicketId, Content }) => {
     return (
         <div className='connection'>
             <div>
-                <div className='header'>Bilet: {TicketId}</div>
+                <div className='header'>Bilet: {ticket}</div>
                 {isEditing ? (
                     <textarea
                         className="content"

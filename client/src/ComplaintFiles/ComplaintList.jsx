@@ -7,7 +7,7 @@ const ComplaintList = ({ complaints }) => {
       {complaints.map((complaint, index) => (
         <ComplaintItem 
             key={index} 
-            TicketId={complaint.ticketId} 
+            TicketId={complaint.ticket_Id} 
             Content={complaint.content}
       />
       ))}

@@ -340,6 +340,31 @@ namespace Persistence
                             Duration = new DateTime(2024, 05, day, 19, 40, 0).Subtract(new DateTime(2024, 05, day, 14, 56, 0))
                         },
                     });
+                if (day % 2 == 0)
+                {
+                    connections.Add(
+                        new Connection
+                        {
+                            StartStation_Id = stations.Find(station => station.Name == "Warszawa Centralna").Id.ToString().ToUpper(),
+                            EndStation_Id = stations.Find(station => station.Name == "Katowice").Id.ToString().ToUpper(),
+                            Train_Id = trains.Find(train => train.Name == "Sobieski").Id.ToString().ToUpper(),
+                            StartTime = new DateTime(2024, 05, day, 8, 40, 0),
+                            EndTime = new DateTime(2024, 05, day, 11, 07, 0),
+                            KmNumber = 1,
+                            Duration = new DateTime(2024, 05, day, 11, 07, 0).Subtract(new DateTime(2024, 05, day, 8, 40, 0))
+                        });
+                }
+                connections.Add(
+                        new Connection
+                        {
+                            StartStation_Id = stations.Find(station => station.Name == "Warszawa Centralna").Id.ToString().ToUpper(),
+                            EndStation_Id = stations.Find(station => station.Name == "Katowice").Id.ToString().ToUpper(),
+                            Train_Id = trains.Find(train => train.Name == "Sobieski").Id.ToString().ToUpper(),
+                            StartTime = new DateTime(2024, 05, day, 0, 20, 0),
+                            EndTime = new DateTime(2024, 05, day, 11, 07, 0),
+                            KmNumber = 1,
+                            Duration = new DateTime(2024, 05, day, 11, 07, 0).Subtract(new DateTime(2024, 05, day, 8, 40, 0))
+                        });
             }
             return connections;
         }

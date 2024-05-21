@@ -80,7 +80,8 @@ namespace API.Services
                 }
             }
             connections = connections.FindAll(compositeConn => 
-                compositeConn[compositeConn.Length - 1].StartTime.Date.Date == day.Date &&
+                compositeConn[compositeConn.Length - 1].StartTime.Date == day.Date &&
+                day < compositeConn[0].StartTime &&
                 (endStationIds.Contains(compositeConn[0].EndStation_Id) 
                     || (compositeConn[1] != null && endStationIds.Contains(compositeConn[1].EndStation_Id))
                 )

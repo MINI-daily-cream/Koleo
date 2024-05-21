@@ -29,7 +29,13 @@ const HomePage = () => {
     }
     const handleFindButtonClick = (event) => {
         if(selectedCitySrc == selectedCityDst) {
-            alert('Nie można wybrac tego samego miasta');
+            alert('Nie można wybrać tego samego miasta');
+            event.preventDefault();
+            return;     
+        }
+
+        if(new Date(selectedDate).getDate() < new Date(Date.now()).getDate()) {
+            alert('Nie można wybrać daty z przeszłości');
             event.preventDefault();
             return;     
         }

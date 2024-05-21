@@ -20,6 +20,7 @@ namespace Koleo.Services
 
         public async Task<List<AchievementInfo>> GetAchievementsByUser(string userID)
         {
+            userID = userID.ToUpper();
             string sql = $"SELECT A.Id, A.Name FROM AchievementUsers AU INNER JOIN Achievement A ON AU.Achievement_Id = A.Id WHERE AU.User_Id = '{userID}'";
             var result = await _databaseService.ExecuteSQL(sql);
             List<AchievementInfo> achievements = new List<AchievementInfo>();

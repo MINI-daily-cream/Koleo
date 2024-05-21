@@ -1,47 +1,45 @@
 import { faPassport } from "@fortawesome/free-solid-svg-icons";
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 import axios from "axios";
+import apiBaseUrl from "./config";
 
 const ChangePassword = () => {
   const [oldpassword, setOldPassword] = useState("");
-
   const [newpassword, setNewPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [userData, setUserData] = useState(null);
-  const id = "C4630E12-DEE8-411E-AF44-E3CA970455CE";
+  const [userId] = useState(localStorage.getItem("id"));
+  const [jwtToken] = useState(localStorage.getItem("jwtToken"));
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.put(
+        `${apiBaseUrl}/api/Account/admin-request/change_password?userId=${userId}&oldPassword=${oldpassword}&newPassword=${newpassword}`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        }
+      );
+
+      if (response.data === true) {
+        alert("Password changed successfully");
+      } else {
+        alert("Failed to change password");
+      }
+    } catch (error) {
+      alert("An error occurred while changing the password");
+    }
+  };
 
   const handleOldPasswordChange = (e) => {
     setOldPassword(e.target.value);
   };
 
   const handleNewPasswordChange = (e) => {
-    const newPassword = e.target.value;
-    setNewPassword(newPassword);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const response = await fetch(
-        `https://localhost:5001/api/Account/${id}/ChangePassword?newPassword=${newpassword}&oldPassword=${oldpassword}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Błąd podczas zmiany hasła");
-      }
-
-      console.log("Password changed successfully"); // Log success message
-    } catch (error) {
-      console.error("Wystąpił błąd:", error);
-    }
+    setNewPassword(e.target.value);
   };
 
   return (
@@ -49,26 +47,26 @@ const ChangePassword = () => {
       <h1>Zmień hasło</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="email">Stare hasło:</label>
+          <label htmlFor="oldpassword">Stare hasło:</label>
           <input
             type="password"
-            id="password"
+            id="oldpassword"
             value={oldpassword}
             onChange={handleOldPasswordChange}
             required
           />
         </div>
         <div>
-          <label htmlFor="password">Nowe hasło:</label>
+          <label htmlFor="newpassword">Nowe hasło:</label>
           <input
             type="password"
-            id="password"
+            id="newpassword"
             value={newpassword}
             onChange={handleNewPasswordChange}
             required
           />
-          <button type="submit">Zatwierdź</button>
         </div>
+        <button type="submit">Zatwierdź</button>
       </form>
     </div>
   );

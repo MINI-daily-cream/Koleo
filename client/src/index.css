@@ -484,3 +484,38 @@ hr.solid {
   color: red;
   font-size: 30px;
 }
+
+.achievements-page {
+  padding: 20px;
+}
+
+.achievements-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.achievement-icon {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  background-color: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.achievement-tooltip {
+  position: absolute;
+  top: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}

@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [Route("api/[controller]")]
+
     public class RankingController : ControllerBase
     {
         private readonly IRankingService _RankingService;

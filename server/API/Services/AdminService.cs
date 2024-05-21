@@ -18,6 +18,7 @@ namespace Koleo.Services
         public AdminService(IDatabaseServiceAPI databaseService,DataContext dataContext) // jakieś DI
         {
             _databaseService = databaseService;
+            _dataContext = dataContext;
         }
 
         public async Task<bool> CreateAccount(string name, string surname, string email, string password, string? cardNumbe)
@@ -116,7 +117,10 @@ namespace Koleo.Services
 
         public async Task<bool> ChangePassword(string userId, string oldPassword, string newPassword)
         {
-            var user = await _dataContext.Users.FirstOrDefaultAsync(usr => usr.Id.ToString()==userId);
+            userId = userId.ToUpper();
+            var guid_userID = Guid.Parse(userId);
+            
+            var user = await _dataContext.Users.FirstOrDefaultAsync(usr => usr.Id == guid_userID);
 
             using var hmac = new HMACSHA512(user.PasswordSalt);
             var test_password = hmac.ComputeHash(Encoding.UTF8.GetBytes(oldPassword));
@@ -133,14 +137,18 @@ namespace Koleo.Services
                 }
 
             }
-            var npassword = hmac.ComputeHash(Encoding.UTF8.GetBytes(newPassword));
+
+             var npassword = hmac.ComputeHash(Encoding.UTF8.GetBytes(newPassword));
+
 
             user.PasswordHash = npassword;
 
-            var sql = $"UPDATE USERS SET PasswordHash={npassword} where User_id={userId}";
 
-            var result = await _databaseService.ExecuteSQL(sql);
-            return result.Item2;    
+            _dataContext.SaveChanges();
+
+
+
+            return true;
         }
     }
 }

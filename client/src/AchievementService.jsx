@@ -2,26 +2,37 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+import apiBaseUrl from "./config";
 
 const AchievementsPage = () => {
   const [achievements, setAchievements] = useState([]);
   const [hoveredAchievement, setHoveredAchievement] = useState(null);
-  const userID = "1";
+  const userId = localStorage.getItem("id");
+  const jwtToken = localStorage.getItem("jwtToken");
 
   useEffect(() => {
     const fetchAchievements = async () => {
       try {
         const response = await axios.get(
-          `https://localhost:5001/api/Achievement/${userID}`
+          `${apiBaseUrl}/api/Achievement/${userId}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${jwtToken}`,
+            },
+          }
         );
         setAchievements(response.data);
       } catch (error) {
-        console.error("Error fetching achievements:", error);
+        if (error.response && error.response.status === 400) {
+          console.error("Bad request: User exists");
+        } else {
+          console.error("An error occurred:", error.message);
+        }
       }
     };
-
     fetchAchievements();
-  }, []);
+  }, [userId, jwtToken]);
 
   const handleOnMouseOver = (achievement) => {
     setHoveredAchievement(achievement);

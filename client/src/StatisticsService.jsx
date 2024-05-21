@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import apiBaseUrl from "./config";
 
 const StatisticsService = () => {
   const [userAchievements, setUserAchievements] = useState(null);
 
-  const id = 1;
+  const userId = localStorage.getItem("id");
+  const jwtToken = localStorage.getItem("jwtToken");
+
   useEffect(() => {
     const fetchUserAchievements = async () => {
       try {
         const response = await axios.get(
-          `https://localhost:5001/api/Statistics/${id}`
+          `${apiBaseUrl}/api/Statistics/${userId}`
         );
         const achievementsData = response.data;
         setUserAchievements(achievementsData);

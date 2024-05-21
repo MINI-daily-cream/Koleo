@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import DeleteAccountButton from "./DeleteButton"; // Import the DeleteAccountButton component
+import DeleteAccountButton from "./DeleteButton";
 import axios from "axios";
 import apiBaseUrl from "./config";
 

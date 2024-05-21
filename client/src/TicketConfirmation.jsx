@@ -10,12 +10,11 @@ const TicketConfirmation = ({ navigation, route }) => { // here there is USERS i
     const { state } = useLocation();
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
-    
-    const location = useLocation();
 
     const [mainConnection, setmainConnection] = useState(
         {startStation : '', endStation: '', startDate: '', endDate: '', startTime: '', endTime: ''}
     );
+    const [allConnections, setAllConnections] = useState([]);
     const [userId, setUserId] = useState(localStorage.getItem('id'));
     const [jwtToken, setJwtToken] = useState(localStorage.getItem('jwtToken'));
 
@@ -45,7 +44,15 @@ const TicketConfirmation = ({ navigation, route }) => { // here there is USERS i
 
 
     useEffect(() => {
-        setmainConnection(state);
+        const mainConnection = {
+            sourceCity: state[0].sourceCity, destinationCity: state[state.length - 1].destinationCity,
+            startStation: state[0].startStation, endStation: state[state.length - 1].endStation,
+            startDate: state[0].startDate, endDate: state[state.length - 1].endDate, 
+            startTime: state[0].startTime, endTime: state[state.length - 1].endTime
+        }
+        setmainConnection(mainConnection);
+        // setmainConnection(state[0]);
+        setAllConnections(state);
         getUserData();
     }, []);
     
@@ -62,7 +69,8 @@ const TicketConfirmation = ({ navigation, route }) => { // here there is USERS i
         console.log(mainConnection.id);
         
         const requestBody = {
-            connectionIds: [mainConnection.id],
+            // connectionIds: [mainConnection.id],
+            connectionIds: allConnections.map(conn => conn.id),
             targetName: name,
             targetSurname: surname
         };
@@ -87,43 +95,47 @@ const TicketConfirmation = ({ navigation, route }) => { // here there is USERS i
     
     const ByStations = () => {
         return (
-            <div className="TravelTimeInfo">
-                <div className="separator">
-                    <h3>Przez stacje:</h3>
-                    <hr></hr>
-                    <div className="stationItem">
-                        <FromStationToStation startStation={mainConnection.startStation} endStation={mainConnection.endStation}></FromStationToStation>
-                        <TrainInfo trainNumber={mainConnection.providerName} wagonNumber={ticketData.wagonNumber} seatNumber={ticketData.seatNumber} />
-                        <div className="TravelTimeInfo">
-                        <div className="TicketInfoColumn">
-                            <div className="TicketInfoColumnText">Odjazd</div>
-                            <div className="TicketInfoColumnData">
-                                <TimeComponent time={mainConnection.startTime}></TimeComponent>
+            <>
+                {allConnections.map((singleConnection, index) => 
+                    <div className="TravelTimeInfo" key={index}>
+                        <div className="separator">
+                            <h3>Przez stacje:</h3>
+                            <hr></hr>
+                            <div className="stationItem">
+                                <FromStationToStation startStation={singleConnection.startStation} endStation={singleConnection.endStation}></FromStationToStation>
+                                <TrainInfo trainNumber={singleConnection.providerName} wagonNumber={ticketData.wagonNumber} seatNumber={ticketData.seatNumber} />
+                                <div className="TravelTimeInfo">
+                                <div className="TicketInfoColumn">
+                                    <div className="TicketInfoColumnText">Odjazd</div>
+                                    <div className="TicketInfoColumnData">
+                                        <TimeComponent time={singleConnection.startTime}></TimeComponent>
+                                    </div>
+                                </div>
+                                <div className="TicketInfoColumn">
+                                    <div className="TicketInfoColumnText">Przyjazd</div>
+                                    <div className="TicketInfoColumnData">
+                                        <TimeComponent time={singleConnection.endTime}></TimeComponent>
+                                    </div>
+                                </div>
+                                <div className="TicketInfoColumn">
+                                    <div className="TicketInfoColumnText">Czas podróży</div>
+                                    <div className="TicketInfoColumnData">{singleConnection.duration}</div>
+                                </div>
+                                <div className="TicketInfoColumn">
+                                    <div className="TicketInfoColumnText">Data odjazdu</div>
+                                    <div className="TicketInfoColumnData">{singleConnection.startDate}</div>
+                                </div>
+                                <div className="TicketInfoColumn">
+                                    <div className="TicketInfoColumnText">Data przyjazdu</div>
+                                    <div className="TicketInfoColumnData">{singleConnection.endDate}</div>
+                                </div>
+                                </div>
                             </div>
-                        </div>
-                        <div className="TicketInfoColumn">
-                            <div className="TicketInfoColumnText">Przyjazd</div>
-                            <div className="TicketInfoColumnData">
-                                <TimeComponent time={mainConnection.endTime}></TimeComponent>
-                            </div>
-                        </div>
-                        <div className="TicketInfoColumn">
-                            <div className="TicketInfoColumnText">Czas podróży</div>
-                            <div className="TicketInfoColumnData">{mainConnection.duration}</div>
-                        </div>
-                        <div className="TicketInfoColumn">
-                            <div className="TicketInfoColumnText">Data odjazdu</div>
-                            <div className="TicketInfoColumnData">{mainConnection.startDate}</div>
-                        </div>
-                        <div className="TicketInfoColumn">
-                            <div className="TicketInfoColumnText">Data przyjazdu</div>
-                            <div className="TicketInfoColumnData">{mainConnection.endDate}</div>
-                        </div>
+                            <hr></hr>
                         </div>
                     </div>
-                    <hr></hr>
-                </div>
-            </div>                
+                )}
+            </>          
         );
     };
     const TravelTime = ({ startDate, endDate, timeDep, timeArr }) => {

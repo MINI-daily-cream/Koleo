@@ -38,9 +38,9 @@ const TicketList = () => {
 
   return (
     <div className="ticket-list">
-      {tickets.map((ticket) => (
+      {tickets.map((ticket, index) => (
         <Ticket 
-            key={ticket.id}
+            key={index}
             ticketId={ticket.id}
             date={ticket.startDate} 
             timeDep={ticket.startTime}

@@ -1,25 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
 
 const StatisticsService = () => {
-  const [userAchievements, setUserAchievements] = useState({
-    KmNumber: 1500,
-    TrainNumber: 25,
-    ConnectionsNumber: 10,
-    LongestConnectionTime: "4h 30min",
-    Points: 500,
-  });
-  /*   const id = 3;
+  const [userAchievements, setUserAchievements] = useState(null);
+
+  const id = 1;
   useEffect(() => {
     const fetchUserAchievements = async () => {
       try {
-        const response = await fetch(
-          `https://localhost:5001/api/Account/Achievements/${id}`
+        const response = await axios.get(
+          `https://localhost:5001/api/Statistics/${id}`
         );
-        if (!response.ok) {
-          throw new Error("Błąd pobierania osiągnięć użytkownika");
-        }
-        const achievementsData = await response.json();
+        const achievementsData = response.data;
         setUserAchievements(achievementsData);
       } catch (error) {
         console.error("Wystąpił błąd:", error);
@@ -27,29 +19,29 @@ const StatisticsService = () => {
     };
 
     fetchUserAchievements();
-  }, []); */
+  }, []);
+
   return (
     <>
       {userAchievements ? (
         <div className="user-achievements">
           <p>
-            <strong>Przejechane kilometry:</strong>{" "}
-            {userAchievements.KmNumber}
+            <strong>Przejechane kilometry:</strong> {userAchievements.kmNumber}
           </p>
           <p>
             <strong>Liczba podróży pociągiem:</strong>{" "}
-            {userAchievements.TrainNumber}
+            {userAchievements.trainNumber}
           </p>
           <p>
             <strong>Liczba połączeń:</strong>{" "}
-            {userAchievements.ConnectionsNumber}
+            {userAchievements.connectionsNumber}
           </p>
           <p>
             <strong>Najdłuższy czas podróży:</strong>{" "}
-            {userAchievements.LongestConnectionTime}
+            {userAchievements.longestConnectionTime}
           </p>
           <p>
-            <strong>Punkty:</strong> {userAchievements.Points}
+            <strong>Punkty:</strong> {userAchievements.points}
           </p>
         </div>
       ) : (

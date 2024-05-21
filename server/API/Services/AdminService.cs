@@ -1,16 +1,43 @@
 ﻿using API.Services.Interfaces;
+using Auth;
 using Domain;
 using Koleo.Models;
+using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Asn1.X509;
+using Persistence;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Koleo.Services
 {
     public class AdminService : IAdminService
     {
         private readonly IDatabaseServiceAPI _databaseService;
-        public AdminService(IDatabaseServiceAPI databaseService) // jakieś DI
+        private DataContext _dataContext;
+
+        public AdminService(IDatabaseServiceAPI databaseService,DataContext dataContext) // jakieś DI
         {
             _databaseService = databaseService;
+        }
+
+        public async Task<bool> CreateAccount(string name, string surname, string email, string password, string? cardNumbe)
+        {
+            if (await VerifyAccount(email))
+            {
+                string sql = $"INSERT INTO Administrators (Name, Surname, Email, Password) VALUES ('{name}', '{surname}', '{email}', '{password}')";
+                var result = await _databaseService.ExecuteSQL(sql);
+                return result.Item2;
+            }
+            return false;
+        }
+
+        public async Task<bool> VerifyAccount(string email)
+        {
+            string sql = $"SELECT COUNT(*) FROM Administrators WHERE Email = '{email}'";
+            var (results, isSuccess) = await _databaseService.ExecuteSQL(sql);
+            if (!isSuccess) return false;
+            int count = int.Parse(results[0][0]);
+            return count == 0;
         }
 
         public async Task<bool> RemoveAccount(Guid id)
@@ -85,6 +112,35 @@ namespace Koleo.Services
             sql = $"DELETE FROM Users WHERE Id = '{userId}'";
             (_, var isSuccess7) = await _databaseService.ExecuteSQL(sql);
             return isSuccess1 && isSuccess2 && isSuccess3 && isSuccess4 && isSuccess5 && isSuccess6 && isSuccess7;
+        }
+
+        public async Task<bool> ChangePassword(string userId, string oldPassword, string newPassword)
+        {
+            var user = await _dataContext.Users.FirstOrDefaultAsync(usr => usr.Id.ToString()==userId);
+
+            using var hmac = new HMACSHA512(user.PasswordSalt);
+            var test_password = hmac.ComputeHash(Encoding.UTF8.GetBytes(oldPassword));
+
+
+            if (test_password.Length != user.PasswordHash.Length)
+                return false;
+
+            for (int i = 0; i < test_password.Length; i++)
+            {
+                if (test_password[i] != user.PasswordHash[i])
+                {
+                    return false;
+                }
+
+            }
+            var npassword = hmac.ComputeHash(Encoding.UTF8.GetBytes(newPassword));
+
+            user.PasswordHash = npassword;
+
+            var sql = $"UPDATE USERS SET PasswordHash={npassword} where User_id={userId}";
+
+            var result = await _databaseService.ExecuteSQL(sql);
+            return result.Item2;    
         }
     }
 }

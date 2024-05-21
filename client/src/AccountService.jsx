@@ -6,34 +6,36 @@ import apiBaseUrl from "./config";
 
 const AccountService = () => {
   const [userInfo, setUserInfo] = useState(null);
-  const [userId, setuserId] = useState(localStorage.getItem('id'))
-  const [jwtToken, setJwtToken] = useState(localStorage.getItem('jwtToken'));
+  const [userId, setuserId] = useState(localStorage.getItem("id"));
+  const [jwtToken, setJwtToken] = useState(localStorage.getItem("jwtToken"));
 
   function getUserData() {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${apiBaseUrl}/api/Account/${userId}`, {
+        const response = await axios.get(
+          `${apiBaseUrl}/api/Account/${userId}`,
+          {
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${jwtToken}`
-            }
-        });
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${jwtToken}`,
+            },
+          }
+        );
         setUserInfo(response.data);
-      } 
-      catch(error) {
-        if (error === 'Bad request') {
-            console.error('user exists');
+      } catch (error) {
+        if (error === "Bad request") {
+          console.error("user exists");
         } else {
-            console.error('An error occurred:', error);
+          console.error("An error occurred:", error);
         }
       }
     };
     fetchData();
   }
 
-  useEffect( () => {
+  useEffect(() => {
     getUserData();
-  }, [])
+  }, []);
 
   return (
     <>

@@ -532,6 +532,16 @@ hr.solid {
 .ticketBox {
   display: flex;
   flex-direction: row;
-  border-left: 2px solid gray;
+  /* border-left: 2px solid gray; */
   padding-left: 20px;
+}
+.ticket-list .textCount {
+  font-size: 20px;
+  font-weight: 600;
+}
+.ticket-list .noCount {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

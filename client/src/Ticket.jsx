@@ -5,7 +5,7 @@ import { faTrain, faCalendar, faClock, faGreaterThan, faMinus, faArrowRight, faU
 import axios from 'axios';
 import apiBaseUrl from './config.js';
 
-const Ticket = ({ ticketId, date, timeDep, timeArr, passengerName, trainNumber, finalStation, departureStation, arrivalStation, wagonNumber, seatNumber }) => {
+const Ticket = ({ ticketId, date, timeDep, timeArr, providerName, passengerName, trainNumber, finalStation, departureStation, arrivalStation, wagonNumber, seatNumber }) => {
   const navigate = useNavigate();
   function handleReturn(){
     const postData = async () => {
@@ -75,7 +75,7 @@ const Ticket = ({ ticketId, date, timeDep, timeArr, passengerName, trainNumber, 
         <div className="icon">
           <FontAwesomeIcon icon={faTrain} />
         </div>
-        <div className='text'>{trainNumber}</div>
+        <div className='text'>{providerName}</div>
         <div className="icon" id='arrow'>
           {/* <FontAwesomeIcon icon={faMinus} />
           <FontAwesomeIcon icon={faMinus} />

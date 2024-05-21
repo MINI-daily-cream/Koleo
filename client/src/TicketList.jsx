@@ -1,6 +1,7 @@
 // src/components/TicketList.jsx
 import React, { useEffect, useState } from 'react';
 import Ticket from './Ticket';
+import { useNavigate } from 'react-router-dom';
 import HistoryTicket from './TicketHistory/HistoryTicket';
 import axios from 'axios';
 import apiBaseUrl from './config';
@@ -10,7 +11,11 @@ const TicketList = () => {
   const [jwtToken, setJwtToken] = useState(localStorage.getItem('jwtToken'));
   const [tickets, setTickets] = useState([])
   const [filter, setFilter] = useState('future'); 
+  const navigate = useNavigate();
 
+  const handleBuy = () => {
+    navigate('/home');
+  };
   function getTickets(){
     let endpoint = '';
     switch (filter) {
@@ -31,7 +36,7 @@ const TicketList = () => {
               'Authorization': `Bearer ${jwtToken}`
           }
         });
-        // console.log(response)
+        console.log(response.data)
         setTickets(response.data);
       }
       catch(error) {
@@ -56,37 +61,47 @@ const TicketList = () => {
         <button className="filter-button" onClick={() => setFilter('past')}>Pokaż historie przejazdów</button>
       </div>
       <div className="ticket-list">
-
-      {tickets.map((ticket) =>
-          filter === 'past' ? (
-            <HistoryTicket
-              key={ticket.id}
-              ticketId={ticket.id}
-              date={ticket.startDate}
-              timeDep={ticket.startTime}
-              timeArr={ticket.endTime}
-              passengerName={`${ticket.name} ${ticket.surname}`}
-              trainNumber={ticket.trainNumber}
-              departureStation={ticket.startStation}
-              arrivalStation={ticket.endStation}
-              wagonNumber={ticket.wagonNumber}
-              seatNumber={ticket.seatNumber}
-            />
-          ) : (
-            <Ticket
-              key={ticket.id}
-              ticketId={ticket.id}
-              date={ticket.startDate}
-              timeDep={ticket.startTime}
-              timeArr={ticket.endTime}
-              passengerName={`${ticket.name} ${ticket.surname}`}
-              trainNumber={ticket.trainNumber}
-              departureStation={ticket.startStation}
-              arrivalStation={ticket.endStation}
-              wagonNumber={ticket.wagonNumber}
-              seatNumber={ticket.seatNumber}
-            />
+        {tickets.length > 0 ? (
+          tickets.map((ticket) =>
+            filter === 'past' ? (
+              <HistoryTicket
+                key={ticket.id}
+                ticketId={ticket.id}
+                date={ticket.startDate}
+                timeDep={ticket.startTime}
+                timeArr={ticket.endTime}
+                passengerName={`${ticket.name} ${ticket.surname}`}
+                trainNumber={ticket.trainNumber}
+                providerName={ticket.providerName}
+                departureStation={ticket.startStation}
+                arrivalStation={ticket.endStation}
+                wagonNumber={ticket.wagonNumber}
+                seatNumber={ticket.seatNumber}
+              />
+            ) : (
+              <Ticket
+                key={ticket.id}
+                ticketId={ticket.id}
+                date={ticket.startDate}
+                timeDep={ticket.startTime}
+                timeArr={ticket.endTime}
+                providerName={ticket.providerName}
+                passengerName={`${ticket.name} ${ticket.surname}`}
+                trainNumber={ticket.trainNumber}
+                departureStation={ticket.startStation}
+                arrivalStation={ticket.endStation}
+                wagonNumber={ticket.wagonNumber}
+                seatNumber={ticket.seatNumber}
+              />
+            )
           )
+        ) : (
+          <div className='noCount'>
+            <div className='textCount'>Obecnie nie ma biletów</div>
+            <div className='ButtonAligment'>
+              <button type="button" className='ConfirmationButton' onClick={handleBuy}>Kup bilet</button>
+            </div>
+          </div>
         )}
       </div>
     </div>

@@ -39,14 +39,15 @@ namespace Koleo.Services
 
         public async Task<(List<ComplaintWithAnswer>, bool)> ListAnsweredComplaintsByUser(string userId)
         {
-            string sql = $"SELECT c.Ticket_Id, c.Content, ac.Response FROM Complaints c JOIN AdminComplaints ac ON c.Id = ac.Complaint_Id WHERE c.User_Id = '{userId}'";
+            string sql = $"SELECT c.Id, c.Ticket_Id, c.Content, ac.Response FROM Complaints c JOIN AdminComplaints ac ON c.Id = ac.Complaint_Id WHERE c.User_Id = '{userId}'";
             var result = await _databaseService.ExecuteSQL(sql);
             if (!result.Item2) return (new List<ComplaintWithAnswer> { }, false);
             return (result.Item1.Select(row => new ComplaintWithAnswer
             {
-                ticketId = row[0],
-                content = row[1],
-                response = row[2]
+                complaintId = row[0].ToString(),
+                ticketId = row[1],
+                content = row[2],
+                response = row[3]
             }).ToList(), true);
         }
 
@@ -63,8 +64,9 @@ namespace Koleo.Services
             if (!result.Item2) return (new List<ComplaintWithoutAnswer> { }, false);
             return (result.Item1.Select(row => new ComplaintWithoutAnswer
             {
-                User_Id = row[0],
-                Ticket_Id = row[1],
+                complaintId = row[0],
+                User_Id = row[1],
+                Ticket_Id = row[2],
                 Content = row[3]
             }).ToList(), true);
         }

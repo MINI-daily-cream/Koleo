@@ -266,6 +266,33 @@ namespace Persistence
             await context.SaveChangesAsync();
         }
 
+        public static async Task SeedAchievements(DataContext context)
+        {
+            if (context.Achievement.Any()) return;
+
+            var achievements = new List<Achievement>
+            {
+                new Achievement
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Przejechane 10 km"
+                },
+                new Achievement
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Przejechane 100 km"
+                },
+                new Achievement
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Przejechane 1000 km"
+                }
+            };
+
+            await context.Achievement.AddRangeAsync(achievements);
+            await context.SaveChangesAsync();
+        }
+
         public static void ClearConnectionsEtc(DataContext context)
         {
             Console.WriteLine("Clearing data---------------------------------------------------------------------------");

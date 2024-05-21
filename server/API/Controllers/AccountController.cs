@@ -46,5 +46,13 @@ namespace API.Controllers
         public Task<bool> DeleteUser(string userId) { 
             return _adminService.DeleteUser(userId.ToUpper());
         }
+
+
+
+        [HttpPut("admin-request/change_password")]
+        public Task<bool> ChangePassword(string userId, string oldPassword, string newPassword) 
+        {
+            return _adminService.ChangePassword(userId, oldPassword, newPassword);
+        }
     }
 }

@@ -25,13 +25,11 @@ const ChangePassword = () => {
       );
 
       if (response.data === true) {
-        alert("Password changed successfully");
+        alert("Hasło zostało pomyślnie zmienione");
       } else {
-        alert("Failed to change password");
+        alert("Nie udało się zmienić hasła");
       }
-    } catch (error) {
-      alert("An error occurred while changing the password");
-    }
+    } catch (error) {}
   };
 
   const handleOldPasswordChange = (e) => {

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link} from "react-router-dom";
 import ComplaintList from './ComplaintList';
 import axios from 'axios';
 import apiBaseUrl from '../config';
@@ -94,6 +95,7 @@ const handleCreate = async () => {
         </div>
             <ComplaintList complaints={complaintList}></ComplaintList>
         </div>
+        <Link to="/account"><button type="button" className="ConfirmationButton">Wróć na stronę główną</button></Link>
     </div>
   );
 };

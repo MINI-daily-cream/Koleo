@@ -13,5 +13,7 @@ namespace API.Services.Interfaces
         public Task<(string, bool)> Add(string userId, List<string> connectionsIds, string targetName, string targetSurname);
         public Task<bool> ChangeDetails(string userId, string ticketId, string newTargetName, string newTargetSurname);
         public Task<TicketInfoDTO> GetTicketByIdToComplaint(string userId, string ticketId);
+        public Task<(List<TicketInfoDTO>, bool)> ListByUserFutureConnections(string userId);
+        public Task<(List<TicketInfoDTO>, bool)> ListByUserPastConnections(string userId);
     }
 }

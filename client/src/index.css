@@ -168,6 +168,7 @@ body {
   border-radius: 10px;
   margin: 5px 0px;
   text-align: center;
+  min-width: max-content;
 }
 
 hr.solid {
@@ -183,13 +184,16 @@ hr.solid {
 
 .ticket-list {
   float: left;
-  margin-left: 50px;
+  margin-left: 30px;
+  padding-bottom: 30px;
   /* margin-bottom: 20px; */
   display: flex;
   /* flex-wrap: wrap; */
   overflow: auto;
   gap: 20px;
   max-width: 100%;
+  padding: 10px;
+  border: 3px solid gray;
 }
 
 .ticket {
@@ -494,7 +498,7 @@ hr.solid {
   height: 200px;
   font-size: 16px;
 }
-.content {
+.contentText {
   width: 350px;
   height: 150px;
   font-size: 16px;
@@ -507,4 +511,27 @@ hr.solid {
   font-size: 18px;
   font-weight: 550;
   margin-bottom: 15px;
+}
+.filter-buttons {
+  display: flex;
+  flex-direction: column;
+  min-width: 170px;
+  max-width: 170px;
+}
+.filter-button {
+  background-color: var(--orange-pkp);
+  font-size: 18px;
+  color: #fff;
+  border: none;
+  padding: 8px 7px;
+  margin: 3px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.ticketBox {
+  display: flex;
+  flex-direction: row;
+  border-left: 2px solid gray;
+  padding-left: 20px;
 }

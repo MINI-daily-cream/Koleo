@@ -32,6 +32,32 @@ namespace API.Controllers
             }
             return Task.FromResult(_ticketService.ListByUser(userId.ToUpper()).Result.Item1);
         }
+        [Authorize]
+        [HttpGet("list-by-user-future-connections/{userId}")]
+        public Task<List<TicketInfoDTO>> ListFuture(string userId)
+        {
+            Console.WriteLine("o cholera");
+            Console.WriteLine(userId);
+            Console.WriteLine(User.Identity.Name);
+            if(userId != User.Identity.Name)
+            {
+                return null;
+            }
+            return Task.FromResult(_ticketService.ListByUserFutureConnections(userId.ToUpper()).Result.Item1);
+        }
+        [Authorize]
+        [HttpGet("list-by-user-past-connections/{userId}")]
+        public Task<List<TicketInfoDTO>> ListPast(string userId)
+        {
+            Console.WriteLine("o cholera");
+            Console.WriteLine(userId);
+            Console.WriteLine(User.Identity.Name);
+            if(userId != User.Identity.Name)
+            {
+                return null;
+            }
+            return Task.FromResult(_ticketService.ListByUserPastConnections(userId.ToUpper()).Result.Item1);
+        }
 
         [Authorize]
         [HttpPost("buy/{userId}")]

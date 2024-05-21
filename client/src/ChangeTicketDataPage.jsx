@@ -49,7 +49,7 @@ const ChangeTicketData = ({}) => {
           }
         }
       );
-      navigate("/account/tickets");
+      navigate("/account");
     }
     catch(error) {
       if (error === 'Bad request') {

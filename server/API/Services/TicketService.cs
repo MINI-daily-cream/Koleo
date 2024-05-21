@@ -34,7 +34,6 @@ namespace Koleo.Services
             }
             return ("", false);
         }
-
         public async Task<(List<TicketInfoDTO>, bool)> ListByUser(string userId)
         {
             var result = await _getInfoFromIdService.GetTicketsByUser(userId);
@@ -47,6 +46,52 @@ namespace Koleo.Services
                 if (!tmpResult) return (new List<TicketInfoDTO> { }, false);
             }
             return (connectionsInfo, true);
+        }
+        public async Task<(List<TicketInfoDTO>, bool)> ListByUserFutureConnections(string userId)
+        {
+            var result = await _getInfoFromIdService.GetTicketsByUser(userId);
+            if (!result.Item2) return (new List<TicketInfoDTO> { }, false);
+            List<string> ticketIds = result.Item1;
+            List<TicketInfoDTO> connectionsInfo = new List<TicketInfoDTO>();
+            foreach (string ticketId in ticketIds)
+            {
+                var tmpResult = await _getInfoFromIdService.UpdateConnectionsInfoList(ticketId, connectionsInfo);
+                if (!tmpResult) return (new List<TicketInfoDTO> { }, false);
+            }
+            List<TicketInfoDTO> futureConnections = new List<TicketInfoDTO>();
+            foreach(TicketInfoDTO info in connectionsInfo)
+            {
+                if(DateOnly.FromDateTime(DateTime.Now) < info.StartDate || (DateOnly.FromDateTime(DateTime.Now) == info.StartDate 
+                &&
+                 TimeOnly.FromDateTime(DateTime.Now) < info.StartTime))
+                 {
+                    futureConnections.Add(info);
+                 }
+            }
+            return (futureConnections, true);
+        }
+        public async Task<(List<TicketInfoDTO>, bool)> ListByUserPastConnections(string userId)
+        {
+            var result = await _getInfoFromIdService.GetTicketsByUser(userId);
+            if (!result.Item2) return (new List<TicketInfoDTO> { }, false);
+            List<string> ticketIds = result.Item1;
+            List<TicketInfoDTO> connectionsInfo = new List<TicketInfoDTO>();
+            foreach (string ticketId in ticketIds)
+            {
+                var tmpResult = await _getInfoFromIdService.UpdateConnectionsInfoList(ticketId, connectionsInfo);
+                if (!tmpResult) return (new List<TicketInfoDTO> { }, false);
+            }
+            List<TicketInfoDTO> pastConnections = new List<TicketInfoDTO>();
+            foreach(TicketInfoDTO info in connectionsInfo)
+            {
+                if(DateOnly.FromDateTime(DateTime.Now) > info.StartDate || (DateOnly.FromDateTime(DateTime.Now) == info.StartDate 
+                &&
+                 TimeOnly.FromDateTime(DateTime.Now) > info.StartTime))
+                 {
+                    pastConnections.Add(info);
+                 }
+            }
+            return (pastConnections, true);
         }
         public async Task<bool> Generate(string userId, string ticketId)
         {
@@ -165,17 +210,6 @@ namespace Koleo.Services
             var tmpResult = await _getInfoFromIdService.UpdateConnectionsInfoList(ticketId, connectionsInfo);
             if (!tmpResult) return new TicketInfoDTO();
             return connectionsInfo[0];
-
-            // string sql = $"SELECT * FROM TicketConnections tc JOIN Connections c ON tc.Connection_Id=c.Id WHERE tc.Ticket_Id='{ticketId}'";
-            // var tmpResult = await _databaseService.ExecuteSQL(updateDetailsSql);
-            // if(!tmpResult.Item2) return new List<ConnectionInfoDto>();
-            // return (result.Item1.Select(row => new ConnectionInfoDto
-            // {
-            //     complaintId = row[0].ToString(),
-            //     ticketId = row[1],
-            //     content = row[2],
-            //     response = row[3]
-            // }).ToList(), true);
         }
     }
 }

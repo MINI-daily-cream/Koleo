@@ -40,7 +40,7 @@ root.render(
         <Route path="/ChangePassword" element={<ChangePassword />} />
         <Route path="/ticketConfirmation" element={<TicketConfirmation />} />
         <Route path="/FoundConnections" element={<FoundConnectionList />} />
-        <Route path="/complaints" element={ <ComplaintPage complaints={complaints} />} />
+        <Route path="complaints" element={ <ComplaintPage />} />
         <Route path="/after-delete" element={ <AfterDeleteScreen />} />
         <Route path="/changeTicketDetails" element={ <ChangeTicketData />} />
       </Routes>

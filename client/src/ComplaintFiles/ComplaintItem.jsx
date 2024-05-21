@@ -127,7 +127,7 @@ const ComplaintItem = ({ TicketId, Content, ComplaintId }) => {
                         <div>
                         <div className='header'>Treść:</div>
                         <textarea
-                            className="content"
+                            className="contentText"
                             value={content}
                             onChange={handleChange}
                             maxLength={200}

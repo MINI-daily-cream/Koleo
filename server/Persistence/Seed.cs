@@ -214,127 +214,159 @@ namespace Persistence
 
             trains = context.Trains.ToList();
 
-            var StartTime = new DateTime(2024, 05, 01, 8, 37, 0);
-            var EndTime = new DateTime(2024, 05, 01, 12, 12, 0);
-            var Duration = EndTime.Subtract(StartTime);
-
-            var connections = new List<Connection>
-            {
-                new Connection
-                {
-                    StartStation_Id = stations.Find(station => station.Name == "Warszawa Centralna").Id.ToString().ToUpper(),
-                    EndStation_Id = stations.Find(station => station.Name == "Kraków Główny").Id.ToString().ToUpper(),
-                    Train_Id = trains.Find(train => train.Name == "Żubr").Id.ToString().ToUpper(),
-                    StartTime = StartTime,
-                    EndTime = EndTime,
-                    KmNumber = 1,
-                    Duration = Duration
-                },
-                new Connection
-                {
-                    StartStation_Id = stations.Find(station => station.Name == "Warszawa Centralna").Id.ToString().ToUpper(),
-                    EndStation_Id = stations.Find(station => station.Name == "Kraków Główny").Id.ToString().ToUpper(),
-                    Train_Id = trains.Find(train => train.Name == "Żubr").Id.ToString().ToUpper(),
-                    StartTime = new DateTime(2024, 05, 01, 12, 37, 0),
-                    EndTime = new DateTime(2024, 05, 01, 16, 12, 0),
-                    KmNumber = 1,
-                    Duration = Duration
-                },
-                new Connection
-                {
-                    StartStation_Id = stations.Find(station => station.Name == "Warszawa Centralna").Id.ToString().ToUpper(),
-                    EndStation_Id = stations.Find(station => station.Name == "Łódź Fabryczna").Id.ToString().ToUpper(),
-                    Train_Id = trains.Find(train => train.Name == "RUBINSTEIN").Id.ToString().ToUpper(),
-                    StartTime = new DateTime(2024, 05, 01, 9, 23, 0),
-                    EndTime = new DateTime(2024, 05, 01, 10, 39, 0),
-                    KmNumber = 1,
-                    Duration = Duration
-                },
-                new Connection
-                {
-                    StartStation_Id = stations.Find(station => station.Name == "Warszawa Zachodnia").Id.ToString().ToUpper(),
-                    EndStation_Id = stations.Find(station => station.Name == "Łódź Fabryczna").Id.ToString().ToUpper(),
-                    Train_Id = trains.Find(train => train.Name == "RUBINSTEIN").Id.ToString().ToUpper(),
-                    StartTime = new DateTime(2024, 05, 01, 9, 23, 0),
-                    EndTime = new DateTime(2024, 05, 01, 10, 39, 0),
-                    KmNumber = 1,
-                    Duration = Duration
-                },
-                new Connection
-                {
-                    StartStation_Id = stations.Find(station => station.Name == "Warszawa Centralna").Id.ToString().ToUpper(),
-                    EndStation_Id = stations.Find(station => station.Name == "Łódź Widzew").Id.ToString().ToUpper(),
-                    Train_Id = trains.Find(train => train.Name == "RUBINSTEIN").Id.ToString().ToUpper(),
-                    StartTime = new DateTime(2024, 05, 01, 9, 23, 0),
-                    EndTime = new DateTime(2024, 05, 01, 10, 39, 0),
-                    KmNumber = 1,
-                    Duration = Duration
-                },
-                new Connection
-                {
-                    StartStation_Id = stations.Find(station => station.Name == "Warszawa Gdańska").Id.ToString().ToUpper(),
-                    EndStation_Id = stations.Find(station => station.Name == "Łódź Fabryczna").Id.ToString().ToUpper(),
-                    Train_Id = trains.Find(train => train.Name == "RUBINSTEIN").Id.ToString().ToUpper(),
-                    StartTime = new DateTime(2024, 05, 01, 9, 23, 0),
-                    EndTime = new DateTime(2024, 05, 01, 10, 39, 0),
-                    KmNumber = 1,
-                    Duration = Duration
-                },
-                new Connection
-                {
-                    StartStation_Id = stations.Find(station => station.Name == "Warszawa Gdańska").Id.ToString().ToUpper(),
-                    EndStation_Id = stations.Find(station => station.Name == "Łódź Kaliska").Id.ToString().ToUpper(),
-                    Train_Id = trains.Find(train => train.Name == "RUBINSTEIN").Id.ToString().ToUpper(),
-                    StartTime = new DateTime(2024, 05, 01, 9, 23, 0),
-                    EndTime = new DateTime(2024, 05, 01, 10, 39, 0),
-                    KmNumber = 1,
-                    Duration = Duration
-                },
-                new Connection
-                {
-                    StartStation_Id = stations.Find(station => station.Name == "Łódź Fabryczna").Id.ToString().ToUpper(),
-                    EndStation_Id = stations.Find(station => station.Name == "Katowice").Id.ToString().ToUpper(),
-                    Train_Id = trains.Find(train => train.Name == "Oleńka").Id.ToString().ToUpper(),
-                    StartTime = new DateTime(2024, 05, 01, 10, 56, 0),
-                    EndTime = new DateTime(2024, 05, 01, 15, 40, 0),
-                    KmNumber = 1,
-                    Duration = Duration
-                },
-                new Connection
-                {
-                    StartStation_Id = stations.Find(station => station.Name == "Kraków Główny").Id.ToString().ToUpper(),
-                    EndStation_Id = stations.Find(station => station.Name == "Katowice").Id.ToString().ToUpper(),
-                    Train_Id = trains.Find(train => train.Name == "Sobieski").Id.ToString().ToUpper(),
-                    StartTime = new DateTime(2024, 05, 01, 10, 56, 0),
-                    EndTime = new DateTime(2024, 05, 01, 15, 40, 0),
-                    KmNumber = 1,
-                    Duration = Duration
-                },
-                new Connection
-                {
-                    StartStation_Id = stations.Find(station => station.Name == "Kraków Główny").Id.ToString().ToUpper(),
-                    EndStation_Id = stations.Find(station => station.Name == "Katowice").Id.ToString().ToUpper(),
-                    Train_Id = trains.Find(train => train.Name == "Sobieski").Id.ToString().ToUpper(),
-                    StartTime = new DateTime(2024, 05, 01, 12, 56, 0),
-                    EndTime = new DateTime(2024, 05, 01, 17, 40, 0),
-                    KmNumber = 1,
-                    Duration = Duration
-                },
-                new Connection
-                {
-                    StartStation_Id = stations.Find(station => station.Name == "Kraków Główny").Id.ToString().ToUpper(),
-                    EndStation_Id = stations.Find(station => station.Name == "Katowice").Id.ToString().ToUpper(),
-                    Train_Id = trains.Find(train => train.Name == "Sobieski").Id.ToString().ToUpper(),
-                    StartTime = new DateTime(2024, 05, 01, 14, 56, 0),
-                    EndTime = new DateTime(2024, 05, 01, 19, 40, 0),
-                    KmNumber = 1,
-                    Duration = Duration
-                },
-            };
+            var connections = SeedConnections(stations, trains);
 
             await context.Connections.AddRangeAsync(connections);
             //await context.Users.AddRangeAsync(connections);
             await context.SaveChangesAsync();
+        }
+
+        private static List<Connection> SeedConnections(List<Station> stations, List<Train> trains)
+        {
+            var connections = new List<Connection>();
+            for (int day = 22; day < 31; day++)
+            {
+                connections.AddRange(
+                    new List<Connection>
+                    {
+                        new Connection
+                        {
+                            StartStation_Id = stations.Find(station => station.Name == "Warszawa Centralna").Id.ToString().ToUpper(),
+                            EndStation_Id = stations.Find(station => station.Name == "Kraków Główny").Id.ToString().ToUpper(),
+                            Train_Id = trains.Find(train => train.Name == "Żubr").Id.ToString().ToUpper(),
+                            StartTime = new DateTime(2024, 05, day, 8, 37, 0),
+                            EndTime = new DateTime(2024, 05, day, 12, 12, 0),
+                            KmNumber = 1,
+                            Duration = new DateTime(2024, 05, day, 12, 12, 0).Subtract(new DateTime(2024, 05, day, 8, 37, 0))
+                        },
+                        new Connection
+                        {
+                            StartStation_Id = stations.Find(station => station.Name == "Warszawa Centralna").Id.ToString().ToUpper(),
+                            EndStation_Id = stations.Find(station => station.Name == "Kraków Główny").Id.ToString().ToUpper(),
+                            Train_Id = trains.Find(train => train.Name == "Żubr").Id.ToString().ToUpper(),
+                            StartTime = new DateTime(2024, 05, day, 12, 37, 0),
+                            EndTime = new DateTime(2024, 05, day, 16, 12, 0),
+                            KmNumber = 1,
+                            Duration = new DateTime(2024, 05, day, 16, 12, 0).Subtract(new DateTime(2024, 05, day, 12, 37, 0))
+                        },
+                        new Connection
+                        {
+                            StartStation_Id = stations.Find(station => station.Name == "Warszawa Centralna").Id.ToString().ToUpper(),
+                            EndStation_Id = stations.Find(station => station.Name == "Łódź Fabryczna").Id.ToString().ToUpper(),
+                            Train_Id = trains.Find(train => train.Name == "RUBINSTEIN").Id.ToString().ToUpper(),
+                            StartTime = new DateTime(2024, 05, day, 9, 23, 0),
+                            EndTime = new DateTime(2024, 05, day, 10, 39, 0),
+                            KmNumber = 1,
+                            Duration = new DateTime(2024, 05, day, 10, 39, 0).Subtract(new DateTime(2024, 05, day, 9, 23, 0))
+                        },
+                        new Connection
+                        {
+                            StartStation_Id = stations.Find(station => station.Name == "Warszawa Zachodnia").Id.ToString().ToUpper(),
+                            EndStation_Id = stations.Find(station => station.Name == "Łódź Fabryczna").Id.ToString().ToUpper(),
+                            Train_Id = trains.Find(train => train.Name == "RUBINSTEIN").Id.ToString().ToUpper(),
+                            StartTime = new DateTime(2024, 05, day, 9, 23, 0),
+                            EndTime = new DateTime(2024, 05, day, 10, 39, 0),
+                            KmNumber = 1,
+                            Duration = new DateTime(2024, 05, day, 10, 39, 0).Subtract(new DateTime(2024, 05, day, 9, 23, 0))
+                        },
+                        new Connection
+                        {
+                            StartStation_Id = stations.Find(station => station.Name == "Warszawa Centralna").Id.ToString().ToUpper(),
+                            EndStation_Id = stations.Find(station => station.Name == "Łódź Widzew").Id.ToString().ToUpper(),
+                            Train_Id = trains.Find(train => train.Name == "RUBINSTEIN").Id.ToString().ToUpper(),
+                            StartTime = new DateTime(2024, 05, day, 9, 23, 0),
+                            EndTime = new DateTime(2024, 05, day, 10, 39, 0),
+                            KmNumber = 1,
+                            Duration = new DateTime(2024, 05, day, 10, 39, 0).Subtract(new DateTime(2024, 05, day, 9, 23, 0))
+                        },
+                        new Connection
+                        {
+                            StartStation_Id = stations.Find(station => station.Name == "Warszawa Gdańska").Id.ToString().ToUpper(),
+                            EndStation_Id = stations.Find(station => station.Name == "Łódź Fabryczna").Id.ToString().ToUpper(),
+                            Train_Id = trains.Find(train => train.Name == "RUBINSTEIN").Id.ToString().ToUpper(),
+                            StartTime = new DateTime(2024, 05, day, 9, 23, 0),
+                            EndTime = new DateTime(2024, 05, day, 10, 39, 0),
+                            KmNumber = 1,
+                            Duration = new DateTime(2024, 05, day, 10, 39, 0).Subtract(new DateTime(2024, 05, day, 9, 23, 0))
+                        },
+                        new Connection
+                        {
+                            StartStation_Id = stations.Find(station => station.Name == "Warszawa Gdańska").Id.ToString().ToUpper(),
+                            EndStation_Id = stations.Find(station => station.Name == "Łódź Kaliska").Id.ToString().ToUpper(),
+                            Train_Id = trains.Find(train => train.Name == "RUBINSTEIN").Id.ToString().ToUpper(),
+                            StartTime = new DateTime(2024, 05, day, 9, 23, 0),
+                            EndTime = new DateTime(2024, 05, day, 10, 39, 0),
+                            KmNumber = 1,
+                            Duration = new DateTime(2024, 05, day, 10, 39, 0).Subtract(new DateTime(2024, 05, day, 9, 23, 0))
+                        },
+                        new Connection
+                        {
+                            StartStation_Id = stations.Find(station => station.Name == "Łódź Fabryczna").Id.ToString().ToUpper(),
+                            EndStation_Id = stations.Find(station => station.Name == "Katowice").Id.ToString().ToUpper(),
+                            Train_Id = trains.Find(train => train.Name == "Oleńka").Id.ToString().ToUpper(),
+                            StartTime = new DateTime(2024, 05, day, 10, 56, 0),
+                            EndTime = new DateTime(2024, 05, day, 15, 40, 0),
+                            KmNumber = 1,
+                            Duration = new DateTime(2024, 05, day, 15, 40, 0).Subtract(new DateTime(2024, 05, day, 10, 56, 0))
+                        },
+                        new Connection
+                        {
+                            StartStation_Id = stations.Find(station => station.Name == "Kraków Główny").Id.ToString().ToUpper(),
+                            EndStation_Id = stations.Find(station => station.Name == "Katowice").Id.ToString().ToUpper(),
+                            Train_Id = trains.Find(train => train.Name == "Sobieski").Id.ToString().ToUpper(),
+                            StartTime = new DateTime(2024, 05, day, 10, 56, 0),
+                            EndTime = new DateTime(2024, 05, day, 15, 40, 0),
+                            KmNumber = 1,
+                            Duration = new DateTime(2024, 05, day, 15, 40, 0).Subtract(new DateTime(2024, 05, day, 10, 56, 0))
+                        },
+                        new Connection
+                        {
+                            StartStation_Id = stations.Find(station => station.Name == "Kraków Główny").Id.ToString().ToUpper(),
+                            EndStation_Id = stations.Find(station => station.Name == "Katowice").Id.ToString().ToUpper(),
+                            Train_Id = trains.Find(train => train.Name == "Sobieski").Id.ToString().ToUpper(),
+                            StartTime = new DateTime(2024, 05, day, 12, 56, 0),
+                            EndTime = new DateTime(2024, 05, day, 17, 40, 0),
+                            KmNumber = 1,
+                            Duration = new DateTime(2024, 05, day, 17, 40, 0).Subtract(new DateTime(2024, 05, day, 12, 56, 0))
+                        },
+                        new Connection
+                        {
+                            StartStation_Id = stations.Find(station => station.Name == "Kraków Główny").Id.ToString().ToUpper(),
+                            EndStation_Id = stations.Find(station => station.Name == "Katowice").Id.ToString().ToUpper(),
+                            Train_Id = trains.Find(train => train.Name == "Sobieski").Id.ToString().ToUpper(),
+                            StartTime = new DateTime(2024, 05, day, 14, 56, 0),
+                            EndTime = new DateTime(2024, 05, day, 19, 40, 0),
+                            KmNumber = 1,
+                            Duration = new DateTime(2024, 05, day, 19, 40, 0).Subtract(new DateTime(2024, 05, day, 14, 56, 0))
+                        },
+                    });
+                if (day % 2 == 0)
+                {
+                    connections.Add(
+                        new Connection
+                        {
+                            StartStation_Id = stations.Find(station => station.Name == "Warszawa Centralna").Id.ToString().ToUpper(),
+                            EndStation_Id = stations.Find(station => station.Name == "Katowice").Id.ToString().ToUpper(),
+                            Train_Id = trains.Find(train => train.Name == "Sobieski").Id.ToString().ToUpper(),
+                            StartTime = new DateTime(2024, 05, day, 8, 40, 0),
+                            EndTime = new DateTime(2024, 05, day, 11, 07, 0),
+                            KmNumber = 1,
+                            Duration = new DateTime(2024, 05, day, 11, 07, 0).Subtract(new DateTime(2024, 05, day, 8, 40, 0))
+                        });
+                }
+                connections.Add(
+                        new Connection
+                        {
+                            StartStation_Id = stations.Find(station => station.Name == "Warszawa Centralna").Id.ToString().ToUpper(),
+                            EndStation_Id = stations.Find(station => station.Name == "Katowice").Id.ToString().ToUpper(),
+                            Train_Id = trains.Find(train => train.Name == "Sobieski").Id.ToString().ToUpper(),
+                            StartTime = new DateTime(2024, 05, day, 0, 20, 0),
+                            EndTime = new DateTime(2024, 05, day, 11, 07, 0),
+                            KmNumber = 1,
+                            Duration = new DateTime(2024, 05, day, 11, 07, 0).Subtract(new DateTime(2024, 05, day, 8, 40, 0))
+                        });
+            }
+            return connections;
         }
 
         public static async Task SeedAchievements(DataContext context)

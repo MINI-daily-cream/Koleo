@@ -29,16 +29,27 @@ const HomePage = () => {
     }
     const handleFindButtonClick = (event) => {
         if(selectedCitySrc == selectedCityDst) {
-            alert('Nie można wybrac tego samego miasta');
+            alert('Nie można wybrać tego samego miasta');
             event.preventDefault();
             return;     
         }
 
+        if(new Date(selectedDate).getDate() < new Date(Date.now()).getDate()) {
+            alert('Nie można wybrać daty z przeszłości');
+            event.preventDefault();
+            return;     
+        }
+        
+        console.log(selectedDate);
+        console.log(new Date(selectedDate));
+        console.log((new Date(selectedDate)).toString());
+
         navigate("/FoundConnections", {state: {
             startCity: selectedCitySrc,
             endCity: selectedCityDst,
-            day: "2024-05-16T17:08:37.872Z"
-            // day: selectedDate.toString()
+            // day: "2024-05-16T17:08:37.872Z"
+            // day: (new Date(selectedDate)).toString()
+            day: (new Date(selectedDate)).toISOString()
         }});
     }
     

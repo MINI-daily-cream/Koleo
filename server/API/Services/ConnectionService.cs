@@ -28,6 +28,8 @@ namespace API.Services
 
         public async Task<(List<ConnectionInfoDTO[]>, bool)> GetFilteredConnections(FindConnectionsDTO filters)
         {
+            DateTime day = DateTime.Parse(filters.Day);
+
             var startStationIdsResult = await _getIdFromInfoService.GetStationIdsByCityName(filters.StartCity);
             if(!startStationIdsResult.Item2) return (null, false);
             List<string> startStationIds = startStationIdsResult.Item1;
@@ -78,8 +80,11 @@ namespace API.Services
                 }
             }
             connections = connections.FindAll(compositeConn => 
-                endStationIds.Contains(compositeConn[0].EndStation_Id) 
+                compositeConn[compositeConn.Length - 1].StartTime.Date == day.Date &&
+                day < compositeConn[0].StartTime &&
+                (endStationIds.Contains(compositeConn[0].EndStation_Id) 
                     || (compositeConn[1] != null && endStationIds.Contains(compositeConn[1].EndStation_Id))
+                )
             );
             connections.Sort(0, connections.Count, new ConnectionComparer());
 

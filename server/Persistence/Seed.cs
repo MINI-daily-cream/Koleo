@@ -52,6 +52,7 @@ namespace Persistence
 
             };
 
+            await context.Users.AddRangeAsync(users);
 
             await context.SaveChangesAsync();
 

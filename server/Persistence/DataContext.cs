@@ -29,5 +29,11 @@ namespace Persistence
         public DbSet<RankingUser> RankingUsers { get; set; }
         public DbSet<Ranking> Rankings { get; set; }
         public DbSet<Advertisment> Advertisments { get; set; }
+
+        public DbSet<Achievement> Achievement { get; set; }
+
+        public DbSet<AchievementUsers> AchievementUsers { get; set; }
+
+
     }
 }

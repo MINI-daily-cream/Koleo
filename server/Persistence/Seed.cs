@@ -1,6 +1,8 @@
 ﻿using Application;
+using Domain;
 using iTextSharp.text.pdf.parser.clipper;
 using Koleo.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -50,11 +52,12 @@ namespace Persistence
 
             };
 
-            await context.Users.AddRangeAsync(users);
+
             await context.SaveChangesAsync();
 
 
         }
+
 
         public static async Task SeedConnectionsEtc(DataContext context)
         {
@@ -333,6 +336,33 @@ namespace Persistence
             await context.SaveChangesAsync();
         }
 
+        public static async Task SeedAchievements(DataContext context)
+        {
+            if (context.Achievement.Any()) return;
+
+            var achievements = new List<Achievement>
+            {
+                new Achievement
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Przejechane 10 km"
+                },
+                new Achievement
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Przejechane 100 km"
+                },
+                new Achievement
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Przejechane 1000 km"
+                }
+            };
+
+            await context.Achievement.AddRangeAsync(achievements);
+            await context.SaveChangesAsync();
+        }
+
         public static void ClearConnectionsEtc(DataContext context)
         {
             Console.WriteLine("Clearing data---------------------------------------------------------------------------");
@@ -375,5 +405,79 @@ namespace Persistence
 
             _context.SaveChanges();
         }
+        public static async Task SeedSomeData(DataContext context)
+        {
+
+
+
+            if (context.Statistics.Any()) return;
+
+            var statistics = new List<Statistics>
+    {
+        new Statistics
+        {
+            Id = Guid.NewGuid(),
+            User_Id = new Guid("9552B521-50A5-468C-97CD-D2A337D90D5F"),
+            KmNumber = 1,
+            ConnectionsNumber = 1,
+            LongestConnectionTime = TimeSpan.Zero,
+            TrainNumber = 10,
+            Points = 10
+        }
+    };
+
+            var rankings = new List<Ranking>
+    {
+        new Ranking
+        {
+            Id = Guid.NewGuid(),
+            Description = "Km",
+            Name = "Km"
+        },
+        new Ranking
+        {
+            Id = Guid.NewGuid(),
+            Description = "ConnectionNumber",
+            Name = "ConnectionNumber"
+        },
+        new Ranking
+        {
+            Id = Guid.NewGuid(),
+            Description = "LongestConnectionNumber",
+            Name = "LongestConnectionNumber"
+        },
+        new Ranking
+        {
+            Id = Guid.NewGuid(),
+            Description = "TrainNumber",
+            Name = "TrainNumber"
+        },
+        new Ranking
+        {
+            Id = Guid.NewGuid(),
+            Description = "Points",
+            Name = "Points"
+        },
+    };
+
+            var rankingUser = new List<RankingUser>
+    {
+        new RankingUser
+        {
+            Id = Guid.NewGuid(),
+            Ranking_Id = rankings.First().Id,
+            User_Id = new Guid("9552B521-50A5-468C-97CD-D2A337D90D5F"),
+            Points = 1,
+            Position = 1
+        },
+    };
+
+            await context.Rankings.AddRangeAsync(rankings);
+            await context.RankingUsers.AddRangeAsync(rankingUser);
+            await context.Statistics.AddRangeAsync(statistics);
+
+            await context.SaveChangesAsync();
+        }
+
     }
 }

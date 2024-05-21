@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
@@ -10,9 +11,11 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240519193550_MigrationAchi")]
+    partial class MigrationAchi
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.4");
@@ -99,11 +102,11 @@ namespace Persistence.Migrations
                     b.Property<int>("Position")
                         .HasColumnType("INTEGER");
 
-                    b.Property<Guid>("Ranking_Id")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Ranking_Id")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<Guid>("User_Id")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("User_Id")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -169,9 +172,8 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("User_Id")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("User_Id")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -371,7 +373,7 @@ namespace Persistence.Migrations
                     b.Property<int>("KmNumber")
                         .HasColumnType("INTEGER");
 
-                    b.Property<TimeSpan>("LongestConnectionTime")
+                    b.Property<DateTime>("LongestConnectionTime")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Points")
@@ -380,8 +382,8 @@ namespace Persistence.Migrations
                     b.Property<int>("TrainNumber")
                         .HasColumnType("INTEGER");
 
-                    b.Property<Guid>("User_Id")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("User_Id")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 

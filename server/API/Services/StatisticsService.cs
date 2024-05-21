@@ -14,6 +14,7 @@ namespace Koleo.Services
         }
         public async Task<StatisticsInfo>? GetByUser(string userID)
         {
+            userID = userID.ToUpper();
 
             string sql = $"SELECT * FROM STATISTICS WHERE User_Id='{userID}'";
             var result = await _databaseService.ExecuteSQLLastRow(sql);
@@ -25,13 +26,16 @@ namespace Koleo.Services
                     string s = result.Item1[0][i].ToString();
                     userData[i] = s;
                 }
-                StatisticsInfo statisticsInfo = new StatisticsInfo(userData[0], userData[1], userData[2], userData[3], userData[4], userData[5], userData[6]);
+                StatisticsInfo statisticsInfo = new StatisticsInfo(userData[0], userData[6], userData[2], userData[5], userData[1], userData[3], userData[4]);
+       
                 return statisticsInfo;
             }
             return null;
         }
         public async void Update(string userID,ConnectionInfoObject connectionInfoObject)
         {
+            userID = userID.ToUpper();
+
 
             string sql = $"SELECT * FROM STATISTICS WHERE User_Id='{userID}'";
             var result = await _databaseService.ExecuteSQLLastRow(sql);

@@ -10,5 +10,7 @@ namespace API.Services.Interfaces
         public Task<bool> RejectAdminRequest(string userId);
         public Task<bool> DeleteUser(string userId);
         public Task<(List<string>, bool)> ListAdminCandidates();
+        public Task<bool> ChangePassword(string userId, string oldPassword, string newPassword);
+
     }
 }

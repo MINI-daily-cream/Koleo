@@ -107,7 +107,6 @@ namespace Koleo.Services
             string surname = userData[1];
             try
             {
-
                 Document document = new Document();
                 PdfWriter.GetInstance(document, new FileStream($"ticket_{ticketId}.pdf", FileMode.Create));
                 document.Open();

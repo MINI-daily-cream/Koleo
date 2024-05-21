@@ -12,7 +12,10 @@ namespace API.Services.Interfaces
         public Task<(string[], bool)> GetTicketById(string ticketId);
         public Task<(List<Connection>?, bool)> GetConnectionsByTicket(string ticketId);
         public Task<bool> UpdateConnectionsInfoList(string ticketId, List<TicketInfoDTO> connectionsInfo);
-        public Task<bool> UpdateConnectionsInfoForBrowsing(List<Connection> connections, List<ConnectionInfoDTO> connectionsInfo);
+        public Task<bool> UpdateConnectionsInfoForBrowsing(List<Connection[]> connections, List<ConnectionInfoDTO[]> connectionsInfo);
         public Task<(List<Connection>?, bool)> GetConnectionsByStationIds(string startStationId, string endStationId);
+        public Task<(List<Connection>?, bool)> GetConnectionsByStartStationId(string startStationId);
+        public Task<(List<Connection>?, bool)> GetConnectionsByEndStationId(string endStationId);
+        public Task<(List<Connection>?, bool)> GetConnectionsByStationIdsAndTime(string startStationId, string endStationId, DateTime dateTime);
     }
 }

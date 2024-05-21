@@ -4,6 +4,8 @@
     {
         public string StartCity { get; set; }
         public string EndCity { get; set; }
-        public DateTime Day { get; set; }
+        public string Day { get; set; }
+
+        //public DateTime Day { get; set; }
     }
 }

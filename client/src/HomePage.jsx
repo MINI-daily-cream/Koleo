@@ -33,12 +33,17 @@ const HomePage = () => {
             event.preventDefault();
             return;     
         }
+        
+        console.log(selectedDate);
+        console.log(new Date(selectedDate));
+        console.log((new Date(selectedDate)).toString());
 
         navigate("/FoundConnections", {state: {
             startCity: selectedCitySrc,
             endCity: selectedCityDst,
-            day: "2024-05-16T17:08:37.872Z"
-            // day: selectedDate.toString()
+            // day: "2024-05-16T17:08:37.872Z"
+            // day: (new Date(selectedDate)).toString()
+            day: (new Date(selectedDate)).toISOString()
         }});
     }
     

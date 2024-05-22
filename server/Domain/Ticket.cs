@@ -6,5 +6,6 @@
         public string User_Id { get; set; }
         public string Target_Name { get; set; }
         public string Target_Surname { get; set; }
+        public int Seat { get; set; }
     }
 }

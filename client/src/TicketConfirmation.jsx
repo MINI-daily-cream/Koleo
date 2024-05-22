@@ -67,10 +67,12 @@ const TicketConfirmation = ({ navigation, route }) => { // here there is USERS i
         const requestBody = {
             connectionIds: [mainConnection.id],
             targetName: name,
-            targetSurname: surname
+            targetSurname: surname,
+            seat: ticketData.seat
         };
 
         try {
+            console.log(requestBody);
             const response = await axios.post(`${apiBaseUrl}/api/Ticket/buy/${userId}`, requestBody, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -96,7 +98,7 @@ const TicketConfirmation = ({ navigation, route }) => { // here there is USERS i
                     <hr></hr>
                     <div className="stationItem">
                         <FromStationToStation startStation={mainConnection.startStation} endStation={mainConnection.endStation}></FromStationToStation>
-                        <TrainInfo trainNumber={mainConnection.providerName} wagonNumber={ticketData.wagonNumber} seatNumber={ticketData.seatNumber} />
+                        <TrainInfo trainNumber={mainConnection.providerName} wagonNumber={ticketData.wagonNumber} seatNumber={ticketData.seat} />
                         <div className="TravelTimeInfo">
                             <div className="TicketInfoColumn">
                                 <div className="TicketInfoColumnText">Odjazd</div>
@@ -195,8 +197,14 @@ const TicketConfirmation = ({ navigation, route }) => { // here there is USERS i
     //xddd
     const ticketData = {
         wagonNumber: 'A12',
-        seatNumber: '7',
+        seat: '7',
     };
+
+    function saveSeat(seat)
+    {
+        ticketData.seat = seat;
+    }
+
     return (
         <div>
             <div className="TicketInfoHeader">
@@ -215,7 +223,7 @@ const TicketConfirmation = ({ navigation, route }) => { // here there is USERS i
 
                 <ByStations />
 
-                <SeatSelection/>
+                <SeatSelection onClick={() => saveSeat(1)}/>
 
 
                 <div className="TravelTravelerInfo">

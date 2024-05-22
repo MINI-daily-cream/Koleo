@@ -70,7 +70,7 @@ namespace API.Controllers
             {
                 return Forbid();
             }
-            return (await _ticketService.Buy(userId.ToUpper(), info.connectionIds, info.targetName, info.targetSurname)).Item1;
+            return (await _ticketService.Buy(userId.ToUpper(), info.connectionIds, info.targetName, info.targetSurname, info.seat)).Item1;
         }
 
         [HttpPost("generate/{userId}/{ticketId}")]

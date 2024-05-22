@@ -25,11 +25,12 @@ namespace Koleo.Services
             _paymentService = paymentService;
             _getInfoFromIdService = getInfoFromIdService;
         }
-        public async Task<(string, bool)> Buy(string userId, List<string> connectionsIds, string targetName, string targetSurname)
+        public async Task<(string, bool)> Buy(string userId, List<string> connectionsIds, string targetName, string targetSurname, int seat)
         {
+            Console.WriteLine("seat" + seat);
             if (await _paymentService.ProceedPayment())
             {
-                var tmpResult = await Add(userId, connectionsIds, targetName, targetSurname);
+                var tmpResult = await Add(userId, connectionsIds, targetName, targetSurname, seat);
                 return tmpResult;
             }
             return ("", false);
@@ -51,13 +52,19 @@ namespace Koleo.Services
         {
             var result = await _getInfoFromIdService.GetTicketsByUser(userId);
             if (!result.Item2) return (new List<TicketInfoDTO> { }, false);
+
+            Console.WriteLine("jeszcze sie nie wywalilo");
+            
             List<string> ticketIds = result.Item1;
             List<TicketInfoDTO> connectionsInfo = new List<TicketInfoDTO>();
+            Console.WriteLine("jeszcze sie nie wywalilo2.1");
             foreach (string ticketId in ticketIds)
             {
                 var tmpResult = await _getInfoFromIdService.UpdateConnectionsInfoList(ticketId, connectionsInfo);
                 if (!tmpResult) return (new List<TicketInfoDTO> { }, false);
             }
+
+            Console.WriteLine("jeszcze sie nie wywalilo2");
             List<TicketInfoDTO> futureConnections = new List<TicketInfoDTO>();
             foreach(TicketInfoDTO info in connectionsInfo)
             {
@@ -68,6 +75,7 @@ namespace Koleo.Services
                     futureConnections.Add(info);
                  }
             }
+            Console.WriteLine("jeszcze sie nie wywalilo3");
             return (futureConnections, true);
         }
         public async Task<(List<TicketInfoDTO>, bool)> ListByUserPastConnections(string userId)
@@ -167,9 +175,9 @@ namespace Koleo.Services
             return false;
         }
 
-        public async Task<(string, bool)> Add(string userId, List<string> connectionsIds, string targetName, string targetSurname)
+        public async Task<(string, bool)> Add(string userId, List<string> connectionsIds, string targetName, string targetSurname, int seat)
         {
-            string insertTicketSql = $"INSERT INTO Tickets (Id, User_Id, Target_Name, Target_Surname) VALUES ('{Guid.NewGuid().ToString().ToUpper()}', '{userId}', '{targetName}', '{targetSurname}')";
+            string insertTicketSql = $"INSERT INTO Tickets (Id, User_Id, Target_Name, Target_Surname, Seat) VALUES ('{Guid.NewGuid().ToString().ToUpper()}', '{userId}', '{targetName}', '{targetSurname}', '77')";
             var result = await _databaseService.ExecuteSQL(insertTicketSql);
             if (!result.Item2) return ("", false);
 

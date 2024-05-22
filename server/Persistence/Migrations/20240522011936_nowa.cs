@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class passwordHash : Migration
+    public partial class nowa : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,7 +16,7 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    User_Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    User_Id = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -98,8 +98,8 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    User_Id = table.Column<int>(type: "INTEGER", nullable: false),
-                    Ticket_Id = table.Column<int>(type: "INTEGER", nullable: false),
+                    User_Id = table.Column<string>(type: "TEXT", nullable: false),
+                    Ticket_Id = table.Column<string>(type: "TEXT", nullable: false),
                     Content = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -169,7 +169,9 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     Ranking_Id = table.Column<int>(type: "INTEGER", nullable: false),
-                    User_Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    User_Id = table.Column<int>(type: "INTEGER", nullable: false),
+                    Points = table.Column<int>(type: "INTEGER", nullable: false),
+                    Position = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -225,7 +227,8 @@ namespace Persistence.Migrations
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     User_Id = table.Column<string>(type: "TEXT", nullable: false),
                     Target_Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Target_Surname = table.Column<string>(type: "TEXT", nullable: false)
+                    Target_Surname = table.Column<string>(type: "TEXT", nullable: false),
+                    Seat = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {

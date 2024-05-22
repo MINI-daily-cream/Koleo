@@ -46,8 +46,13 @@ namespace API.Services
 
         public async Task<(string[], bool)> GetTicketById(string ticketId)
         {
-            string sql = $"SELECT * FROM Tickets WHERE Id='{ticketId}'";
+            Console.WriteLine(ticketId);
+            // string sql = $"SELECT * FROM Tickets WHERE Id='{ticketId}'";
+            string sql = $"SELECT * FROM Tickets";
+            Console.WriteLine("juzdededededed?");
+           
             var result = await _databaseService.ExecuteSQL(sql);
+             Console.WriteLine("juz2?");
             if (!result.Item2) return (null, false);
             return (result.Item1[0], true);
         }
@@ -76,17 +81,21 @@ namespace API.Services
 
         public async Task<bool> UpdateConnectionsInfoList(string ticketId, List<TicketInfoDTO> connectionsInfo)
         {
+            Console.WriteLine("zaraz sie wywali");
             var result = await GetConnectionsByTicket(ticketId);
             if (!result.Item2) return false;
+            Console.WriteLine("zaraz sie wywali2");
             List<Connection> connections = result.Item1;
 
-            var result1 = await GetTicketById(ticketId);
+            // var result1 = await GetTicketById(ticketId);
+            var result1 = await GetTicketById("C9E51668-77BA-4AD3-8564-385E4431B8CD");
+            Console.WriteLine("zaraz sie wywali3");
             if (!result1.Item2) return false;
             string[] ticketInfo = result1.Item1;
-
+            Console.WriteLine("jeszcze sie nie wywalilopi");
             foreach (Connection connection in connections)
             {
-
+Console.WriteLine("jeszcze sie nie wywaliloppp");
                 var startStationName = await GetStationNameById(connection.StartStation_Id);
                 var endStationName = await GetStationNameById(connection.EndStation_Id);
                 var providerName = await GetProviderNameById(connection.Train_Id);
@@ -112,6 +121,7 @@ namespace API.Services
                     Duration = connection.Duration,
                     Name = ticketInfo[2],
                     Surname = ticketInfo[3],
+                    Seat = 6
                 });
             }
             return true;

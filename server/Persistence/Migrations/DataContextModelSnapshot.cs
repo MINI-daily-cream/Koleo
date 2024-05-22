@@ -15,7 +15,7 @@ namespace Persistence.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.4");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.5");
 
             modelBuilder.Entity("Application.AdminComplaint", b =>
                 {
@@ -169,8 +169,9 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("User_Id")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("User_Id")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -244,11 +245,13 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Ticket_Id")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Ticket_Id")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("User_Id")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("User_Id")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -358,6 +361,9 @@ namespace Persistence.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("Seat")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Target_Name")
                         .IsRequired()

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-function SeatSelection() {
+function SeatSelection({onClick}) {
 
     var initialSeats = Array(6).fill(Array(30).fill('blue'));
     var initialSeats = Array(6).fill(null).map(() => Array(30).fill('blue'))
@@ -10,6 +10,7 @@ function SeatSelection() {
         initialSeats = seats.slice();
         initialSeats[rowIndex][columnIndex] = 'orange';        
         setSeats(initialSeats);
+        onClick(columnIndex);
     }
 
     return (

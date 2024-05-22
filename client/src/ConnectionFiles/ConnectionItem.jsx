@@ -9,6 +9,7 @@ const ConnectionItem = ({ connection }) => {
 
     function goToConfirmation() {
       // navigate(`/ticketConfirmation/${connection}`);
+      console.log("przed navigate");
       console.log(connection);
       navigate(`/ticketConfirmation`, {state: connection });
       // navigate(`/ticketConfirmation`, {state: {connection} });

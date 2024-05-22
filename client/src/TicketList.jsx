@@ -36,6 +36,7 @@ const TicketList = () => {
               'Authorization': `Bearer ${jwtToken}`
           }
         });
+        console.log('dane pociagu')
         console.log(response.data)
         setTickets(response.data);
       }

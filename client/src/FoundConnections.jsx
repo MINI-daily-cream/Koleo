@@ -26,6 +26,8 @@ const FoundConnectionList = () => {
                 // 'Authorization': `Bearer ${jwtToken}`
             }
         });
+        console.log('moj pies to suka');
+        console.log(response.data);
         setConnections(response.data);
         console.log("fetched connections")
         console.log(connections)

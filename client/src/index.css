@@ -324,6 +324,31 @@ hr.solid {
     flex-direction: column;
     padding-left: 30px;
 }
+
+.SeatSelection{
+  background-color: white;
+  margin: 15px auto;
+  margin-right: 50px;
+  margin-left: 50px;
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+  padding-left: 30px;
+  /* height: 500px; */
+}
+
+table{
+  border-collapse: separate;
+  border-spacing: 20px 10px;
+}
+
+td{
+  background-color: blue;
+  width: 20px;
+  height: 20px;
+  /* border: 20px solid white; */
+}
+
 .TicketInfoHeader {
     align-items: center;
     display: flex;

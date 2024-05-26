@@ -187,12 +187,13 @@ namespace Koleo.Services
             var ticketNumber = (System.Int64)ticketNumberResult.Item1[0][0];
 
             string getLastInsertedTicketIdSql = $"SELECT * FROM Tickets LIMIT 1 OFFSET {ticketNumber - 1};";
-            var ticketIdResult = await _databaseService.ExecuteSQL(getLastInsertedTicketIdSql);
+            var ticketIdResult = await _databaseService.ExecuteSQLLastRow(getLastInsertedTicketIdSql);
+            //Lastrow
 
             string ticketId = "";
             if (ticketIdResult.Item1 != null && ticketIdResult.Item1.Count > 0)
             {
-                ticketId = new string(ticketIdResult.Item1[0][0]);
+                ticketId = new string((string)ticketIdResult.Item1[0][0]);
 
                 foreach (var connectionId in connectionsIds)
                 {

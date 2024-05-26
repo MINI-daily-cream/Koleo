@@ -27,7 +27,7 @@ const FoundConnectionList = () => {
             }
         });
         setConnections(response.data);
-        console.log("fetched connections")
+        console.log("fetched connections halo")
         console.log(connections)
       } 
       catch(error) {

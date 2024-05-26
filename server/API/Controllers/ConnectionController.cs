@@ -20,11 +20,11 @@ namespace API.Controllers
             _context = context;
         }
 
-        //[HttpGet]
-        //public Task<List<ConnectionInfoDTO>> Get()
-        //{
+        // [HttpGet]
+        // public Task<List<ConnectionInfoDTO>> Get()
+        // {
         //    return Task.FromResult(_connectionService.GetConnectionsInfo(_context.Connections.ToList()).Result.Item1);
-        //}
+        // }
 
         [HttpPost("filtered")]
         public Task<List<ConnectionInfoDTO[]>> Get(FindConnectionsDTO filters)

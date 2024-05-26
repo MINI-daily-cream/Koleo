@@ -72,9 +72,11 @@ const TicketConfirmation = ({ navigation, route }) => { // here there is USERS i
             // connectionIds: [mainConnection.id],
             connectionIds: allConnections.map(conn => conn.id),
             targetName: name,
-            targetSurname: surname
+            targetSurname: surname,
+            seat: ticketData.seatNumber
         };
-    
+        console.log('oto requestBody do kupienia');
+        console.log(requestBody);
         try {
             const response = await axios.post(`${apiBaseUrl}/api/Ticket/buy/${userId}`, requestBody, {
                 headers: {
@@ -203,7 +205,7 @@ const TicketConfirmation = ({ navigation, route }) => { // here there is USERS i
     };
     const ticketData = {
         wagonNumber: 'A12',
-        seatNumber: '7',
+        seatNumber: '100',
     };
     return (
         <div>
@@ -264,3 +266,12 @@ const TicketConfirmation = ({ navigation, route }) => { // here there is USERS i
 }
  
 export default TicketConfirmation;
+
+
+// c = {
+//     "connectionIds": [
+//         "9787F012-93FA-45B7-AD6C-543A5DC1313D"
+//     ],
+//     "targetName": "wojak",
+//     "targetSurname": "st"
+// };

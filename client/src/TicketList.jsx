@@ -76,7 +76,7 @@ const TicketList = () => {
                 departureStation={ticket.startStation}
                 arrivalStation={ticket.endStation}
                 wagonNumber={ticket.wagonNumber}
-                seatNumber={ticket.seatNumber}
+                seatNumber={ticket.seat}
               />
             ) : (
               <Ticket
@@ -91,7 +91,7 @@ const TicketList = () => {
                 departureStation={ticket.startStation}
                 arrivalStation={ticket.endStation}
                 wagonNumber={ticket.wagonNumber}
-                seatNumber={ticket.seatNumber}
+                seatNumber={ticket.seat}
               />
             )
           )

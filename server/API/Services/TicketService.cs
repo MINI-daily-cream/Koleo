@@ -25,11 +25,11 @@ namespace Koleo.Services
             _paymentService = paymentService;
             _getInfoFromIdService = getInfoFromIdService;
         }
-        public async Task<(string, bool)> Buy(string userId, List<string> connectionsIds, string targetName, string targetSurname)
+        public async Task<(string, bool)> Buy(string userId, List<string> connectionsIds, string targetName, string targetSurname, string seat)
         {
             if (await _paymentService.ProceedPayment())
             {
-                var tmpResult = await Add(userId, connectionsIds, targetName, targetSurname);
+                var tmpResult = await Add(userId, connectionsIds, targetName, targetSurname, seat);
                 return tmpResult;
             }
             return ("", false);
@@ -166,9 +166,9 @@ namespace Koleo.Services
             return false;
         }
 
-        public async Task<(string, bool)> Add(string userId, List<string> connectionsIds, string targetName, string targetSurname)
+        public async Task<(string, bool)> Add(string userId, List<string> connectionsIds, string targetName, string targetSurname, string seat)
         {
-            string insertTicketSql = $"INSERT INTO Tickets (Id, User_Id, Target_Name, Target_Surname) VALUES ('{Guid.NewGuid().ToString().ToUpper()}', '{userId}', '{targetName}', '{targetSurname}')";
+            string insertTicketSql = $"INSERT INTO Tickets (Id, User_Id, Target_Name, Target_Surname, Seat) VALUES ('{Guid.NewGuid().ToString().ToUpper()}', '{userId}', '{targetName}', '{targetSurname}', '{seat}')";
             var result = await _databaseService.ExecuteSQL(insertTicketSql);
             if (!result.Item2) return ("", false);
 

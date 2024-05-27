@@ -35,6 +35,8 @@ namespace Persistence
 
         public DbSet<AchievementUsers> AchievementUsers { get; set; }
 
+        public DbSet<ConnectionSeats> ConnectionSeats{ get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             Console.WriteLine("Bedzie konfigurowane");

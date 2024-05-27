@@ -14,17 +14,17 @@ namespace Koleo.Models
         public int KmNumber { get; set; }
         public TimeSpan Duration { get; set; }
 
-        public const int Seats_Count  = 10;
-        public List<int> Seats { get; set; } = new List<int>(new int[Seats_Count]);
+        // public const int Seats_Count  = 10;
+        // public List<int> Seats { get; set; } = new List<int>(new int[Seats_Count]);
 
-        public int[] Seats2 { get; set; } = new int[10];
-        public string TestValue { get; set; }
-        public string TestValue2 { get; set; } = "przetestowane2";
+        // public int[] Seats2 { get; set; } = new int[10];
+        // public string TestValue { get; set; }
+        // public string TestValue2 { get; set; } = "przetestowane2";
 
 
-        public Connection()
-        {
-            TestValue = "przetestowane";
-        }
+        // public Connection()
+        // {
+        //     TestValue = "przetestowane";
+        // }
     }
 }

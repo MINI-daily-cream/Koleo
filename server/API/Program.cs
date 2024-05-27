@@ -96,27 +96,27 @@ app.UseHttpsRedirection();
 
 app.MapControllers();
 
-// using var scope = app.Services.CreateScope();
-// var services = scope.ServiceProvider;
-// try
-// {
-//     var context = services.GetRequiredService<DataContext>();
-//     await context.Database.MigrateAsync();
-//     await Seed.SeedData(context);
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+try
+{
+    var context = services.GetRequiredService<DataContext>();
+    await context.Database.MigrateAsync();
+    await Seed.SeedData(context);
 
-//     //Seed.ClearTickets(context);
-//     // Seed.ClearConnectionsEtc(context);
-//     await Seed.SeedConnectionsEtc(context);
-//     await Seed.SeedAchievements(context);
-//     await Seed.SeedSomeData(context);
+    //Seed.ClearTickets(context);
+    // Seed.ClearConnectionsEtc(context);
+    await Seed.SeedConnectionsEtc(context);
+    // await Seed.SeedAchievements(context);
+    // await Seed.SeedSomeData(context);
 
 
-// }
-// catch (Exception ex)
-// {
-//     var logger = services.GetRequiredService<ILogger<Program>>();
-//     logger.LogError(ex, "An error occured during migration");
+}
+catch (Exception ex)
+{
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "An error occured during migration");
     
-// }
+}
 
 app.Run();

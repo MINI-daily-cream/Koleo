@@ -59,18 +59,19 @@ namespace API.Controllers
             return Task.FromResult(_ticketService.ListByUserPastConnections(userId.ToUpper()).Result.Item1);
         }
 
-        [Authorize]
+        // [Authorize]
+        [AllowAnonymous]
         [HttpPost("buy/{userId}")]
         public async Task<ActionResult<string>> Buy(string userId, [FromBody] BuyTicketDTO info)
         {
             Console.WriteLine("Panie");
             Console.WriteLine(userId);
             Console.WriteLine(User.Identity.Name);
-            if(userId != User.Identity.Name)
-            {
-                return Forbid();
-            }
-            return (await _ticketService.Buy(userId.ToUpper(), info.connectionIds, info.targetName, info.targetSurname)).Item1;
+            // if(userId != User.Identity.Name)
+            // {
+            //     return Forbid();
+            // }
+            return (await _ticketService.Buy(userId.ToUpper(), info.connectionIds, info.targetName, info.targetSurname, info.seat)).Item1;
         }
 
         [HttpPost("generate/{userId}/{ticketId}")]

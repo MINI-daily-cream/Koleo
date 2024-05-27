@@ -6,7 +6,7 @@ namespace API.Services.Interfaces
 {
     public interface ITicketServive
     {
-        public Task<(string, bool)> Buy(string userId, List<string> connectionsIds, string targetName, string targetSurname);
+        public Task<(string, bool)> Buy(string userId, List<string> connectionsIds, string targetName, string targetSurname, string seat);
         public Task<(List<TicketInfoDTO>, bool)> ListByUser(string userId);
         public Task<bool> Generate(string userId, string ticketId);
         public Task<bool> Remove(string ticketId);

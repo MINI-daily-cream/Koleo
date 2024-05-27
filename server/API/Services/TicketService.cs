@@ -25,11 +25,12 @@ namespace Koleo.Services
             _paymentService = paymentService;
             _getInfoFromIdService = getInfoFromIdService;
         }
-        public async Task<(string, bool)> Buy(string userId, List<string> connectionsIds, string targetName, string targetSurname)
+        public async Task<(string, bool)> Buy(string userId, List<string> connectionsIds, string targetName, string targetSurname, string seat)
         {
             if (await _paymentService.ProceedPayment())
             {
                 var tmpResult = await Add(userId, connectionsIds, targetName, targetSurname);
+                await _databaseService.SaveConnectionSeatInfo(connectionsIds[0], seat);
                 return tmpResult;
             }
             return ("", false);

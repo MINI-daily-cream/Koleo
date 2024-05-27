@@ -107,16 +107,13 @@ try
     //Seed.ClearTickets(context);
     // Seed.ClearConnectionsEtc(context);
     await Seed.SeedConnectionsEtc(context);
-    await Seed.SeedAchievements(context);
-    await Seed.SeedSomeData(context);
-
-
+    // await Seed.SeedAchievements(context);
+    // await Seed.SeedSomeData(context);
 }
 catch (Exception ex)
 {
     var logger = services.GetRequiredService<ILogger<Program>>();
     logger.LogError(ex, "An error occured during migration");
-    
 }
 
 app.Run();

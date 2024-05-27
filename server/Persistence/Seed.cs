@@ -219,6 +219,19 @@ namespace Persistence
             await context.Connections.AddRangeAsync(connections);
             //await context.Users.AddRangeAsync(connections);
             await context.SaveChangesAsync();
+
+            var _connections = context.Connections;
+            List<ConnectionSeats> connectionSeats = new List<ConnectionSeats>();
+
+            foreach (var connection in _connections)
+            {
+                Console.WriteLine("kk: " + connection.Id);
+                connectionSeats.Add(new ConnectionSeats{
+                    Connection_Id = connection.Id.ToString()
+                });
+            }
+            await context.ConnectionSeats.AddRangeAsync(connectionSeats);
+            await context.SaveChangesAsync();
         }
 
         private static List<Connection> SeedConnections(List<Station> stations, List<Train> trains)
@@ -366,6 +379,7 @@ namespace Persistence
                             Duration = new DateTime(2024, 05, day, 11, 07, 0).Subtract(new DateTime(2024, 05, day, 8, 40, 0))
                         });
             }
+
             return connections;
         }
 
@@ -421,6 +435,9 @@ namespace Persistence
 
             var allConnections = _context.Connections.ToList();
             _context.Connections.RemoveRange(allConnections);
+
+            var allConnectionSeats = _context.ConnectionSeats.ToList();
+            _context.ConnectionSeats.RemoveRange(allConnectionSeats);
 
             _context.SaveChanges();
         }

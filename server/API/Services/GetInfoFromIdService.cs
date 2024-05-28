@@ -111,6 +111,7 @@ namespace API.Services
                     Duration = connection.Duration,
                     Name = ticketInfo[2],
                     Surname = ticketInfo[3],
+                    Seat = ticketInfo[4],
                 });
             }
             return true;

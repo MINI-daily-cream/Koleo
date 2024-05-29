@@ -23,12 +23,22 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<IDatabaseServiceAPI, DatabaseServiceAPI>();
 builder.Services.AddScoped<IAccountService, AccountService>();
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<IAdsService, AdsService>();
+builder.Services.AddScoped<IComplaintService, ComplaintService>();
+
 builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IProviderService, ProviderService>();
+builder.Services.AddScoped<IRankingService,RankingService>();
+builder.Services.AddScoped<IStatisticsService,StatisticsService>();
 builder.Services.AddScoped<ITicketServive, TicketService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-
-
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IGetInfoFromIdService, GetInfoFromIdService>();
+builder.Services.AddScoped<IGetIdFromInfoService, GetIdFromInfoService>();
+builder.Services.AddScoped<IConnectionService, ConnectionService>();
+builder.Services.AddScoped<IRankingService, RankingService>();
+builder.Services.AddScoped<IAchievementsService, AchievementsService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -95,8 +105,13 @@ try
     await Seed.SeedData(context);
 
     //Seed.ClearTickets(context);
-    //Seed.ClearConnectionsEtc(context);
+    // Seed.ClearConnectionsEtc(context);
     await Seed.SeedConnectionsEtc(context);
+    await Seed.SeedAchievements(context);
+    await Seed.SeedRankings(context);
+    await Seed.SeedTestUsersAndStaticsData(context);
+
+
 }
 catch (Exception ex)
 {

@@ -9,7 +9,13 @@ namespace Application
     public class RankingUser
     {
         public Guid Id { get; set; }
-        public int Ranking_Id { get; set; }
-        public int User_Id { get; set; }
+        public Guid Ranking_Id { get; set; }
+        public Guid User_Id { get; set; }
+
+        public int Points { get; set; }
+
+        public int Position { get; set; }
+
+
     }
 }

@@ -13,14 +13,14 @@ namespace API.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IAccountService _accountService;
-        private readonly AdminService _adminService;
-        public AccountController(IAccountService accountService, AdminService adminService) 
+        private readonly IAdminService _adminService;
+        public AccountController(IAccountService accountService, IAdminService adminService) 
         {
             _accountService = accountService;
             _adminService = adminService;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}")] // check user account - Admin
         public Task<AccountInfo> Get(string id)
         {
             return _accountService.GetAccountInfo(id.ToUpper())!;
@@ -31,9 +31,16 @@ namespace API.Controllers
         {
             return _accountService.UpdateAccountInfo(id.ToUpper(), newInfo.Name, newInfo.Surname, newInfo.Email);
         }
+        [HttpGet("admin-candidates")] // check user account - Admin
+        public Task<List<string>> ListAdminCandidates()
+        {
+            return Task.FromResult(_adminService.ListAdminCandidates().Result.Item1);
+        }
+
 
         [HttpPut("admin-request/accept")]
-        public Task<bool> Accept(string userId) {
+        public Task<bool> Accept(string userId)
+        {
             return _adminService.GiveAdminPermissions(userId.ToUpper());
         }
 
@@ -43,8 +50,17 @@ namespace API.Controllers
             return _adminService.RejectAdminRequest(userId.ToUpper());
         }
         [HttpDelete("delete-user/{userId}")]
-        public Task<bool> DeleteUser(string userId) { 
+        public Task<bool> DeleteUser(string userId)
+        {
             return _adminService.DeleteUser(userId.ToUpper());
+        }
+
+
+
+        [HttpPut("admin-request/change_password")]
+        public Task<bool> ChangePassword(string userId, string oldPassword, string newPassword) 
+        {
+            return _adminService.ChangePassword(userId, oldPassword, newPassword);
         }
     }
 }

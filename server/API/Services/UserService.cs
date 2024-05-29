@@ -14,7 +14,7 @@ namespace Koleo.Services
         public async Task<bool> CreateAccount(string name, string surname, string email, string password, string? cardNumber)
         {
             if (await VerifyAccount(email)) {
-                string sql = $"INSERT INTO Users (Name, Surname, Email, Password, CardNumber) VALUES ('{name}', '{surname}', '{email}', '{password}', '{cardNumber}')";
+                string sql = $"INSERT INTO Users (Id, Name, Surname, Email, Password, CardNumber) VALUES ('{Guid.NewGuid().ToString().ToUpper()}', '{name}', '{surname}', '{email}', '{password}', '{cardNumber}')";
                 var result = await _databaseService.ExecuteSQL(sql);
                 return result.Item2;
             }

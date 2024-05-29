@@ -1,8 +1,51 @@
 import React from 'react';
+import {useNavigate} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrain, faCalendar, faClock, faGreaterThan, faMinus, faArrowRight, faUser, faMapMarkerAlt, faTicketAlt } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
+import apiBaseUrl from './config.js';
 
-const Ticket = ({ date, timeDep, timeArr, passengerName, trainNumber, finalStation, departureStation, arrivalStation, wagonNumber, seatNumber }) => {
+const Ticket = ({ ticketId, date, timeDep, timeArr, providerName, passengerName, trainNumber, finalStation, departureStation, arrivalStation, wagonNumber, seatNumber }) => {
+  const navigate = useNavigate();
+  function handleReturn(){
+    const postData = async () => {
+      try {
+        const response = await axios.post(`${apiBaseUrl}/api/Ticket/remove/${ticketId}`);
+        if(response.status == 200) 
+          location.reload();
+      }
+      catch(error) {
+        if (error === 'Unauthorized') {
+            console.log('Unauthorized. Please log in.');
+        } else {
+            console.error('An error occurred:', error);
+        }
+      }
+    }
+    postData();
+  }
+  function handleChange(){
+    navigate(`/changeTicketDetails`, {state: ticketId });
+  }
+
+  function handleGenerate(){
+    const postData = async () => {
+      try {
+        const response = await axios.post(`${apiBaseUrl}/api/Ticket/generate/${localStorage.getItem('id')}/${ticketId}`);
+        if(response.status == 200) 
+          location.reload();
+      }
+      catch(error) {
+        if (error === 'Unauthorized') {
+            console.log('Unauthorized. Please log in.');
+        } else {
+            console.error('An error occurred:', error);
+        }
+      }
+    }
+    postData();
+  }
+  
   return (
     <div className="ticket">
       <div className="ticket-details">
@@ -32,7 +75,7 @@ const Ticket = ({ date, timeDep, timeArr, passengerName, trainNumber, finalStati
         <div className="icon">
           <FontAwesomeIcon icon={faTrain} />
         </div>
-        <div className='text'>{trainNumber}</div>
+        <div className='text'>{providerName}</div>
         <div className="icon" id='arrow'>
           {/* <FontAwesomeIcon icon={faMinus} />
           <FontAwesomeIcon icon={faMinus} />
@@ -61,7 +104,9 @@ const Ticket = ({ date, timeDep, timeArr, passengerName, trainNumber, finalStati
         <div className='car-seat-number'>Wagon: {wagonNumber}</div>
         <div className='car-seat-number'>Miejsce: {seatNumber}</div>
       </div>
-      <button className="return-ticket">Zwróć bilet</button>
+      <button className="return-ticket"  onClick={handleChange}>Zmień dane</button>
+      <button className="return-ticket" onClick={handleReturn}>Zwróć bilet</button>
+      <button className="return-ticket"  onClick={handleGenerate}>Generuj PDF</button>
     </div>
   );
 };

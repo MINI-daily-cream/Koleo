@@ -1,33 +1,49 @@
 import { useEffect, useState } from 'react'
 import ConnectionList from './ConnectionFiles/ConnectionList';
 import apiBaseUrl from './config';
+import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 
 const FoundConnectionList = () => {
-  //const [userId, setuserId] = useState("C4630E12-DEE8-411E-AF44-E3CA970455CE")
+  const { state } = useLocation();
+  // const [filters, setFilters] = useState({});
   const [connections, setConnections] = useState([])
+  const [jwtToken, setJwtToken] = useState(localStorage.getItem('jwtToken'));
 
-  function getConnections(){
-    const xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                const response = JSON.parse(xhr.responseText);
-                //const response = xhr.responseText;
-                console.log(response);
-                setConnections(response);
-            } else {
-                console.error('Błąd pobierania danych:', xhr.status);
-                // Obsługa błędów
+  function getConnections() {
+    const fetchData = async () => {
+      // const requestBody = {
+      //   startCity: "Warszawa",
+      //   endCity: "Łódź",
+      //   day: "2024-05-16T17:08:37.872Z"
+      // };
+    console.log("state")
+    console.log(state)
+      try {
+        const response = await axios.post(`${apiBaseUrl}/api/Connection/filtered`, state, {
+            headers: {
+                'Content-Type': 'application/json',
+                // 'Authorization': `Bearer ${jwtToken}`
             }
+        });
+        setConnections(response.data);
+        console.log("fetched connections halo")
+        console.log(connections)
+      } 
+      catch(error) {
+        if (error === 'Bad request') {
+            console.error('user exists');
+        } else {
+            console.error('An error occurred:', error);
         }
+      }
     };
-
-    // xhr.open('GET', `https://localhost:5001/api/Connection`);
-    xhr.open('GET', `${apiBaseUrl}/api/Connection`);
-    xhr.send();
+    fetchData();
   }
 
   useEffect( () => {
+    console.log("state")
+    console.log(state)
     getConnections();
   }, [])
 

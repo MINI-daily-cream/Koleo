@@ -93,11 +93,17 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Ranking_Id")
+                    b.Property<int>("Points")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("User_Id")
+                    b.Property<int>("Position")
                         .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("Ranking_Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("User_Id")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -163,12 +169,45 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("User_Id")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AdminCandidates");
+                });
+
+            modelBuilder.Entity("Koleo.Models.Achievement", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Achievement");
+                });
+
+            modelBuilder.Entity("Koleo.Models.AchievementUsers", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Achievement_Id")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("User_Id")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.ToTable("AdminCandidates");
+                    b.ToTable("AchievementUsers");
                 });
 
             modelBuilder.Entity("Koleo.Models.Admin", b =>
@@ -238,11 +277,13 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Ticket_Id")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Ticket_Id")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("User_Id")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("User_Id")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -330,7 +371,7 @@ namespace Persistence.Migrations
                     b.Property<int>("KmNumber")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("LongestConnectionTime")
+                    b.Property<TimeSpan>("LongestConnectionTime")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Points")
@@ -339,8 +380,8 @@ namespace Persistence.Migrations
                     b.Property<int>("TrainNumber")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("User_Id")
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid>("User_Id")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 

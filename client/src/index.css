@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
 
 body {
-    background-image: url('../img/scenic-train-1.webp');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+  background-image: url("../img/scenic-train-1.webp");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 
 :root {
@@ -12,7 +12,6 @@ body {
   --orange-pkp-hover: #fbad75;
   --blue-pkp: #1e00ff;
 }
-
 
 /* base styles */
 * {
@@ -65,80 +64,82 @@ body {
   color: #f1356d;
 }
 .content {
-  max-width: 600px;
-  margin: 40px auto;
+  max-width: 1400px;
+  /* margin: 40px auto; */
   padding: 20px;
 }
 
 /* register/login form */
 
 .form {
-    padding: 50px;
-    max-width: 800px;
-    margin: 10% auto;
-    text-align: center;
-    background-color: var(--blue-pkp);
-    border-radius: 20px;
+  padding: 50px;
+  max-width: 800px;
+  margin: 10% auto;
+  text-align: center;
+  background-color: var(--blue-pkp);
+  border-radius: 20px;
 }
 .form label {
-    text-align: left;
-    display: block;
-    font-size: 24px;
-    color: white
+  text-align: left;
+  display: block;
+  font-size: 24px;
+  color: white;
 }
 .form h1 {
-    font-size: 50px;
-    color: white;
-    margin-bottom: 30px;
+  font-size: 50px;
+  color: white;
+  margin-bottom: 30px;
 }
 
-.form input, .form textarea, .form select {
-    font-size: 24px;
-    width: 100%;
-    padding: 6px 10px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    box-sizing: border-box;
-    display: block;
+.form input,
+.form textarea,
+.form select {
+  font-size: 24px;
+  width: 100%;
+  padding: 6px 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  display: block;
 }
 .form button {
-    background: #ff9d00;
-    color: #fff;
-    border: 0;
-    padding: 16px;
-    border-radius: 16px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 36px;
-    margin-top: 20px;
-    min-width: 300px;
+  background: #ff9d00;
+  color: #fff;
+  border: 0;
+  padding: 16px;
+  border-radius: 16px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 36px;
+  margin-top: 20px;
+  min-width: 300px;
 }
 
-.password-error{ 
-    color: 'red';
-    font-size: 30px;
+.password-error {
+  color: "red";
+  font-size: 30px;
 }
 
-.bottom-text{
-    font-size: 16px;
-    color: white;
-    margin-top: 10px;
+.bottom-text {
+  font-size: 16px;
+  color: white;
+  margin-top: 10px;
 }
 
 .bottom-text a {
-    color: white;
+  color: white;
 }
 
 /* account panel */
 
-.account-panel{
+.account-panel {
   margin: 10% auto;
   padding: 0px 50px 50px 50px;
   background-color: var(--blue-pkp);
   border-radius: 20px;
 }
 
-.account-panel h1{
+.account-panel h1 {
   color: white;
   float: top;
   text-align: center;
@@ -168,6 +169,7 @@ body {
   border-radius: 10px;
   margin: 5px 0px;
   text-align: center;
+  min-width: max-content;
 }
 
 hr.solid {
@@ -183,13 +185,16 @@ hr.solid {
 
 .ticket-list {
   float: left;
-  margin-left: 50px;
+  margin-left: 30px;
+  padding-bottom: 30px;
   /* margin-bottom: 20px; */
   display: flex;
   /* flex-wrap: wrap; */
   overflow: auto;
   gap: 20px;
   max-width: 100%;
+  padding: 10px;
+  border: 3px solid gray;
 }
 
 .ticket {
@@ -210,7 +215,7 @@ hr.solid {
   margin-bottom: 20px;
 }
 
-.ticket-details text{
+.ticket-details text {
   /* text-align: center; */
   flex: 1;
   /* margin */
@@ -266,7 +271,8 @@ hr.solid {
   background-color: var(--orange-pkp);
   color: #fff;
   border: none;
-  padding: 8px 12px;
+  padding: 8px 7px;
+  margin: 3px;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -279,74 +285,74 @@ hr.solid {
 }
 
 .TravelTimeInfo {
-    align-items: center;
-    background-color: white;
-    padding: 5px; /* Add padding for spacing */
-    margin: 15px auto;
-    margin-right: 50px;
-    margin-left: 50px;
-    display: flex;
-    flex-direction: row;
+  align-items: center;
+  background-color: white;
+  padding: 5px; /* Add padding for spacing */
+  margin: 15px auto;
+  margin-right: 50px;
+  margin-left: 50px;
+  display: flex;
+  flex-direction: row;
 }
 .TravelDestInfo {
-    align-items: center;
-    background-color: white;
-    padding: 5px; /* Add padding for spacing */
-    margin-bottom: 30px;
-    margin-right: 70px;
-    margin-left: 70px;
-    display: flex;
-    flex-direction: column;
-    font-size: 26px;
-    padding-top: 20px;
+  align-items: center;
+  background-color: white;
+  padding: 5px; /* Add padding for spacing */
+  margin-bottom: 30px;
+  margin-right: 70px;
+  margin-left: 70px;
+  display: flex;
+  flex-direction: column;
+  font-size: 26px;
+  padding-top: 20px;
 }
 .TicketInfoColumn {
-    display: flex;
-    flex-direction: column;
-    margin: 10px auto;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin: 10px auto;
+  align-items: center;
 }
 .TicketInfoColumnData {
-    font-size: 26px;
+  font-size: 26px;
 }
 .TravelTravelerInfo {
-    background-color: white;
-    padding: 5px; /* Add padding for spacing */
-    margin: 15px auto;
-    margin-right: 50px;
-    margin-left: 50px;
-    display: flex;
-    flex-direction: column;
-    padding-left: 30px;
+  background-color: white;
+  padding: 5px; /* Add padding for spacing */
+  margin: 15px auto;
+  margin-right: 50px;
+  margin-left: 50px;
+  display: flex;
+  flex-direction: column;
+  padding-left: 30px;
 }
 .TicketInfoHeader {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    margin: 20px;
-    font-weight: bold;
-    font-size: 38px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+  font-weight: bold;
+  font-size: 38px;
 }
 .ConfirmationButton {
-    background: #ff9d00;
-    color: #fff;
-    border: 0;
-    padding: 16px;
-    border-radius: 16px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 20px;
-    margin-top: 20px;
-    min-width: 200px;
-    margin-right: 20px;
+  background: #ff9d00;
+  color: #fff;
+  border: 0;
+  padding: 16px;
+  border-radius: 16px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 20px;
+  min-width: 200px;
+  margin-right: 20px;
 }
 .ConfirmationButton:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 .ButtonAligment {
-    align-items: center;
-    display: flex;
-    justify-content: center;
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 .separator {
   margin: 10px;
@@ -367,14 +373,14 @@ hr.solid {
   margin: auto 10px;
   display: flex;
 }
-.dateViewTile .text{
+.dateViewTile .text {
   margin-left: 5px;
 }
-.ConnectionInfoColumn{
-    display: flex;
-    flex-direction: row;
-    margin: 10px auto;
-    align-items: center;
+.ConnectionInfoColumn {
+  display: flex;
+  flex-direction: row;
+  margin: 10px auto;
+  align-items: center;
 }
 .ButtonAligment .Button {
   background: #ff9d00;
@@ -424,7 +430,8 @@ hr.solid {
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-   min-width: max-content; 
+  min-width: max-content;
+  height: fit-content;
 }
 .connection-text-column {
   display: flex;
@@ -449,13 +456,12 @@ hr.solid {
   display: flex;
   flex-direction: row;
 }
-.ad-list{
+.ad-list {
   display: flex;
   flex-direction: row;
   margin: 20px auto;
   justify-content: center;
   align-items: center;
-  
 }
 .ad-block {
   display: flex;
@@ -482,4 +488,126 @@ hr.solid {
 .errorMessage {
   color: red;
   font-size: 30px;
+}
+
+.after-delete-link {
+  color: var(--orange-pkp);
+  font-size: 30px;
+}
+#content {
+  width: 400px;
+  height: 200px;
+  font-size: 16px;
+}
+.contentText {
+  width: 350px;
+  height: 150px;
+  font-size: 16px;
+}
+.ComplaintBox1 {
+  display: flex;
+  flex-direction: column;
+}
+.header {
+  font-size: 18px;
+  font-weight: 550;
+  margin-bottom: 15px;
+}
+.filter-buttons {
+  display: flex;
+  flex-direction: column;
+  min-width: 170px;
+  max-width: 170px;
+}
+.filter-button {
+  background-color: var(--orange-pkp);
+  font-size: 18px;
+  color: #fff;
+  border: none;
+  padding: 8px 7px;
+  margin: 3px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.ticketBox {
+  display: flex;
+  flex-direction: row;
+  /* border-left: 2px solid gray; */
+  padding-left: 20px;
+}
+.ticket-list .textCount {
+  font-size: 20px;
+  font-weight: 600;
+}
+.ticket-list .noCount {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.achievements-page {
+  padding: 20px;
+}
+
+.achievements-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.achievement-icon {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  background-color: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.achievement-tooltip {
+  position: absolute;
+  top: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.ranking-button {
+  color: black;
+  background-color: #858585;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  padding: 2px 4px; /* Adjust padding */
+  margin: 2px; /* Adjust margin */
+  cursor: pointer;
+  font-size: 13px; /* Adjust font size */
+}
+
+.ranking-button:hover {
+  color: #f1f1f1;
+}
+
+.sidenav a {
+  /* max-width: max-content; */
+  color: black;
+  font-weight: bold;
+  padding: 6px 16px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  background-color: #858585;
+  display: block;
+  border-radius: 10px;
+  margin: 5px 0px;
+  text-align: center;
+  min-width: max-content;
 }

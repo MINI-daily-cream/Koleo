@@ -22,11 +22,13 @@ namespace Auth.Controllers
         private DataContext dataContext;
         private ITokenService tokenService;
         private IUserService userService;
-        public AccountController(DataContext dataContext, ITokenService tokenService, IUserService userService)
+        private IStatisticsService statisticsService;
+        public AccountController(DataContext dataContext, ITokenService tokenService, IUserService userService, IStatisticsService statisticsService)
         {
             this.tokenService = tokenService;
             this.dataContext = dataContext;
             this.userService = userService;
+            this.statisticsService = statisticsService;
         }
 
         [HttpGet]
@@ -46,19 +48,22 @@ namespace Auth.Controllers
                 UserName = "",
                 PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.password)),
                 PasswordSalt = hmac.Key,
-                Name = "",
-                Surname = "",
+                Name = registerDto.name,
+                Surname = registerDto.surname,
                 Email = registerDto.email,
                 Password = "",
                 CardNumber = ""
             };
-            dataContext.Users.ToList().ForEach(x => Console.WriteLine(x.UserName));
+    
 
+            dataContext.Users.ToList().ForEach(x => Console.WriteLine(x.UserName));
             await dataContext.AddAsync(user);
             await dataContext.SaveChangesAsync();
+            statisticsService.Update(user.Id.ToString(), null);
+
             return new UserDto
             {
-                id = user.Id.ToString().ToUpper(),
+                id = user.Id.ToString(),
                 token = tokenService.CreateToken(user)
             };
         }
@@ -91,7 +96,7 @@ namespace Auth.Controllers
             }
             return new UserDto
             {
-                id = user.Id.ToString().ToUpper(),
+                id = user.Id.ToString(),
                 token = tokenService.CreateToken(user)
             };
         }

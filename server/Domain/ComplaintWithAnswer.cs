@@ -11,5 +11,6 @@ namespace Domain
         public string ticketId { get; set; }
         public string content { get; set; }
         public string response { get; set; }
+        public string complaintId {get; set;}
     }
 }

@@ -17,7 +17,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        public Task<List<RankingInfo>> Get(string id)
+        public Task<List<RankingInfo>[]> Get(string id)
         {
             return _RankingService.GetByUser(id);
             

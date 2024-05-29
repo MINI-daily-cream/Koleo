@@ -18,12 +18,14 @@ namespace Koleo.Services
         private readonly IDatabaseServiceAPI _databaseService;
         private readonly IPaymentService _paymentService;
         private readonly IGetInfoFromIdService _getInfoFromIdService;
+        private readonly IStatisticsService _statisticsService;
         public TicketService(IDatabaseServiceAPI databaseService, IPaymentService paymentService, 
-            IGetInfoFromIdService getInfoFromIdService)
+            IGetInfoFromIdService getInfoFromIdService, IStatisticsService statisticsService)
         {
             _databaseService = databaseService;
             _paymentService = paymentService;
             _getInfoFromIdService = getInfoFromIdService;
+            _statisticsService = statisticsService;
         }
         public async Task<(string, bool)> Buy(string userId, List<string> connectionsIds, string targetName, string targetSurname)
         {
@@ -168,6 +170,7 @@ namespace Koleo.Services
 
         public async Task<(string, bool)> Add(string userId, List<string> connectionsIds, string targetName, string targetSurname)
         {
+
             string insertTicketSql = $"INSERT INTO Tickets (Id, User_Id, Target_Name, Target_Surname) VALUES ('{Guid.NewGuid().ToString().ToUpper()}', '{userId}', '{targetName}', '{targetSurname}')";
             var result = await _databaseService.ExecuteSQL(insertTicketSql);
             if (!result.Item2) return ("", false);
@@ -192,6 +195,8 @@ namespace Koleo.Services
                     if (!tmpresult.Item2) return ("", false);
                 }
             }
+            _statisticsService.Update(userId, ticketId);
+
             return (ticketId, true);
         }
 

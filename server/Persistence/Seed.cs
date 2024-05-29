@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -375,6 +376,11 @@ namespace Persistence
 
             var achievements = new List<Achievement>
             {
+                         new Achievement
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Przejechane 1 km"
+                },
                 new Achievement
                 {
                     Id = Guid.NewGuid(),
@@ -438,46 +444,34 @@ namespace Persistence
 
             _context.SaveChanges();
         }
-        public static async Task SeedSomeData(DataContext context)
+        public static async Task SeedRankings(DataContext context)
         {
 
 
 
-            if (context.Statistics.Any()) return;
+            if (context.Rankings.Any()) return;
 
-            var statistics = new List<Statistics>
-    {
-        new Statistics
-        {
-            Id = Guid.NewGuid(),
-            User_Id = new Guid("9552B521-50A5-468C-97CD-D2A337D90D5F"),
-            KmNumber = 1,
-            ConnectionsNumber = 1,
-            LongestConnectionTime = TimeSpan.Zero,
-            TrainNumber = 10,
-            Points = 10
-        }
-    };
+      
 
             var rankings = new List<Ranking>
     {
         new Ranking
         {
             Id = Guid.NewGuid(),
-            Description = "Km",
-            Name = "Km"
+            Description = "KmNumber",
+            Name = "KmNumber"
         },
         new Ranking
         {
             Id = Guid.NewGuid(),
-            Description = "ConnectionNumber",
-            Name = "ConnectionNumber"
+            Description = "ConnectionsNumber",
+            Name = "ConnectionsNumber"
         },
         new Ranking
         {
             Id = Guid.NewGuid(),
-            Description = "LongestConnectionNumber",
-            Name = "LongestConnectionNumber"
+            Description = "LongestConnectionTime",
+            Name = "LongestConnectionTime"
         },
         new Ranking
         {
@@ -493,21 +487,86 @@ namespace Persistence
         },
     };
 
-            var rankingUser = new List<RankingUser>
-    {
-        new RankingUser
-        {
-            Id = Guid.NewGuid(),
-            Ranking_Id = rankings.First().Id,
-            User_Id = new Guid("9552B521-50A5-468C-97CD-D2A337D90D5F"),
-            Points = 1,
-            Position = 1
-        },
-    };
 
             await context.Rankings.AddRangeAsync(rankings);
-            await context.RankingUsers.AddRangeAsync(rankingUser);
-            await context.Statistics.AddRangeAsync(statistics);
+
+
+
+            await context.SaveChangesAsync();
+        }
+
+        public static async Task SeedTestUsersAndStaticsData(DataContext context)
+        {
+            if (context.Statistics.Any()) return;
+            using var hmac = new HMACSHA512();
+
+
+                var users = new List<User>
+            {
+                new User
+                {
+                    UserName = "Wojaktest",
+                                    PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("123")),
+                PasswordSalt = hmac.Key,
+                    Name = "Wojak",
+                    Surname = "Wojak",
+                    Email = "Wojak@pw.edu.pl",
+                    Password = "123",
+                    CardNumber = "11111111111111111111111111",
+                },
+                             new User
+                {
+                    UserName = "Wojaktest2",
+                                    PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("123")),
+                PasswordSalt = hmac.Key,
+                    Name = "Wojak",
+                    Surname = "Wojak",
+                    Email = "Wojak2@pw.edu.pl",
+                    Password = "123",
+                    CardNumber = "11111111111111111111111111",
+                },
+            };
+
+            context.Users.AddRange(users);
+
+            // Save changes to the database
+            await context.SaveChangesAsync();
+            var user1 = await context.Users.FirstOrDefaultAsync(u => u.Email == "Wojak@pw.edu.pl");
+            var user2 = await context.Users.FirstOrDefaultAsync(u => u.Email == "Wojak2@pw.edu.pl");
+
+            // List to hold new statistics records
+            var statisticsList = new List<Statistics>();
+
+            if (user1 != null)
+            {
+                statisticsList.Add(new Statistics
+                {
+                    Id = Guid.NewGuid(),
+                    User_Id = user1.Id,
+                    KmNumber = 1,
+                    ConnectionsNumber = 1,
+                    LongestConnectionTime = TimeSpan.Zero,
+                    TrainNumber = 10,
+                    Points = 0
+                });
+            }
+
+            if (user2 != null)
+            {
+                statisticsList.Add(new Statistics
+                {
+                    Id = Guid.NewGuid(),
+                    User_Id = user2.Id,
+                    KmNumber = 200,
+                    ConnectionsNumber = 1,
+                    LongestConnectionTime = TimeSpan.Zero,
+                    TrainNumber = 1,
+                    Points = 1
+                });
+            }
+
+
+            context.Statistics.AddRange(statisticsList);
 
             await context.SaveChangesAsync();
         }

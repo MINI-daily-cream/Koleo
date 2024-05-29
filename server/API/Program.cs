@@ -108,7 +108,8 @@ try
     // Seed.ClearConnectionsEtc(context);
     await Seed.SeedConnectionsEtc(context);
     await Seed.SeedAchievements(context);
-    await Seed.SeedSomeData(context);
+    await Seed.SeedRankings(context);
+    await Seed.SeedTestUsersAndStaticsData(context);
 
 
 }

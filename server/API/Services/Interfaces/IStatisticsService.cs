@@ -6,7 +6,7 @@ namespace API.Services.Interfaces
     public interface IStatisticsService
     { 
             Task<StatisticsInfo>? GetByUser(string userID);
-             void Update(string userID, ConnectionInfoObject connectionInfoObject);
+        Task Update(string userID, string ticketId);
         
     }
 }

@@ -580,3 +580,34 @@ hr.solid {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   z-index: 1000;
 }
+
+.ranking-button {
+  color: black;
+  background-color: #858585;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  padding: 2px 4px; /* Adjust padding */
+  margin: 2px; /* Adjust margin */
+  cursor: pointer;
+  font-size: 13px; /* Adjust font size */
+}
+
+.ranking-button:hover {
+  color: #f1f1f1;
+}
+
+.sidenav a {
+  /* max-width: max-content; */
+  color: black;
+  font-weight: bold;
+  padding: 6px 16px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  background-color: #858585;
+  display: block;
+  border-radius: 10px;
+  margin: 5px 0px;
+  text-align: center;
+  min-width: max-content;
+}

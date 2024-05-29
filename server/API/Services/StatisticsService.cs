@@ -1,76 +1,146 @@
 using API.Services.Interfaces;
 using Koleo.Models;
 using Domain;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
+using System.Threading.Tasks;
+
 namespace Koleo.Services
 {
-    public class StatisticsService: IStatisticsService
+    public class StatisticsService : IStatisticsService
     {
         private readonly IDatabaseServiceAPI _databaseService;
+        private readonly IGetInfoFromIdService _getInfoFromIdService;
+        private readonly IRankingService _rankingService;
+        private readonly IAchievementsService _achievementsService;
 
-        public StatisticsService(IDatabaseServiceAPI databaseService)
+        public StatisticsService(
+            IDatabaseServiceAPI databaseService,
+            IGetInfoFromIdService getInfoFromIdService,
+            IRankingService rankingService,
+            IAchievementsService achievementsService)
         {
             _databaseService = databaseService;
+            _getInfoFromIdService = getInfoFromIdService;
+            _rankingService = rankingService;
+            _achievementsService = achievementsService;
         }
-        public async Task<StatisticsInfo>? GetByUser(string userID)
+
+        public async Task<StatisticsInfo?> GetByUser(string userID)
         {
             userID = userID.ToUpper();
-
             string sql = $"SELECT * FROM STATISTICS WHERE User_Id='{userID}'";
             var result = await _databaseService.ExecuteSQLLastRow(sql);
+
             if (result.Item1.Count > 0)
             {
-                string[] userData = new string[result.Item1[0].Length];
-                for(int i = 0; i < result.Item1[0].Length;i++)
-                {
-                    string s = result.Item1[0][i].ToString();
-                    userData[i] = s;
-                }
-                StatisticsInfo statisticsInfo = new StatisticsInfo(userData[0], userData[6], userData[2], userData[5], userData[1], userData[3], userData[4]);
-       
-                return statisticsInfo;
+                var userData = result.Item1[0];
+                return new StatisticsInfo(
+                    userData[0].ToString(),
+                    userData[6].ToString(),
+                    userData[2].ToString(),
+                    userData[5].ToString(),
+                    userData[1].ToString(),
+                    userData[3].ToString(),
+                    userData[4].ToString()
+                );
             }
+
             return null;
         }
-        public async void Update(string userID,ConnectionInfoObject connectionInfoObject)
+
+        public async Task Update(string userID, string ticketId)
         {
             userID = userID.ToUpper();
-
+            var (connections, _) = await _getInfoFromIdService.GetConnectionsByTicket(ticketId);
 
             string sql = $"SELECT * FROM STATISTICS WHERE User_Id='{userID}'";
             var result = await _databaseService.ExecuteSQLLastRow(sql);
+
             if (result.Item1.Count > 0)
             {
-                string[] userData = new string[result.Item1[0].Length];
-                for (int i = 0; i < result.Item1[0].Length; i++)
-                {
-                    string s = result.Item1[0][i].ToString();
-                    userData[i] = s;
-                }
-                int km_number = int.Parse(userData[2])+connectionInfoObject.KmNumber;
-                int train_number = int.Parse(userData[3])+int.Parse(connectionInfoObject.TrainNumber);
-                int connections_number = int.Parse(userData[4])+1;
-                TimeSpan longest_connection = TimeSpan.Parse(userData[5]);
-                int point = int.Parse(userData[6]);
-
-                if (connectionInfoObject.Duration > longest_connection) longest_connection = connectionInfoObject.Duration;
-
-                sql = $"UPDATE STATISTICS SET kmnumber ={km_number}, trainnumber={train_number}, connectionsnumber = {connections_number}, longestconnection_time={longest_connection}";
-              await _databaseService.ExecuteSQL(sql);
+                await UpdateExistingUserStatistics(userID, result.Item1[0], connections);
             }
             else
             {
-                int km_number = connectionInfoObject.KmNumber;
-                string train_number =  connectionInfoObject.TrainNumber;
-                int connections_number =  1;
-                TimeSpan longest_connection = connectionInfoObject.Duration;
-                int points = 0;
+                await CreateNewUserStatistics(userID, connections);
+            }
 
-                
+            await UpdateRankings(userID);
+            await CheckAndAddAchievements(userID);
+        }
 
-                sql =$"INSERT INTO STATISTICS (Id, User_Id, KmNumber, TrainNumber, ConnectionsNumber, LongestConnectionTime, Points) VALUES('{Guid.NewGuid().ToString().ToUpper()}', '{userID}', '{userID}', '{km_number}', '{train_number}', '{connections_number}', '{longest_connection}', '{points}')";
+        private async Task UpdateExistingUserStatistics(string userID, object[] userData, List<Connection> connections)
+        {
+            int kmNumber = int.Parse(userData[2].ToString()) + connections.Sum(c => c.KmNumber);
+            int trainNumber = int.Parse(userData[5].ToString()) + connections.Count;
+            int connectionsNumber = int.Parse(userData[1].ToString()) + connections.Count;
+            int points = int.Parse(userData[4].ToString()) + new Random().Next(kmNumber);
+            TimeSpan longestConnection = TimeSpan.Parse(userData[3].ToString());
+            foreach (var connection in connections)
+            {
+                if (connection.Duration > longestConnection)
+                {
+                    longestConnection = connection.Duration;
+                }
+            }
 
-                await _databaseService.ExecuteSQL(sql);
+            string sql = $@"
+                UPDATE STATISTICS SET
+                    KmNumber = '{kmNumber}',
+                    TrainNumber = '{trainNumber}',
+                    ConnectionsNumber = '{connectionsNumber}',
+                    LongestConnectionTime = '{longestConnection}',
+                    Points = '{points}'
+                WHERE User_Id = '{userID}'";
+
+            await _databaseService.ExecuteSQL(sql);
+        }
+
+        private async Task CreateNewUserStatistics(string userID, List<Connection> connections)
+        {
+            string sql = $@"
+                INSERT INTO STATISTICS (Id, User_Id, KmNumber, TrainNumber, ConnectionsNumber, LongestConnectionTime, Points)
+                VALUES (
+                    '{Guid.NewGuid().ToString().ToUpper()}',
+                    '{userID}',
+                    '0',
+                    '0',
+                    '0',
+                    '00:00:00',
+                    '0')";
+
+            await _databaseService.ExecuteSQL(sql);
+        }
+
+        private async Task UpdateRankings(string userID)
+        {
+            string sql = "SELECT id FROM rankings";
+            var result = await _databaseService.ExecuteSQL(sql);
+
+            foreach (var ranking in result.Item1)
+            {
+                _rankingService.Update(userID, ranking[0].ToString());
+            }
+        }
+
+        private async Task CheckAndAddAchievements(string userID)
+        {
+            string sql = $"SELECT * FROM STATISTICS WHERE User_Id='{userID}'";
+            var result = await _databaseService.ExecuteSQLLastRow(sql);
+
+            if (result.Item1.Count > 0)
+            {
+                var userData = result.Item1[0];
+                var statistics = new StatisticsInfo(
+                    "",
+                    userID,
+                    userData[2].ToString(),
+                    userData[5].ToString(),
+                    userData[1].ToString(),
+                    userData[3].ToString(),
+                    userData[4].ToString()
+                );
+                _achievementsService.CheckAndAddAchievements(userID, statistics);
             }
         }
     }

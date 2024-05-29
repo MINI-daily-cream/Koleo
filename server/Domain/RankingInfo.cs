@@ -15,12 +15,18 @@ namespace Domain
 
         public string Position { get; set; }
 
-        public RankingInfo(string _Ranking_Id, string _User_Id, string _Ranking_name, string _Position)
+        public string Points { get; set; }
+
+        public string Username { get; set; }
+
+        public RankingInfo(string _Ranking_Id, string _User_Id, string _Ranking_name, string _Position, string _Points, string _Username)
         {
             Ranking_Id = _Ranking_Id;
             User_Id = _User_Id; 
             RankingName= _Ranking_name;
             Position = _Position;
+            Points = _Points;
+            Username = _Username;
         }
 
     }

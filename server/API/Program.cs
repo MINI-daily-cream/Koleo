@@ -111,13 +111,11 @@ try
     await Seed.SeedRankings(context);
     await Seed.SeedTestUsersAndStaticsData(context);
 
-
 }
 catch (Exception ex)
 {
     var logger = services.GetRequiredService<ILogger<Program>>();
     logger.LogError(ex, "An error occured during migration");
-    
 }
 
 app.Run();

@@ -36,8 +36,10 @@ const TicketList = () => {
               'Authorization': `Bearer ${jwtToken}`
           }
         });
+        console.log('jada dane');
         console.log(response.data)
         setTickets(response.data);
+        console.log(tickets[2].seat)
       }
       catch(error) {
         if (error === 'Bad request') {
@@ -76,7 +78,7 @@ const TicketList = () => {
                 departureStation={ticket.startStation}
                 arrivalStation={ticket.endStation}
                 wagonNumber={ticket.wagonNumber}
-                seatNumber={ticket.seatNumber}
+                seatNumber={ticket.seat}
               />
             ) : (
               <Ticket
@@ -91,7 +93,7 @@ const TicketList = () => {
                 departureStation={ticket.startStation}
                 arrivalStation={ticket.endStation}
                 wagonNumber={ticket.wagonNumber}
-                seatNumber={ticket.seatNumber}
+                seatNumber={ticket.seat}
               />
             )
           )

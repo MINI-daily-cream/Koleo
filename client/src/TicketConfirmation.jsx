@@ -72,7 +72,8 @@ const TicketConfirmation = ({ navigation, route }) => { // here there is USERS i
             // connectionIds: [mainConnection.id],
             connectionIds: allConnections.map(conn => conn.id),
             targetName: name,
-            targetSurname: surname
+            targetSurname: surname,
+            seat: ticketData.seatNumber
         };
     
         try {

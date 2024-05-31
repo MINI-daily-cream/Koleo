@@ -34,11 +34,13 @@ const HomePage = () => {
             return;     
         }
 
-        if(new Date(selectedDate).getDate() < new Date(Date.now()).getDate()) {
-            alert('Nie można wybrać daty z przeszłości');
-            event.preventDefault();
-            return;     
-        }
+        // if(new Date(selectedDate).getDate() < new Date(Date.now()).getDate()) {
+        //     console.log(new Date(selectedDate).getDate());
+        //     console.log(new Date(Date.now()).getDate());
+        //     alert('Nie można wybrać daty z przeszłości');
+        //     event.preventDefault();
+        //     return;     
+        // }
         
         console.log(selectedDate);
         console.log(new Date(selectedDate));

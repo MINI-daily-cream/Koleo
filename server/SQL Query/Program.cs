@@ -2,7 +2,7 @@
 
 using var db = new DataContext();
 
-var connection = db.Connections.Find(new Guid("07E07F56-4746-47AB-A6D4-DD0FD4C4DBDC"));
+var connection = db.Connections.Find(new Guid("035ECAA2-BB7B-45AD-9D72-DBE4C5DFCFFE"));
 
 var connectionSeats = db.ConnectionSeats.Where(c => c.Connection_Id == connection.Id.ToString()).First();
 
@@ -18,6 +18,6 @@ Console.WriteLine(endCity.Name);
 Console.WriteLine(connection.StartTime);
 Console.WriteLine(connection.EndTime);
 
-connectionSeats.Seats[0] = 7;
+// connectionSeats.Seats[0] = 7;
 
 db.SaveChanges();

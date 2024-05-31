@@ -204,7 +204,7 @@ const TicketConfirmation = ({ navigation, route }) => { // here there is USERS i
     };
     const ticketData = {
         wagonNumber: 'A12',
-        seatNumber: '7',
+        seatNumber: '3',
     };
     return (
         <div>

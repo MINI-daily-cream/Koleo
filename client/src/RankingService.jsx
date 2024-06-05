@@ -7,7 +7,7 @@ const RankingService = () => {
   const [currentRankingIndex, setCurrentRankingIndex] = useState(0);
   const [markedUserId, setMarkedUserId] = useState(
     localStorage.getItem("id").toUpperCase()
-  ); // Ensuring markedUserId is uppercase
+  );
 
   const userId = localStorage.getItem("id");
   const jwtToken = localStorage.getItem("jwtToken");
@@ -93,7 +93,7 @@ const RankingService = () => {
                           userIndex % 2 === 0 ? "#f9f9f9" : "white",
                         fontWeight: isMarkedUser(ranking.user_Id)
                           ? "bold"
-                          : "normal", // Add bold font weight if it's the marked user
+                          : "normal",
                       }}
                     >
                       <td style={{ border: "1px solid #ddd", padding: "8px" }}>

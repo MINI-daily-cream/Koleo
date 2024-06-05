@@ -103,8 +103,9 @@ try
 {
     var context = services.GetRequiredService<DataContext>();
     await context.Database.MigrateAsync();
-    await Seed.SeedData(context);
+    await Seed.ClearRankingsUsers(context);
 
+    await Seed.SeedData(context);
     //Seed.ClearTickets(context);
     // Seed.ClearConnectionsEtc(context);
     await Seed.SeedConnectionsEtc(context);

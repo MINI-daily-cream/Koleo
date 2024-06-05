@@ -94,6 +94,8 @@ namespace Auth.Controllers
                     return Unauthorized("Wrong password");
                 }
             }
+            statisticsService.Update(user.Id.ToString(),null);
+
             return new UserDto
             {
                 id = user.Id.ToString(),

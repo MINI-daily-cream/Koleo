@@ -2,7 +2,8 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import apiBaseUrl from './config';
 import { useNavigate } from 'react-router-dom';
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRotateRight } from '@fortawesome/free-solid-svg-icons';
 export default function SeatsContainer({connectionId, saveSeat}) {
 
     const navigate = useNavigate();
@@ -85,9 +86,19 @@ export default function SeatsContainer({connectionId, saveSeat}) {
     return (
 
         <div className="SeatsContainer">
-            <h3>Wybierz miejsce</h3>
-            <p>{connectionId}</p>
+            <div style={{marginLeft: -10, width: 250, display: 'flex', justifyContent: 'center'}}>
+               <h3>Wybierz miejsce</h3> 
+            </div>
+            
+            {/* <p style={{backgroundColor: 'green', width: 250}}>Wybierz miejsce</p> */}
+            {/* <FontAwesomeIcon icon={faRotateRight} style={{fontSize: 30, textAlign: 'center', marginRight: 400}}/> */}
+            {/* <p>{connectionId}</p> */}
             <div className="Seats">
+            {/* <FontAwesomeIcon icon="fa-solid fa-rotate-right" /> */}
+                {/* <FontAwesomeIcon */}
+                <div style={{backgroundColor: 'white', width: 250, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                     <FontAwesomeIcon icon={faRotateRight} style={{fontSize: 40, textAlign: 'center'}} onClick={() => fetchSeats()}/>
+                </div>
                 <table className="SeatMap">
                     <tbody>
                         {

@@ -79,16 +79,16 @@ namespace KoleoPL.Services
         //    return (new List<string[]>(), true); // TO DO: change true
         //}
 
-        public async Task<bool> SaveConnectionSeatInfo(string Connection_Id, string seatText)
-        {
-            int seat = int.Parse(seatText);
-            var connection = await _dataContext.Connections.FindAsync(new Guid(Connection_Id));
-            var connectionSeats = await _dataContext.ConnectionSeats.Where(cs => cs.Connection_Id == connection.Id.ToString()).FirstAsync();
-            connectionSeats.Seats[seat] = 1;
-            await _dataContext.SaveChangesAsync();
+        // public async Task<bool> SaveConnectionSeatInfo(string Connection_Id, string seatText)
+        // {
+        //     int seat = int.Parse(seatText);
+        //     var connection = await _dataContext.Connections.FindAsync(new Guid(Connection_Id));
+        //     var connectionSeats = await _dataContext.ConnectionSeats.Where(cs => cs.Connection_Id == connection.Id.ToString()).FirstAsync();
+        //     connectionSeats.Seats[seat] = 1;
+        //     await _dataContext.SaveChangesAsync();
         
-            return true;
-        }
+        //     return true;
+        // }
 
         public async void Backup()
         {

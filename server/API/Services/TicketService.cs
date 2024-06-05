@@ -10,6 +10,8 @@ using API.Services.Interfaces;
 using API.DTOs;
 using Org.BouncyCastle.Asn1.X509;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Koleo.Services
 {
@@ -19,20 +21,30 @@ namespace Koleo.Services
         private readonly IPaymentService _paymentService;
         private readonly IGetInfoFromIdService _getInfoFromIdService;
         private readonly IStatisticsService _statisticsService;
+        private readonly IConnectionSeatsService _connectionSeatsService;
+        private readonly DataContext _dataContext;
+        
         public TicketService(IDatabaseServiceAPI databaseService, IPaymentService paymentService, 
-            IGetInfoFromIdService getInfoFromIdService, IStatisticsService statisticsService)
+            IGetInfoFromIdService getInfoFromIdService, IStatisticsService statisticsService, IConnectionSeatsService connectionSeatsService,
+            DataContext dataContext)
         {
+            _dataContext = dataContext;
             _databaseService = databaseService;
             _paymentService = paymentService;
             _getInfoFromIdService = getInfoFromIdService;
             _statisticsService = statisticsService;
+            _connectionSeatsService = connectionSeatsService;   
         }
         public async Task<(string, bool)> Buy(string userId, List<string> connectionsIds, string targetName, string targetSurname, string seat)
         {
             if (await _paymentService.ProceedPayment())
             {
+                // tutaj zapisuej w tabeli ConnectionSeats informacje ze dane miejsce zostalo zakupione dla danego polaczenia
+                bool validSeat = await _connectionSeatsService.SaveConnectionSeatInfo(connectionsIds[0], seat);
+                if(!validSeat)
+                    return ("-1", false);
+
                 var tmpResult = await Add(userId, connectionsIds, targetName, targetSurname, seat);
-                await _databaseService.SaveConnectionSeatInfo(connectionsIds[0], seat);
                 return tmpResult;
             }
             return ("", false);
@@ -159,6 +171,17 @@ namespace Koleo.Services
         {
             if (await _paymentService.CancelPayment())
             {
+                // usuwanie miejsca z tabeli ConnectionSeats
+                Console.WriteLine("ticketId: " + ticketId);
+                var ticket = await _dataContext.Tickets.FindAsync(new Guid(ticketId));
+                Console.WriteLine("miejsce " + ticket.Seat);
+                var connectionId = (await _dataContext.TicketConnections.Where(tc => tc.Ticket_Id == ticketId).FirstAsync()).Connection_Id;
+                var connection = await _dataContext.Connections.FindAsync(new Guid(connectionId));
+                Console.WriteLine("czas konca " + connection.EndTime);
+                await _connectionSeatsService.RemoveConnectionSeatInfo(connectionId, ticket.Seat);
+                
+                //----------
+
                 string deleteConnectionsSql = $"DELETE FROM TicketConnections WHERE Ticket_Id = '{ticketId}'";
                 var tmpResult = await _databaseService.ExecuteSQL(deleteConnectionsSql);
                 if (!tmpResult.Item2) return false;

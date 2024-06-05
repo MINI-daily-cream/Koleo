@@ -325,6 +325,7 @@ hr.solid {
   flex-direction: column;
   padding-left: 30px;
 }
+
 .TicketInfoHeader {
   align-items: center;
   display: flex;
@@ -610,4 +611,53 @@ hr.solid {
   margin: 5px 0px;
   text-align: center;
   min-width: max-content;
+}
+
+.SeatsContainer {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: white;
+  margin: 15px auto;
+  margin-right: 50px;
+  margin-left: 50px;
+}
+
+.Seats {
+  
+  display: flex;
+  /* justify-content: center; */
+}
+
+.SeatMap {
+  margin-left: 15%;
+  margin-right: 10%;
+  /* background-color: hotpink */
+}
+
+table {
+  border-spacing: 10px 5px;
+}
+
+td {
+  background-color: #0056b3;
+  width: 13px;
+  height: 13px;
+}
+
+.corridor {
+  height: 7px;
+  background-color: white;
+}
+
+.SelectedSeatInfo{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* background-color: green; */
+  width: 200px;
+}
+
+.SeatsContainer h3 {
+  padding-left: 30px;
 }

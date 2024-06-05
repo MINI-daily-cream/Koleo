@@ -39,6 +39,7 @@ builder.Services.AddScoped<IGetIdFromInfoService, GetIdFromInfoService>();
 builder.Services.AddScoped<IConnectionService, ConnectionService>();
 builder.Services.AddScoped<IRankingService, RankingService>();
 builder.Services.AddScoped<IAchievementsService, AchievementsService>();
+builder.Services.AddScoped<IConnectionSeatsService, ConnectionSeatsService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

@@ -18,6 +18,6 @@ Console.WriteLine(endCity.Name);
 Console.WriteLine(connection.StartTime);
 Console.WriteLine(connection.EndTime);
 
-// connectionSeats.Seats[0] = 7;
+connectionSeats.Seats[5] = 9;
 
 db.SaveChanges();

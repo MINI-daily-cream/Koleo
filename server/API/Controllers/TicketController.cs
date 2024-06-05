@@ -66,12 +66,21 @@ namespace API.Controllers
         {
             Console.WriteLine("Panie");
             Console.WriteLine(userId);
+            Console.WriteLine(info.seat);
             Console.WriteLine(User.Identity.Name);
             // if(userId != User.Identity.Name)
             // {
             //     return Forbid();
-            // }
-            return (await _ticketService.Buy(userId.ToUpper(), info.connectionIds, info.targetName, info.targetSurname, info.seat)).Item1;
+            // }s
+            // return (await _ticketService.Buy(userId.ToUpper(), info.connectionIds, info.targetName, info.targetSurname, info.seat)).Item1;
+            string ticketID = (await _ticketService.Buy(userId.ToUpper(), info.connectionIds, info.targetName, info.targetSurname, info.seat)).Item1;
+            
+            if(ticketID == "-1") // miejsce jest niedostępne
+            {
+                Console.WriteLine("MIEJSCE ZAJETE JUZ");
+                return Conflict(new {error = "Seat is already taken"});
+            }
+            return ticketID;
         }
 
         [HttpPost("generate/{userId}/{ticketId}")]

@@ -108,9 +108,9 @@ try
     //Seed.ClearTickets(context);
     // Seed.ClearConnectionsEtc(context);
     await Seed.SeedConnectionsEtc(context);
-    // await Seed.SeedAchievements(context);
-    // await Seed.SeedRankings(context);
-    // await Seed.SeedTestUsersAndStaticsData(context);
+    await Seed.SeedAchievements(context);
+    await Seed.SeedRankings(context);
+    await Seed.SeedTestUsersAndStaticsData(context);
 
 }
 catch (Exception ex)

@@ -546,12 +546,11 @@ namespace Persistence
 
             context.Users.AddRange(users);
 
-            // Save changes to the database
+          
             await context.SaveChangesAsync();
             var user1 = await context.Users.FirstOrDefaultAsync(u => u.Email == "Wojak@pw.edu.pl");
             var user2 = await context.Users.FirstOrDefaultAsync(u => u.Email == "Wojak2@pw.edu.pl");
 
-            // List to hold new statistics records
             var statisticsList = new List<Statistics>();
 
             if (user1 != null)
@@ -587,6 +586,21 @@ namespace Persistence
 
             await context.SaveChangesAsync();
         }
+
+        public static async Task ClearRankingsUsers(DataContext context)
+        {
+ 
+
+            var allRankingUsers = context.RankingUsers.ToList();
+            context.RankingUsers.RemoveRange(allRankingUsers);
+
+            var allRanking = context.Rankings.ToList();
+            context.Rankings.RemoveRange(allRanking);
+
+            await context.SaveChangesAsync();
+
+        }
+
 
     }
 }

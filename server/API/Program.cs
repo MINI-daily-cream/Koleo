@@ -39,6 +39,7 @@ builder.Services.AddScoped<IGetIdFromInfoService, GetIdFromInfoService>();
 builder.Services.AddScoped<IConnectionService, ConnectionService>();
 builder.Services.AddScoped<IRankingService, RankingService>();
 builder.Services.AddScoped<IAchievementsService, AchievementsService>();
+builder.Services.AddScoped<IConnectionSeatsService, ConnectionSeatsService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -105,11 +106,11 @@ try
     await Seed.SeedData(context);
 
     //Seed.ClearTickets(context);
-    Seed.ClearConnectionsEtc(context);
+    // Seed.ClearConnectionsEtc(context);
     await Seed.SeedConnectionsEtc(context);
-    await Seed.SeedAchievements(context);
-    await Seed.SeedRankings(context);
-    await Seed.SeedTestUsersAndStaticsData(context);
+    // await Seed.SeedAchievements(context);
+    // await Seed.SeedRankings(context);
+    // await Seed.SeedTestUsersAndStaticsData(context);
 
 }
 catch (Exception ex)

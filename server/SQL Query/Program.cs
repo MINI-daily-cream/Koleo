@@ -21,3 +21,16 @@ Console.WriteLine(connection.EndTime);
 connectionSeats.Seats[5] = 9;
 
 db.SaveChanges();
+
+
+// using Persistence;
+
+// using var db  = new DataContext();
+
+// var users = db.Users.ToList();
+
+// foreach (var user in users)
+//     if(user.Role != "Admin")
+//         user.Role = "User";
+    
+// db.SaveChanges();

@@ -1,11 +1,13 @@
 ﻿using API.DTOs;
 using API.Services.Interfaces;
 using Koleo.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(Policy = "Admin")]
     [ApiController]
     public class ProviderController : ControllerBase
     {

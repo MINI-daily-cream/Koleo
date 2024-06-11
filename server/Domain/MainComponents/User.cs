@@ -12,6 +12,7 @@
         public string Email { get; set; }
         public string Password { get; set; }
         public string CardNumber { get; set; }
+        public string Role { get; set; } = "User";
 
         // [TICKET CONTROLLER]
         //public (bool, int?) BuyTicket() 
@@ -69,6 +70,5 @@
         {
             return new List<int>();
         }
-
     }
 }

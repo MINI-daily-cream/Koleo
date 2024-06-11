@@ -20,9 +20,17 @@ namespace API.Controllers
             _adminService = adminService;
         }
 
+        [Authorize]
         [HttpGet("{id}")] // check user account - Admin
         public Task<AccountInfo> Get(string id)
         {
+            Console.WriteLine("Prosze Pana");
+            Console.WriteLine(id);
+            Console.WriteLine(User.Identity.Name);
+            if(id != User.Identity.Name)
+            {
+                return Task.FromResult(new AccountInfo());
+            }
             return _accountService.GetAccountInfo(id.ToUpper())!;
         }
 

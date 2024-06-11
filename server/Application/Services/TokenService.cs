@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using API.Interfaces;
 using Koleo.Models;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 
@@ -14,7 +15,6 @@ namespace API.Services
 
         public TokenService(IConfiguration config)
         {
-            Console.WriteLine(config["TokeynKey"]);
             key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
         }
         public string CreateToken(User user)
@@ -24,6 +24,7 @@ namespace API.Services
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Name, user.Id.ToString()),
+                new Claim("Role", "User")
             };
             
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);

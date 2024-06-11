@@ -14,6 +14,8 @@ using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using API.Interfaces;
 using API.Services;
+using Application.Users;
+using Application;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -40,6 +42,7 @@ builder.Services.AddScoped<IConnectionService, ConnectionService>();
 builder.Services.AddScoped<IRankingService, RankingService>();
 builder.Services.AddScoped<IAchievementsService, AchievementsService>();
 builder.Services.AddScoped<IConnectionSeatsService, ConnectionSeatsService>();
+builder.Services.AddTransient<TestKlasa>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -78,7 +81,16 @@ builder.Services.AddAuthentication(options => {
                 };
 });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options => {
+    options.AddPolicy("Admin", policy => 
+        policy.RequireAssertion(context => context.User.HasClaim(c => (c.Type == "Role" && c.Value == "Admin"))));
+});
+
+
+
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(List.Handler).Assembly));
+
+// builder.Services.AddHostedService<QueueConsumerService>();
 
 var app = builder.Build();
 
@@ -96,6 +108,7 @@ app.UseAuthorization();
 app.UseHttpsRedirection();
 
 app.MapControllers();
+
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;

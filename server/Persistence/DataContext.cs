@@ -37,10 +37,10 @@ namespace Persistence
 
         public DbSet<ConnectionSeats> ConnectionSeats{ get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            Console.WriteLine("Bedzie konfigurowane");
-            optionsBuilder.UseSqlite("Data Source=../API/koleo.db");
-        }
+        // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        // {
+        //     Console.WriteLine("Bedzie konfigurowane");
+        //     optionsBuilder.UseSqlite("Data Source=../API/koleo.db");
+        // }
     }
 }
